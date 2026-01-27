@@ -1,65 +1,183 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
-  return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import { Header, SheetContainer, RadioOption, Button } from '@/components/ui';
+import { InstacardColors } from '@/constants/colors';
+import { useAuth } from '@/lib/auth-context';
+import { notifyNavigation } from '@/lib/bridge';
+
+const CARD_TYPES = [
+  { id: 'debit', label: 'Debit Card' },
+  { id: 'credit', label: 'Credit Card' },
+  { id: 'prepaid', label: 'Pre-Paid Card' },
+  { id: 'gift', label: 'Gift A Card' },
+] as const;
+
+type CardType = (typeof CARD_TYPES)[number]['id'];
+
+export default function SelectCardTypePage() {
+  const router = useRouter();
+  const { config, isLoading, isAuthenticated, error } = useAuth();
+  const [selectedType, setSelectedType] = useState<CardType>('debit');
+
+  useEffect(() => {
+    notifyNavigation('select-card-type');
+  }, []);
+
+  // Pre-select card type if provided by SDK
+  useEffect(() => {
+    if (config?.cardType) {
+      setSelectedType(config.cardType);
+    }
+  }, [config?.cardType]);
+
+  const handleNext = () => {
+    router.push(`/add-${selectedType}`);
+  };
+
+  if (isLoading) {
+    return (
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: InstacardColors.primary,
+        }}
+      >
+        <div
+          style={{
+            width: 40,
+            height: 40,
+            border: `3px solid ${InstacardColors.primaryLight}`,
+            borderTopColor: InstacardColors.white,
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+          }}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+        <style jsx>{`
+          @keyframes spin {
+            to {
+              transform: rotate(360deg);
+            }
+          }
+        `}</style>
+      </div>
+    );
+  }
+
+  if (error || !isAuthenticated) {
+    return (
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: InstacardColors.primary,
+          padding: 24,
+          textAlign: 'center',
+        }}
+      >
+        <svg
+          width="64"
+          height="64"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <circle
+            cx="12"
+            cy="12"
+            r="10"
+            stroke={InstacardColors.error}
+            strokeWidth="2"
+          />
+          <path
+            d="M12 8V12M12 16H12.01"
+            stroke={InstacardColors.error}
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+        </svg>
+        <h2
+          style={{
+            color: InstacardColors.white,
+            marginTop: 16,
+            fontSize: 20,
+          }}
+        >
+          Authentication Error
+        </h2>
+        <p
+          style={{
+            color: 'rgba(255, 255, 255, 0.7)',
+            marginTop: 8,
+            fontSize: 14,
+          }}
+        >
+          {error || 'Unable to authenticate. Please try again.'}
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <Header title="Add Instacard" />
+
+      <SheetContainer>
+        <div
+          style={{
+            flex: 1,
+            overflow: 'auto',
+            padding: 16,
+          }}
+        >
+          <p
+            style={{
+              fontSize: 16,
+              color: InstacardColors.textPrimary,
+              lineHeight: 1.4,
+              marginBottom: 16,
+            }}
+          >
+            Select the type of Instacard you would like to be issued
           </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+
+          <div
+            role="radiogroup"
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 12,
+            }}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            {CARD_TYPES.map((option) => (
+              <RadioOption
+                key={option.id}
+                label={option.label}
+                selected={option.id === selectedType}
+                onSelect={() => setSelectedType(option.id)}
+              />
+            ))}
+          </div>
         </div>
-      </main>
+
+        <div
+          style={{
+            padding: '8px 16px 24px',
+            paddingBottom: 'calc(env(safe-area-inset-bottom, 24px) + 24px)',
+          }}
+        >
+          <Button fullWidth onClick={handleNext}>
+            Next
+          </Button>
+        </div>
+      </SheetContainer>
     </div>
   );
 }

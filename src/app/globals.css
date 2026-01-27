@@ -1,26 +1,124 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Instacard Brand Colors */
+  --color-primary: #5A1186;
+  --color-primary-dark: #5A189A;
+  --color-primary-light: #9D4EDD;
+
+  /* Backgrounds */
+  --color-white: #FFFFFF;
+  --color-light-gray: #F5F5F5;
+  --color-card-background: #FFFFFF;
+
+  /* Text colors */
+  --color-text-primary: #1A1A1A;
+  --color-text-secondary: #666666;
+  --color-text-on-primary: #FFFFFF;
+  --color-text-muted: #999999;
+
+  /* Tab/Filter colors */
+  --color-tab-active: #5A1186;
+  --color-tab-inactive: #666666;
+  --color-tab-border: #E0E0E0;
+
+  /* Shadows and borders */
+  --color-shadow: #000000;
+  --color-border: #E5E5E5;
+
+  /* Status colors */
+  --color-success: #34C759;
+  --color-error: #FF3B30;
+
+  /* Spacing */
+  --safe-area-top: env(safe-area-inset-top, 0px);
+  --safe-area-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--color-white);
+  --color-foreground: var(--color-text-primary);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-primary);
+  color: var(--color-foreground);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mobile-first PWA styles */
+#__next,
+main {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sheet container animation */
+.sheet-container {
+  flex: 1;
+  background: var(--color-white);
+  border-top-left-radius: 24px;
+  border-top-right-radius: 24px;
+  margin-top: -16px;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* Button press effect */
+.btn-press {
+  transition: transform 0.1s ease, opacity 0.1s ease;
+}
+
+.btn-press:active {
+  transform: scale(0.98);
+  opacity: 0.9;
+}
+
+/* Disable text selection on interactive elements */
+button,
+[role="button"],
+[role="radio"],
+[role="checkbox"] {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+/* Focus visible styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
