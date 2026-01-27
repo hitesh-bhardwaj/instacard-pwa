@@ -1,7 +1,5 @@
 'use client';
 
-import { InstacardColors } from '@/constants/colors';
-
 interface CheckboxProps {
   label: string;
   checked: boolean;
@@ -17,32 +15,12 @@ export function Checkbox({ label, checked, onChange, accessibilityLabel }: Check
       aria-checked={checked}
       aria-label={accessibilityLabel || label}
       onClick={() => onChange(!checked)}
-      className="btn-press"
-      style={{
-        display: 'flex',
-        alignItems: 'flex-start',
-        gap: 10,
-        background: 'none',
-        border: 'none',
-        padding: 0,
-        cursor: 'pointer',
-        textAlign: 'left',
-      }}
+      className="btn-press flex items-start gap-[10px] bg-transparent border-none p-0 cursor-pointer text-left"
     >
       <span
-        style={{
-          width: 20,
-          height: 20,
-          borderRadius: 6,
-          border: `2px solid ${checked ? InstacardColors.primary : InstacardColors.border}`,
-          backgroundColor: checked ? InstacardColors.primary : 'transparent',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          flexShrink: 0,
-          marginTop: 2,
-          transition: 'all 0.2s ease',
-        }}
+        className={`w-[22px] h-[22px] rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-[2px] transition-all duration-200 ease-in-out ${
+          checked ? 'border-primary bg-primary' : 'border-border bg-transparent'
+        }`}
       >
         {checked && (
           <svg
@@ -54,7 +32,7 @@ export function Checkbox({ label, checked, onChange, accessibilityLabel }: Check
           >
             <path
               d="M10 3L4.5 8.5L2 6"
-              stroke={InstacardColors.white}
+              stroke="white"
               strokeWidth="2"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -62,13 +40,7 @@ export function Checkbox({ label, checked, onChange, accessibilityLabel }: Check
           </svg>
         )}
       </span>
-      <span
-        style={{
-          fontSize: 13,
-          color: InstacardColors.textSecondary,
-          lineHeight: 1.4,
-        }}
-      >
+      <span className="text-[13px] text-text-secondary leading-[1.4]">
         {label}
       </span>
     </button>

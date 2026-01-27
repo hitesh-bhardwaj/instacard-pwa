@@ -16,7 +16,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       alignItems: 'center',
       justifyContent: 'center',
       borderRadius: 28,
-      fontWeight: 600,
+      fontWeight: 500,
       border: 'none',
       cursor: disabled ? 'not-allowed' : 'pointer',
       transition: 'transform 0.1s ease, opacity 0.1s ease',
@@ -42,15 +42,15 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     const sizeStyles: Record<string, React.CSSProperties> = {
       sm: {
         padding: '10px 20px',
-        fontSize: 14,
+        fontSize: 10,
       },
       md: {
         padding: '16px 24px',
-        fontSize: 16,
+        fontSize: 14,
       },
       lg: {
         padding: '18px 32px',
-        fontSize: 18,
+        fontSize: 17,
       },
     };
 

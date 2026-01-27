@@ -2,14 +2,17 @@
 
 import { InstacardColors } from '@/constants/colors';
 import { notifyUserCancelled } from '@/lib/bridge';
+import { ChevronLeft, CircleQuestionMark, Search } from 'lucide-react';
+import Image from 'next/image';
 
 interface HeaderProps {
   title?: string;
   showBackButton?: boolean;
   onBack?: () => void;
+  showCross?: boolean;
 }
 
-export function Header({ title = 'Instacard', showBackButton = false, onBack }: HeaderProps) {
+export function Header({ title = 'Instacard', showBackButton = false, onBack, showCross = true }: HeaderProps) {
   // Close button (X) - always closes the WebView and returns to native app
   const handleClose = () => {
     notifyUserCancelled();
@@ -24,31 +27,14 @@ export function Header({ title = 'Instacard', showBackButton = false, onBack }: 
 
   return (
     <header
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '12px 16px',
-        paddingTop: 'calc(env(safe-area-inset-top, 12px) + 12px)',
-        backgroundColor: InstacardColors.primary,
-      }}
+      className="flex flex-col items-start justify-between px-4  py-[calc(env(safe-area-inset-top,12px)+12px)]"
+      style={{ backgroundColor: InstacardColors.primary }}
     >
-      {showBackButton ? (
+      {/* {showBackButton && (
         <button
           onClick={handleBack}
           aria-label="Go back"
-          className="btn-press"
-          style={{
-            width: 40,
-            height: 40,
-            borderRadius: 20,
-            backgroundColor: 'rgba(255, 255, 255, 0.2)',
-            border: 'none',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            cursor: 'pointer',
-          }}
+          className="btn-press w-10 h-10 rounded-full bg-white/20 border-none flex items-center justify-center cursor-pointer"
         >
           <svg
             width="24"
@@ -66,53 +52,84 @@ export function Header({ title = 'Instacard', showBackButton = false, onBack }: 
             />
           </svg>
         </button>
-      ) : (
-        <div style={{ width: 40 }} />
-      )}
+      )} */}
+
+      {/* <div className='w-full py-[1vw] pt-[5vw] items-center justify-between flex h-fit'>
+        <div className='flex items-center gap-2'>
+
+          {showBackButton && (
+            <div className='w-fit h-fit'>
+              <span onClick={handleBack} className='w-full h-full'>
+
+                <ChevronLeft size={30} color='white' />
+              </span>
+            </div>
+          )}
+
+          <div className='flex items-center gap-4'>
+
+            <div className='w-10 h-10 '>
+              <Image src={'/img/instacard.png'} alt='Instacard Logo' width={1000} height={1000} className='h-full w-full object-contain' />
+            </div>
+
+            <h1
+              className="text-lg font-semibold m-0 text-white"
+            >
+              Instacard
+            </h1>
+
+          </div>
+        </div>
+
+        <div className='flex items-center gap-3'>
+          <div className='w-full h-full'>
+
+            <Search size={20} color='white' />
+          </div>
+          <div className='w-full h-full'>
+
+            <CircleQuestionMark size={20} color='white' />
+          </div>
+
+          <div className='w-[12vw] h-[12vw] bg-white border border-error rounded-full aspect-square'>
+
+          </div>
+        </div>
+
+
+      </div> */}
 
       <h1
-        style={{
-          fontSize: 18,
-          fontWeight: 600,
-          color: InstacardColors.textOnPrimary,
-          margin: 0,
-        }}
+        className="text-md pl-10 font-normal py-4 text-white m-0"
       >
         {title}
       </h1>
 
-      <button
-        onClick={handleClose}
-        aria-label="Close"
-        className="btn-press"
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: 20,
-          backgroundColor: 'rgba(255, 255, 255, 0.2)',
-          border: 'none',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          cursor: 'pointer',
-        }}
-      >
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+
+
+      {/* {showCross && (
+        <button
+          onClick={handleClose}
+          aria-label="Close"
+          className="btn-press w-10 h-10 rounded-full bg-white/20 border-none flex items-center justify-center cursor-pointer"
         >
-          <path
-            d="M18 6L6 18M6 6L18 18"
-            stroke={InstacardColors.textOnPrimary}
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </button>
+          <svg
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M18 6L6 18M6 6L18 18"
+              stroke={InstacardColors.textOnPrimary}
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+      )} */}
     </header>
   );
 }

@@ -6,14 +6,18 @@ import { Header, SheetContainer, RadioOption, Checkbox, Button } from '@/compone
 import { InstacardColors } from '@/constants/colors';
 import { notifyNavigation } from '@/lib/bridge';
 
-const ACCOUNT_OPTIONS = ['0123456789', '0987654321', '0918273645'];
+const ACCOUNT_OPTIONS = [
+  { label: '0123456789 / NGN / Savings', icon: '/svg/fcmb.svg' },
+  { label: '0987654321 / USD / Current', icon: '/svg/access.svg' },
+  { label: '0918273645 / NGN / Current', icon: '/svg/uba.svg' },
+];
 
 const TERMS = [
-  'You agree to the Instacard Terms of Service',
-  'You authorize linking this bank account to your Instacard',
-  'You understand that transactions will be debited from the linked account',
-  'You agree to receive notifications about your card activity',
-  'You confirm that you are the authorized account holder',
+  'Issuance Fee - N 1000',
+  'Monthly Maintenance Fee - N 50/ month',
+  'Minimum monthly repayments to be paid',
+  '4% Interest charged monthly on revolving balance',
+  'You agree to pay the outstanding amount from your BVN linked accounts',
 ];
 
 export default function AddDebitPage() {
@@ -35,7 +39,7 @@ export default function AddDebitPage() {
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Header title="Add Debit Card" showBackButton onBack={handleBack} />
+      {/* <Header title="Add New Card" showBackButton onBack={handleBack} /> */}
 
       <SheetContainer>
         <div
@@ -67,8 +71,9 @@ export default function AddDebitPage() {
           >
             {ACCOUNT_OPTIONS.map((account) => (
               <RadioOption
-                key={account}
-                label={account}
+                key={account.label}
+                label={account.label}
+                icon={account.icon}
                 selected={account === selectedAccount}
                 onSelect={() => setSelectedAccount(account)}
                 accessibilityLabel={`Bank account ${account}`}
@@ -86,20 +91,16 @@ export default function AddDebitPage() {
               Please agree to Terms & Conditions for getting this Instacard issued
             </p>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <ul className="flex mb-[2vw] flex-col gap-[6px] m-0 pl-5 list-disc">
               {TERMS.map((term, index) => (
-                <p
+                <li
                   key={index}
-                  style={{
-                    fontSize: 13,
-                    color: InstacardColors.textSecondary,
-                    margin: 0,
-                  }}
+                  className="text-[13px] text-text-secondary"
                 >
-                  - {term}
-                </p>
+                  {term}
+                </li>
               ))}
-            </div>
+            </ul>
 
             <Checkbox
               label="I agree the above terms & conditions. Please issue this Instacard"

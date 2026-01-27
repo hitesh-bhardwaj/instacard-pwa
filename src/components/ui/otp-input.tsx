@@ -25,18 +25,7 @@ export function OTPInput({ value, maxLength }: OTPInputProps) {
       {digits.map((digit, index) => (
         <div
           key={index}
-          style={{
-            width: 42,
-            height: 42,
-            borderRadius: 10,
-            border: `1px solid ${digit ? InstacardColors.primary : InstacardColors.border}`,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            fontSize: 16,
-            color: InstacardColors.textPrimary,
-            transition: 'border-color 0.2s ease',
-          }}
+          className="w-[42px] h-[42px] rounded-lg border border-text-primary flex items-center justify-center text-md leading-none font-semibold text-text-primary"
         >
           {digit}
         </div>

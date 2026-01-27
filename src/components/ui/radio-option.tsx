@@ -1,15 +1,17 @@
 'use client';
 
-import { InstacardColors } from '@/constants/colors';
+import Image from "next/image";
 
 interface RadioOptionProps {
   label: string;
   selected: boolean;
   onSelect: () => void;
   accessibilityLabel?: string;
+  icon?: string;
+  
 }
 
-export function RadioOption({ label, selected, onSelect, accessibilityLabel }: RadioOptionProps) {
+export function RadioOption({ label, selected, onSelect, accessibilityLabel, icon }: RadioOptionProps) {
   return (
     <button
       type="button"
@@ -17,49 +19,28 @@ export function RadioOption({ label, selected, onSelect, accessibilityLabel }: R
       aria-checked={selected}
       aria-label={accessibilityLabel || label}
       onClick={onSelect}
-      className="btn-press"
-      style={{
-        width: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        padding: '16px',
-        borderRadius: 14,
-        border: `1px solid ${selected ? InstacardColors.primary : InstacardColors.border}`,
-        backgroundColor: InstacardColors.white,
-        cursor: 'pointer',
-        transition: 'border-color 0.2s ease',
-      }}
+      className={`btn-press w-full flex items-center justify-between p-4 rounded-[14px] bg-white cursor-pointer transition-[border-color] duration-200 ease-in-out border ${selected ? 'border-text-primary' : 'border-border'
+        }`}
     >
+
+      <div className="flex items-center gap-4">
+
+        {icon && (
+          <div className="h-fit w-fit">
+            <Image src={icon} alt={icon} width={1000} height={1000} className='h-full w-full object-contain' />
+
+          </div>
+        )}
+        <span className="text-[14px] text-text-primary">
+          {label}
+        </span>
+      </div>
       <span
-        style={{
-          fontSize: 15,
-          color: InstacardColors.textPrimary,
-        }}
-      >
-        {label}
-      </span>
-      <span
-        style={{
-          width: 22,
-          height: 22,
-          borderRadius: '50%',
-          border: `2px solid ${selected ? InstacardColors.primary : InstacardColors.border}`,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          transition: 'border-color 0.2s ease',
-        }}
+        className={`w-[22px] h-[22px] rounded-full border-2 flex items-center justify-center transition-[border-color] duration-200 ease-in-out ${selected ? 'border-text-primary' : 'border-border'
+          }`}
       >
         {selected && (
-          <span
-            style={{
-              width: 10,
-              height: 10,
-              borderRadius: '50%',
-              backgroundColor: InstacardColors.primary,
-            }}
-          />
+          <span className="w-[10px] h-[10px] rounded-full bg-orange" />
         )}
       </span>
     </button>

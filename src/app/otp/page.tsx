@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { Header, SheetContainer, OTPInput, OTPKeypad, Button } from '@/components/ui';
-import { InstacardColors } from '@/constants/colors';
 import { notifyNavigation } from '@/lib/bridge';
 
 const MAX_CODE_LENGTH = 6;
@@ -51,71 +50,31 @@ export default function OTPPage() {
   const isCodeComplete = code.length === MAX_CODE_LENGTH;
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Header title="Verify Phone" showBackButton onBack={handleBack} />
+    <div className="h-screen flex flex-col">
+      {/* <Header title="Verify Phone" showBackButton onBack={handleBack} /> */}
 
       <SheetContainer>
-        <div
-          style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-          }}
-        >
-          <div
-            style={{
-              padding: '24px 20px',
-              textAlign: 'center',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              gap: 8,
-            }}
-          >
-            <h2
-              style={{
-                fontSize: 20,
-                fontWeight: 600,
-                color: InstacardColors.textPrimary,
-                margin: 0,
-              }}
-            >
+        <div className="flex-1 flex flex-col">
+          <div className="p-6 py-14 px-5 text-center flex flex-col items-center gap-2">
+            <h2 className="text-xl font-semibold text-text-primary m-0">
               Verify your Phone Number
             </h2>
-            <p
-              style={{
-                fontSize: 13,
-                color: InstacardColors.textSecondary,
-                margin: 0,
-              }}
-            >
+            <p className="text-[13px] text-text-primary m-0">
               We have sent you a 6-digit code to your number
             </p>
-            <p
-              style={{
-                fontSize: 13,
-                fontWeight: 600,
-                color: InstacardColors.textPrimary,
-                margin: 0,
-              }}
-            >
-              +234 802-397-0955
+            <p className="text-md leading-none font-semibold text-text-primary m-0">
+              XXXXXX0955
             </p>
-            <p
-              style={{
-                fontSize: 13,
-                color: InstacardColors.textSecondary,
-                margin: 0,
-              }}
-            >
+            <p className="text-[13px] text-text-primary m-0">
               Please check your messages and enter it here
             </p>
 
-            <div style={{ marginTop: 16, marginBottom: 20 }}>
+            <div className="mt-4 mb-5">
               <OTPInput value={code} maxLength={MAX_CODE_LENGTH} />
             </div>
 
             <Button
+            className='mt-8'
               fullWidth
               onClick={handleContinue}
               disabled={!isCodeComplete || isVerifying}
@@ -123,32 +82,18 @@ export default function OTPPage() {
               {isVerifying ? 'Verifying...' : 'Continue'}
             </Button>
 
-            <p
-              style={{
-                marginTop: 12,
-                fontSize: 12,
-                color: InstacardColors.textSecondary,
-              }}
-            >
+            <p className="mt-3 text-sm ">
               Didn&apos;t receive the Code?{' '}
               <button
                 onClick={handleResend}
-                style={{
-                  background: 'none',
-                  border: 'none',
-                  color: InstacardColors.primary,
-                  fontWeight: 600,
-                  cursor: 'pointer',
-                  padding: 0,
-                  fontSize: 12,
-                }}
+                className="bg-transparent border-none text-primary font-semibold cursor-pointer p-0 text-sm"
               >
                 Resend
               </button>
             </p>
           </div>
 
-          <div style={{ marginTop: 'auto' }}>
+          <div className="mt-auto">
             <OTPKeypad onKeyPress={handleKeyPress} />
           </div>
         </div>

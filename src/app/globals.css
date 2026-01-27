@@ -12,7 +12,7 @@
   --color-card-background: #FFFFFF;
 
   /* Text colors */
-  --color-text-primary: #1A1A1A;
+  --color-text-primary: #111111;
   --color-text-secondary: #666666;
   --color-text-on-primary: #FFFFFF;
   --color-text-muted: #999999;
@@ -29,6 +29,8 @@
   /* Status colors */
   --color-success: #34C759;
   --color-error: #FF3B30;
+  --color-orange:#FF8303;
+  --color-blue:#004EC4;
 
   /* Spacing */
   --safe-area-top: env(safe-area-inset-top, 0px);
@@ -36,8 +38,38 @@
 }
 
 @theme inline {
+  /* Instacard Brand Colors */
+  --color-primary: var(--color-primary);
+  --color-primary-dark: var(--color-primary-dark);
+  --color-primary-light: var(--color-primary-light);
+
+  /* Backgrounds */
+  --color-white: var(--color-white);
+  --color-light-gray: var(--color-light-gray);
+  --color-card-background: var(--color-card-background);
   --color-background: var(--color-white);
+
+  /* Text colors */
+  --color-text-primary: var(--color-text-primary);
+  --color-text-secondary: var(--color-text-secondary);
+  --color-text-on-primary: var(--color-text-on-primary);
+  --color-text-muted: var(--color-text-muted);
   --color-foreground: var(--color-text-primary);
+
+  /* Tab/Filter colors */
+  --color-tab-active: var(--color-tab-active);
+  --color-tab-inactive: var(--color-tab-inactive);
+  --color-tab-border: var(--color-tab-border);
+
+  /* Shadows and borders */
+  --color-shadow: var(--color-shadow);
+  --color-border: var(--color-border);
+
+  /* Status colors */
+  --color-success: var(--color-success);
+  --color-error: var(--color-error);
+  --color-orange: var(--color-orange);
+  --color-blue: var(--color-blue);
 }
 
 * {

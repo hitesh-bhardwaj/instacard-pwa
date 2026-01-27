@@ -2,8 +2,8 @@
 
 import { useEffect } from 'react';
 import { Header, SheetContainer, Button } from '@/components/ui';
-import { InstacardColors } from '@/constants/colors';
 import { notifyNavigation, notifyCardAdded } from '@/lib/bridge';
+import Image from 'next/image';
 
 export default function SuccessPage() {
   useEffect(() => {
@@ -20,134 +20,34 @@ export default function SuccessPage() {
   };
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Header title="Success" />
+    <div className="h-screen flex flex-col">
+      {/* <Header title="Success" /> */}
 
       <SheetContainer>
-        <div
-          style={{
-            flex: 1,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            justifyContent: 'center',
-            padding: 24,
-            textAlign: 'center',
-          }}
-        >
+        <div className="flex-1 flex flex-col items-start justify-center p-6  gap-10 text-center">
           {/* Success checkmark animation */}
-          <div
-            style={{
-              width: 100,
-              height: 100,
-              borderRadius: '50%',
-              backgroundColor: InstacardColors.success,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              marginBottom: 24,
-              animation: 'scaleIn 0.5s ease-out',
-            }}
-          >
-            <svg
-              width="48"
-              height="48"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M20 6L9 17L4 12"
-                stroke={InstacardColors.white}
-                strokeWidth="3"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+          <div className="w-full flex  relative flex-col items-center justify-start animate-scale-in">
+            <Image src={'/img/success.png'} alt='Success' width={200} height={200} className='w-full h-full absolute top-[10%] left-1/2 -translate-x-1/2 -translate-y-1/2 object-contain' />
+            <div className="w-full bg-white/10 border-text-secondary/20 space-y-4 py-6 z-5 relative border rounded-2xl p-4 backdrop-blur-sm text-center mt-4">
+              <p className="text-lg font-semibold text-text-primary">Payment was Successful!</p>
+              <p className="text-sm text-text-secondary mt-2">We have successfully collected card issuance Fee of N XXXX for the Virtual Instacard you had requested to be issued.</p>
+            </div>
           </div>
 
-          <h2
-            style={{
-              fontSize: 24,
-              fontWeight: 700,
-              color: InstacardColors.textPrimary,
-              margin: 0,
-              marginBottom: 12,
-            }}
-          >
-            Card Added Successfully!
-          </h2>
-
-          <p
-            style={{
-              fontSize: 15,
-              color: InstacardColors.textSecondary,
-              lineHeight: 1.5,
-              margin: 0,
-              maxWidth: 280,
-            }}
-          >
-            Your new Debit Instacard has been issued and is ready to use.
-          </p>
 
           {/* Card preview */}
-          <div
-            style={{
-              marginTop: 32,
-              width: '100%',
-              maxWidth: 300,
-              aspectRatio: '1.58',
-              backgroundColor: InstacardColors.primary,
-              borderRadius: 16,
-              padding: 20,
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'space-between',
-              boxShadow: '0 10px 40px rgba(90, 17, 134, 0.3)',
-            }}
-          >
-            <div>
-              <p
-                style={{
-                  fontSize: 12,
-                  color: 'rgba(255, 255, 255, 0.7)',
-                  margin: 0,
-                }}
-              >
-                INSTACARD
-              </p>
-            </div>
-            <div>
-              <p
-                style={{
-                  fontSize: 18,
-                  letterSpacing: 2,
-                  color: InstacardColors.white,
-                  margin: 0,
-                  marginBottom: 8,
-                }}
-              >
-                **** **** **** 1234
-              </p>
-              <p
-                style={{
-                  fontSize: 12,
-                  color: 'rgba(255, 255, 255, 0.7)',
-                  margin: 0,
-                }}
-              >
-                DEBIT CARD
-              </p>
+          <div>
+
+            <p className="text-[15px] pl-4 text-text-primary w-full text-left leading-normal m-0">
+              Your Instacard is Ready for Activation.
+            </p>
+            <div className="mt-2 w-full  aspect-[1.58] rounded-2xl p-2flex flex-col justify-between ">
+              <Image  src={'/img/debitCard.png'} alt='Debit Card' width={1000} height={1000} className='h-full w-full object-contain' />
             </div>
           </div>
-        </div>
 
-        <div
-          style={{
-            padding: '8px 16px 24px',
-            paddingBottom: 'calc(env(safe-area-inset-bottom, 24px) + 24px)',
-          }}
-        >
+        </div>
+        <div className="p-4 pb-[calc(env(safe-area-inset-bottom,24px)+24px)] pt-2">
           <Button fullWidth onClick={handleDone}>
             Done
           </Button>
@@ -163,6 +63,9 @@ export default function SuccessPage() {
               transform: scale(1);
               opacity: 1;
             }
+          }
+          .animate-scale-in {
+            animation: scaleIn 0.5s ease-out;
           }
         `}</style>
       </SheetContainer>

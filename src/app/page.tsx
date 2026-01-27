@@ -8,10 +8,10 @@ import { useAuth } from '@/lib/auth-context';
 import { notifyNavigation } from '@/lib/bridge';
 
 const CARD_TYPES = [
-  { id: 'debit', label: 'Debit Card' },
-  { id: 'credit', label: 'Credit Card' },
-  { id: 'prepaid', label: 'Pre-Paid Card' },
-  { id: 'gift', label: 'Gift A Card' },
+  { id: 'debit', label: 'Debit Card', icon: '/svg/debitcard.svg' },
+  { id: 'credit', label: 'Credit Card', icon: '/svg/creditcard.svg' },
+  { id: 'not-eligible', label: 'Pre-Paid Card', icon: '/svg/prepaidcard.svg' },
+  { id: 'gift', label: 'Gift A Card', icon: '/svg/giftcard.svg' },
 ] as const;
 
 type CardType = (typeof CARD_TYPES)[number]['id'];
@@ -28,12 +28,12 @@ export default function SelectCardTypePage() {
   // Pre-select card type if provided by SDK
   useEffect(() => {
     if (config?.cardType) {
-      setSelectedType(config.cardType);
+      setSelectedType(config.cardType as CardType);
     }
   }, [config?.cardType]);
 
   const handleNext = () => {
-    router.push(`/add-${selectedType}`);
+    router.push(`/${selectedType}`);
   };
 
   if (isLoading) {
@@ -127,37 +127,24 @@ export default function SelectCardTypePage() {
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <Header title="Add Instacard" />
+      {/* <Header showCross={false}  title="Add Instacard" />  */}
 
       <SheetContainer>
-        <div
-          style={{
-            flex: 1,
-            overflow: 'auto',
-            padding: 16,
-          }}
-        >
+        <div className="flex-1 overflow-auto p-[5vw] py-[7vw]">
           <p
-            style={{
-              fontSize: 16,
-              color: InstacardColors.textPrimary,
-              lineHeight: 1.4,
-              marginBottom: 16,
-            }}
+            className="text-[4vw] leading-[1.4] mb-[5vw]"
+            style={{ color: InstacardColors.textPrimary }}
           >
             Select the type of Instacard you would like to be issued
           </p>
 
           <div
             role="radiogroup"
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 12,
-            }}
+            className="flex flex-col gap-[3vw]"
           >
             {CARD_TYPES.map((option) => (
               <RadioOption
+                icon={option.icon}
                 key={option.id}
                 label={option.label}
                 selected={option.id === selectedType}
