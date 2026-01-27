@@ -10,7 +10,7 @@ import { notifyNavigation } from '@/lib/bridge';
 const CARD_TYPES = [
   { id: 'debit', label: 'Debit Card', icon: '/svg/debitcard.svg' },
   { id: 'credit', label: 'Credit Card', icon: '/svg/creditcard.svg' },
-  { id: 'not-eligible', label: 'Pre-Paid Card', icon: '/svg/prepaidcard.svg' },
+  { id: 'prepaid', label: 'Pre-Paid Card', icon: '/svg/prepaidcard.svg' },
   { id: 'gift', label: 'Gift A Card', icon: '/svg/giftcard.svg' },
 ] as const;
 

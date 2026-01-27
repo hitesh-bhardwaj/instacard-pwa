@@ -47,7 +47,7 @@ export default function AddCreditPage() {
 
           <div className="flex flex-col gap-5">
             <p className="text-md text-text-primary">
-            Please agree on following T&C for accessing Credit Instacard
+              Please agree on following T&C for accessing Credit Instacard
             </p>
 
             <ul className="flex flex-col gap-[6px] m-0 pl-5 list-disc">
@@ -63,7 +63,8 @@ export default function AddCreditPage() {
             <div className="text-md text-text-primary">
               <p>Your can view the detailed terms here :</p>
               <Link
-              className='text-blue'
+                target='_blank'
+                className='text-blue'
                 href="https://www.accessbankplc.com/credit-cards-terms.aspx"
               >
                 https://www.accessbankplc.com/credit-cards-terms.aspx
