@@ -110,7 +110,7 @@ main {
   margin-top: -16px;
   display: flex;
   flex-direction: column;
-  animation: slideUp 0.3s ease-out;
+  /* animation: slideUp 0.3s ease-out; */
 }
 
 @keyframes slideUp {
