@@ -57,7 +57,7 @@ export default function LimitSetComponent({
         <button
           type="button"
           onClick={handleToggle}
-          className={`w-[50px] min-w-[50px] h-6 rounded-full border border-text-primary/10 transition-colors duration-200 flex items-center flex-shrink-0 ${isEnabled ? 'bg-[#F6F7FF]' : 'bg-white'
+          className={`w-[50px] min-w-[50px] h-6 rounded-full border border-text-primary/10 transition-colors duration-200 flex items-center flex-shrink-0 ${isEnabled ? 'bg-[#F6F7FF]' : 'bg-gray-200'
             }`}
         >
           <div

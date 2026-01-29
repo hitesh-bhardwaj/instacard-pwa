@@ -115,7 +115,7 @@ export default function LimitSettingScreen() {
           <Button fullWidth onClick={() => {
             router.push('/limit-setting/verify-email')
           }}>
-            Next
+          Save Limit
           </Button>
         </div>
       </SheetContainer>

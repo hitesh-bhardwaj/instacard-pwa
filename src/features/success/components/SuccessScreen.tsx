@@ -4,27 +4,22 @@ import { useEffect } from 'react';
 import { SheetContainer, Button } from '@/components/ui';
 import { notifyNavigation, notifyCardAdded } from '@/lib/bridge';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 export default function SuccessScreen() {
   useEffect(() => {
     notifyNavigation('success');
   }, []);
+  const router = useRouter();
 
-  const handleDone = () => {
-    // Notify SDK that card was added successfully
-    notifyCardAdded({
-      cardId: `card-${Date.now()}`,
-      cardType: 'debit',
-      lastFourDigits: '1234',
-    });
-  };
+  
 
   return (
     <div className="h-screen flex flex-col">
       {/* <Header title="Success" /> */}
 
       <SheetContainer>
-        <div className="flex-1 flex flex-col items-start justify-center p-6  gap-10 text-center">
+        <div className="flex-1 flex flex-col items-start justify-center p-6 py-10 gap-10 text-center">
           {/* Success checkmark animation */}
           <div className="w-full flex  relative flex-col items-center justify-start animate-scale-in">
             <Image
@@ -32,9 +27,9 @@ export default function SuccessScreen() {
               alt="Success"
               width={200}
               height={200}
-              className="w-full h-full absolute top-[10%] left-1/2 -translate-x-1/2 -translate-y-1/2 object-contain"
+              className="w-[120px] h-auto absolute top-[10%] left-1/2 -translate-x-1/2 -translate-y-1/2 object-contain"
             />
-            <div className="w-full bg-white/10 border-text-secondary/20 space-y-4 py-6 z-5 relative border rounded-2xl p-4 backdrop-blur-sm text-center mt-4">
+            <div className="w-full bg-white/60 backdrop-blur-xl rounded-2xl border-text-secondary/20 space-y-4 py-6 z-5 relative border p-4  text-center mt-4">
               <p className="text-lg font-semibold text-text-primary">
                 Payment was Successful!
               </p>
@@ -62,8 +57,8 @@ export default function SuccessScreen() {
           </div>
         </div>
         <div className="p-4 pb-[calc(env(safe-area-inset-bottom,24px)+24px)] pt-2">
-          <Button fullWidth onClick={handleDone}>
-            Done
+          <Button fullWidth onClick={() => router.push('/link-physical-card')}>
+          Activate Now
           </Button>
         </div>
 

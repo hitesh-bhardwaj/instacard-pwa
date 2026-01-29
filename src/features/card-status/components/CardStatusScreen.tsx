@@ -61,8 +61,8 @@ export default function CardStatusScreen() {
 
       {/* Block Confirmation Modal */}
       {showBlockModal && (
-        <div className="fixed inset-0 flex items-end pb-[calc(env(safe-area-inset-bottom,147px)+147px)] justify-center z-50">
-          <div className="bg-white/20 w-full backdrop-blur-md rounded-2xl p-6 border border-text-primary/20 mx-4  space-y-4">
+        <div className="fixed inset-0 flex items-center bg-black/20 backdrop-blur-xs justify-center z-50">
+          <div className="bg-white/80 w-full backdrop-blur-xl rounded-2xl p-6 border border-text-primary/20 mx-4  space-y-4">
             <p className="text-center text-text-primary text-sm mb-10 font-medium">
               Are you sure you want to block this Card?
             </p>

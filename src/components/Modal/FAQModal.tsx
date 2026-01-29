@@ -162,7 +162,7 @@ export default function FAQModal({ visible, onClose, data = DEFAULT_FAQ_DATA }: 
                     {/* Bullet Points */}
                     <div className="space-y-5">
                         {data.bulletPoints.map((point: string, index: number) => (
-                            <div key={index} className="flex items-start gap-2">
+                            <div key={index} className="flex items-center gap-2">
                                 <span className="text-[22px] leading-[22px]" style={{ color: InstacardColors.textPrimary }}>•</span>
                                 <p className="text-sm leading-4 flex-1" style={{ color: InstacardColors.textPrimary }}>{point}</p>
                             </div>

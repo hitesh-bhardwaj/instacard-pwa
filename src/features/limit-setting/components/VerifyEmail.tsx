@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { SheetContainer, OTPInput, OTPKeypad, Button } from '@/components/ui';
 import { notifyNavigation } from '@/lib/bridge';
+import gsap from 'gsap';
 
 const MAX_CODE_LENGTH = 6;
 
@@ -12,10 +13,28 @@ export default function VerifyEmailScreen() {
     const [code, setCode] = useState('');
     const [isVerifying, setIsVerifying] = useState(false);
     const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+    const popupOverlayRef = useRef<HTMLDivElement>(null);
+    const popupContentRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         notifyNavigation('verify-email');
     }, []);
+
+    useEffect(() => {
+        if (showSuccessPopup) {
+            // Animate in
+            gsap.fromTo(
+                popupOverlayRef.current,
+                { opacity: 0 },
+                { opacity: 1, duration: 0.3, ease: 'power2.out' }
+            );
+            gsap.fromTo(
+                popupContentRef.current,
+                { opacity: 0 },
+                { opacity: 1, duration: 0.3, ease: 'power2.out', delay: 0.1 }
+            );
+        }
+    }, [showSuccessPopup]);
 
     const handleKeyPress = useCallback((key: string) => {
         if (key === 'del') {
@@ -46,8 +65,22 @@ export default function VerifyEmailScreen() {
     };
 
     const handlePopupOk = () => {
-        setShowSuccessPopup(false);
-        router.push('/limit-setting');
+        // Animate out
+        gsap.to(popupContentRef.current, {
+            opacity: 0,
+            duration: 0.2,
+            ease: 'power2.in',
+        });
+        gsap.to(popupOverlayRef.current, {
+            opacity: 0,
+            duration: 0.3,
+            ease: 'power2.in',
+            delay: 0.1,
+            onComplete: () => {
+                setShowSuccessPopup(false);
+                router.push('/limit-setting');
+            },
+        });
     };
 
     const isCodeComplete = code.length === MAX_CODE_LENGTH;
@@ -109,8 +142,16 @@ export default function VerifyEmailScreen() {
 
             {/* Success Popup */}
             {showSuccessPopup && (
-                <div className="fixed inset-0 bg-black/0 flex items-center justify-center z-50">
-                    <div className="bg-white/60 backdrop-blur-xl rounded-2xl mb-10 p-6 mx-8 text-center border border-text-primary/20 min-w-[280px]">
+                <div
+                    ref={popupOverlayRef}
+                    className="fixed inset-0 bg-black/20 backdrop-blur-xs flex items-center justify-center z-50"
+                    style={{ opacity: 0 }}
+                >
+                    <div
+                        ref={popupContentRef}
+                        className="bg-white/80 backdrop-blur-xl rounded-2xl p-6 mx-8 text-center border border-text-primary/20 min-w-[280px]"
+                        style={{ opacity: 0 }}
+                    >
                         <p className="text-text-primary text-base mb-6">
                             Your Payment Limits have been successfully updated
                         </p>

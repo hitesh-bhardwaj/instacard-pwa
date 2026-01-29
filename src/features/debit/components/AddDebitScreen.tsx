@@ -39,10 +39,10 @@ export default function AddDebitScreen() {
 
       <SheetContainer>
         <div
+        className='p-6 py-10'
           style={{
             flex: 1,
             overflow: 'auto',
-            padding: 16,
           }}
         >
           <p

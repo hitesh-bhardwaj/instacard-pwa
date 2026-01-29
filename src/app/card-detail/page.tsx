@@ -34,11 +34,11 @@ export default function carddetail() {
           </div>
         </div>
 
-        <div className="p-4 pb-[calc(env(safe-area-inset-bottom,24px)+24px)] pt-2">
+        {/* <div className="p-4 pb-[calc(env(safe-area-inset-bottom,24px)+24px)] pt-2">
           <Button fullWidth >
             Apply Now
           </Button>
-        </div>
+        </div> */}
       </SheetContainer>
     </div>
   )

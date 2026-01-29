@@ -129,7 +129,7 @@ export default function SelectCardTypeScreen() {
       {/* <Header showCross={false}  title="Add Instacard" />  */}
 
       <SheetContainer>
-        <div className="flex-1 overflow-auto p-[5vw] py-[7vw]">
+        <div className="flex-1 overflow-auto p-6 py-10">
           <p
             className="text-[4vw] leading-[1.4] mb-[5vw]"
             style={{ color: InstacardColors.textPrimary }}
