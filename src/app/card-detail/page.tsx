@@ -17,7 +17,7 @@ export default function carddetail() {
 
 
 
-          <div className="text-md p-6 overflow-y-auto h-[42vh] border-t mt-5 border-text-primary/20 rounded-t-2xl text-text-primary">
+          <div className="text-md p-6  h-[42vh] border-t mt-5 border-text-primary/20 rounded-t-2xl text-text-primary">
 
             <div className='w-full flex items-center justify-between'>
               <p className="text-md font-medium text-center text-text-primary">

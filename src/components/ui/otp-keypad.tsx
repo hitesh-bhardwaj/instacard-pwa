@@ -17,7 +17,7 @@ export function OTPKeypad({ onKeyPress }: OTPKeypadProps) {
   return (
     <div
       style={{
-        padding: '24px 16px',
+        padding: '0px 16px',
         display: 'flex',
         flexDirection: 'column',
         gap: 12,

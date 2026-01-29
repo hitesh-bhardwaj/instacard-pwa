@@ -4,7 +4,7 @@ import { ButtonHTMLAttributes, forwardRef } from 'react';
 import { InstacardColors } from '@/constants/colors';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'ghost';
+  variant?: 'primary' | 'secondary' | 'ghost' | 'error';
   size?: 'sm' | 'md' | 'lg';
   fullWidth?: boolean;
 }
@@ -36,6 +36,10 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       ghost: {
         backgroundColor: 'transparent',
         color: InstacardColors.primary,
+      },
+      error: {
+        backgroundColor: InstacardColors.error,
+        color: InstacardColors.textOnPrimary,
       },
     };
 

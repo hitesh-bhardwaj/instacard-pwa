@@ -18,48 +18,53 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [config, setConfig] = useState<SDKConfig | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
+  const [{ config, error, notify }] = useState(() => {
     const sdkConfig = parseSDKConfig();
 
     if (!sdkConfig) {
-      // For development, allow access without token
       if (process.env.NODE_ENV === 'development') {
-        setConfig({
-          userToken: 'dev-token',
-          environment: 'development',
-        });
-        setIsLoading(false);
-        notifyReady();
-        return;
+        return {
+          config: { userToken: 'dev-token', environment: 'development' } as SDKConfig,
+          error: null as string | null,
+          notify: { type: 'ready' as const },
+        };
       }
 
-      setError('Missing authentication token');
-      setIsLoading(false);
-      notifyError('AUTH_MISSING', 'No authentication token provided');
-      return;
+      return {
+        config: null as SDKConfig | null,
+        error: 'Missing authentication token' as string,
+        notify: { type: 'error' as const, code: 'AUTH_MISSING', message: 'No authentication token provided' },
+      };
     }
 
     if (!isValidToken(sdkConfig.userToken)) {
-      setError('Invalid or expired token');
-      setIsLoading(false);
-      notifyError('AUTH_INVALID', 'Authentication token is invalid or expired');
-      return;
+      return {
+        config: null as SDKConfig | null,
+        error: 'Invalid or expired token' as string,
+        notify: { type: 'error' as const, code: 'AUTH_INVALID', message: 'Authentication token is invalid or expired' },
+      };
     }
 
-    setConfig(sdkConfig);
-    setIsLoading(false);
-    notifyReady();
-  }, []);
+    return {
+      config: sdkConfig,
+      error: null as string | null,
+      notify: { type: 'ready' as const },
+    };
+  });
+
+  useEffect(() => {
+    if (notify.type === 'ready') {
+      notifyReady();
+      return;
+    }
+    notifyError(notify.code, notify.message);
+  }, [notify]);
 
   return (
     <AuthContext.Provider
       value={{
         config,
-        isLoading,
+        isLoading: false,
         isAuthenticated: !!config && !error,
         error,
       }}
