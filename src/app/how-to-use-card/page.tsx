@@ -141,10 +141,10 @@ export default function HowToUseCardPage() {
                     </div>
 
                     {/* Accordion Sections */}
-                    <div className="mt-4 bg-background2 space-y-3 pb-6">
+                    <div className="mt-4  space-y-3 pb-6">
                         {/* Use Virtual Card Directly */}
                         <AccordionItem
-                            title="Use Virtual Card Directly"
+                            title="Use Virtual bg-background2 Card Directly"
                             isExpanded={expandedSection === 'virtual'}
                             onToggle={() => toggleSection('virtual')}
                         >
