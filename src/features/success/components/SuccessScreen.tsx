@@ -57,7 +57,7 @@ export default function SuccessScreen() {
           </div>
         </div>
         <div className="p-4 pb-[calc(env(safe-area-inset-bottom,24px)+24px)] pt-2">
-          <Button fullWidth onClick={() => router.push('/link-physical-card')}>
+          <Button fullWidth onClick={() => router.push('/pin-setup')}>
           Activate Now
           </Button>
         </div>

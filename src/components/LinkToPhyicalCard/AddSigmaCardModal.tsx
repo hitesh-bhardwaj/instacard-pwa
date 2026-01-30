@@ -1,6 +1,7 @@
 'use client'
 
 import { InstacardColors } from '@/constants/colors'
+import { haptic } from '@/lib/useHaptics'
 import { X } from 'lucide-react'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import gsap from 'gsap'
@@ -59,6 +60,7 @@ export default function AddSigmaCardModal({ visible, onClose, onSubmit }: AddSig
 
     const handleSubmit = () => {
         if (cardNumber.replace(/\s/g, '').length === 16) {
+            haptic('success')
             onSubmit?.(cardNumber)
            router.push('/link-physical-card/face-verification')
         }
@@ -153,7 +155,10 @@ export default function AddSigmaCardModal({ visible, onClose, onSubmit }: AddSig
 
                 {/* Close Button */}
                 <button
-                    onClick={handleClose}
+                    onClick={() => {
+                        haptic('light')
+                        handleClose()
+                    }}
                     className="absolute top-4 right-4 w-8 h-8 flex items-center justify-center"
                     aria-label="Close"
                 >

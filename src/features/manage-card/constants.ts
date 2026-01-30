@@ -9,11 +9,13 @@ export const manageBtns = [
 export const cardActions: Array<{
   icon: string
   text: string
+  route: string
   faqData: FAQData
 }> = [
   {
     icon: '/svg/phone.svg',
     text: 'Link to a Physical Universal or Sigma Instacard',
+    route: '/link-physical-card',
     faqData: {
       heading: 'Link to a Physical Universal or Sigma Instacard',
       bulletPoints: [
@@ -28,6 +30,7 @@ export const cardActions: Array<{
   {
     icon: '/svg/del.svg',
     text: 'Remove Card',
+    route: '/manage-card',
     faqData: {
       heading: 'Remove Card',
       bulletPoints: [

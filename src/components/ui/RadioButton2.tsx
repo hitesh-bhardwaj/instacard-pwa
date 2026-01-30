@@ -1,7 +1,8 @@
 'use client';
 
-import { Check, CheckCircle } from "lucide-react";
+import { Check } from "lucide-react";
 import Image from "next/image";
+import { haptic } from "@/lib/useHaptics";
 
 interface RadioOptionProps {
     label: string;
@@ -13,13 +14,18 @@ interface RadioOptionProps {
 }
 
 export function RadioOption2({ label, selected, onSelect, accessibilityLabel, icon }: RadioOptionProps) {
+    const handleSelect = () => {
+        haptic('light');
+        onSelect();
+    };
+
     return (
         <button
             type="button"
             role="radio"
             aria-checked={selected}
             aria-label={accessibilityLabel || label}
-            onClick={onSelect}
+            onClick={handleSelect}
             className={`btn-press w-full flex items-center justify-between p-4 rounded-[14px] bg-white cursor-pointer transition-[border-color] duration-200 ease-in-out border ${selected ? 'border-text-primary/10' : 'border-border'
                 }`}
         >

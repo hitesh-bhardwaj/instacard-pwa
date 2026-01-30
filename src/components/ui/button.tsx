@@ -2,6 +2,7 @@
 
 import { ButtonHTMLAttributes, forwardRef } from 'react';
 import { InstacardColors } from '@/constants/colors';
+import { haptic } from '@/lib/useHaptics';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'ghost' | 'error';
@@ -10,7 +11,13 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ variant = 'primary', size = 'md', fullWidth = false, disabled, children, style, ...props }, ref) => {
+  ({ variant = 'primary', size = 'md', fullWidth = false, disabled, children, style, onClick, ...props }, ref) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+      if (!disabled) {
+        haptic('light');
+      }
+      onClick?.(e);
+    };
     const baseStyles: React.CSSProperties = {
       display: 'inline-flex',
       alignItems: 'center',
@@ -63,6 +70,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         ref={ref}
         disabled={disabled}
         className="btn-press"
+        onClick={handleClick}
         style={{
           ...baseStyles,
           ...variantStyles[variant],

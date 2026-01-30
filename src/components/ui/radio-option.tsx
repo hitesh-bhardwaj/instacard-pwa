@@ -1,7 +1,8 @@
 'use client';
 
 import Image from "next/image";
-
+import { haptic } from "@/lib/useHaptics";
+import { useEffect } from "react";
 interface RadioOptionProps {
   label: string;
   selected: boolean;
@@ -12,6 +13,7 @@ interface RadioOptionProps {
 }
 
 export function RadioOption({ label, selected, onSelect, accessibilityLabel, icon }: RadioOptionProps) {
+
   return (
     <button
       type="button"
@@ -19,6 +21,7 @@ export function RadioOption({ label, selected, onSelect, accessibilityLabel, ico
       aria-checked={selected}
       aria-label={accessibilityLabel || label}
       onClick={onSelect}
+      onPointerDown={() => haptic('light')}
       className={`btn-press w-full flex items-center justify-between p-4 rounded-[14px] bg-white cursor-pointer transition-[border-color] duration-200 ease-in-out border ${selected ? 'border-text-primary' : 'border-border'
         }`}
     >

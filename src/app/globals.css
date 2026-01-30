@@ -9,7 +9,10 @@
   /* Backgrounds */
   --color-white: #FFFFFF;
   --color-light-gray: #F5F5F5;
+  --color-background2: #F6F7FF;
   --color-card-background: #FFFFFF;
+
+  
 
   /* Text colors */
   --color-text-primary: #111111;
@@ -48,6 +51,7 @@
   --color-light-gray: var(--color-light-gray);
   --color-card-background: var(--color-card-background);
   --color-background: var(--color-white);
+  --color-background2: var(--color-background2);
 
   /* Text colors */
   --color-text-primary: var(--color-text-primary);

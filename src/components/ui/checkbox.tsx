@@ -1,5 +1,7 @@
 'use client';
 
+import { haptic } from '@/lib/useHaptics';
+
 interface CheckboxProps {
   label: string;
   checked: boolean;
@@ -8,13 +10,18 @@ interface CheckboxProps {
 }
 
 export function Checkbox({ label, checked, onChange, accessibilityLabel }: CheckboxProps) {
+  const handleChange = () => {
+    haptic('light');
+    onChange(!checked);
+  };
+
   return (
     <button
       type="button"
       role="checkbox"
       aria-checked={checked}
       aria-label={accessibilityLabel || label}
-      onClick={() => onChange(!checked)}
+      onClick={handleChange}
       className="btn-press flex items-start gap-[10px] bg-transparent border-none p-0 cursor-pointer text-left"
     >
       <span

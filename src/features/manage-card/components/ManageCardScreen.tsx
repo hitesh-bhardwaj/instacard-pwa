@@ -1,17 +1,36 @@
 'use client'
 
 import FAQModal from '@/components/Modal/FAQModal'
+import RemoveCardModal from '@/components/Modal/RemoveCardModal'
 import ManageBtn from '@/components/ManageBtns/ManageBtn'
 import { SheetContainer } from '@/components/ui'
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 
 import { cardActions, manageBtns } from '../constants'
 import { useManageCardStore } from '../store/useManageCardStore'
+import { useRouter } from 'next/navigation'
+import { haptic } from '@/lib/useHaptics'
 
 export default function ManageCardScreen() {
   const { isFaqOpen, faqData, openFaq, closeFaq } = useManageCardStore()
+  const router = useRouter()
+  const [showRemoveModal, setShowRemoveModal] = useState(false)
 
+  const handleCardActionClick = (action: typeof cardActions[number]) => {
+    if (action.text === 'Remove Card') {
+      setShowRemoveModal(true)
+    } else {
+      router.push(action.route)
+      haptic('heavy')
+    }
+  }
+
+  const handleRemoveCard = () => {
+    // TODO: Implement card removal API call
+    console.log('Card removed')
+    setShowRemoveModal(false)
+  }
   return (
     <div className="h-screen flex flex-col">
       <SheetContainer>
@@ -36,16 +55,20 @@ export default function ManageCardScreen() {
             {cardActions.map((action, index) => (
               <div
                 key={index}
-                className="w-full border flex items-start flex-col justify-between border-text-primary/20 gap-4 rounded-xl p-4"
+                onClick={() => handleCardActionClick(action)}
+                className="w-full border flex items-start flex-col justify-between border-text-primary/20 gap-4 rounded-xl p-4 cursor-pointer"
               >
                 <div className="flex h-[30%] items-center gap-2 w-full justify-between">
                   <div>
-                    <div className="w-4 h-auto flex items-center justify-center aspect-square">
-                      <Image src={action.icon} alt="icon" width={24} height={24} />
+                    <div className="w-6 h-auto flex items-center justify-center aspect-square">
+                      <Image src={action.icon} alt="icon" className='h-full w-full object-contain' width={24} height={24} />
                     </div>
                   </div>
                   <button
-                    onClick={() => openFaq(action.faqData)}
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      openFaq(action.faqData)
+                    }}
                     className="h-6 font-semibold flex items-center justify-center text-white text-md w-6 bg-primary rounded-full cursor-pointer hover:opacity-80 transition-opacity"
                     aria-label="Open FAQ"
                     type="button"
@@ -54,7 +77,7 @@ export default function ManageCardScreen() {
                   </button>
                 </div>
 
-                <p className="text-[12px] h-[70%] w-full leading-[1.2]">{action.text}</p>
+                <p className="text-[12px] w-full leading-[1.2]">{action.text}</p>
               </div>
             ))}
           </div>
@@ -62,6 +85,11 @@ export default function ManageCardScreen() {
       </SheetContainer>
 
       <FAQModal visible={isFaqOpen} onClose={closeFaq} data={faqData || undefined} />
+      <RemoveCardModal
+        visible={showRemoveModal}
+        onClose={() => setShowRemoveModal(false)}
+        onConfirm={handleRemoveCard}
+      />
     </div>
   )
 }

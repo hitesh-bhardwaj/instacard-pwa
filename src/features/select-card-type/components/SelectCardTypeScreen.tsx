@@ -6,6 +6,7 @@ import { SheetContainer, RadioOption, Button } from '@/components/ui';
 import { InstacardColors } from '@/constants/colors';
 import { useAuth } from '@/lib/auth-context';
 import { notifyNavigation } from '@/lib/bridge';
+import { haptic } from '@/lib/useHaptics';
 
 const CARD_TYPES = [
   { id: 'debit', label: 'Debit Card', icon: '/svg/debitcard.svg' },
@@ -20,6 +21,7 @@ export default function SelectCardTypeScreen() {
   const router = useRouter();
   const { config, isLoading, isAuthenticated, error } = useAuth();
 
+
   const initialSelectedType: CardType =
     config?.cardType && CARD_TYPES.some((t) => t.id === config.cardType)
       ? (config.cardType as CardType)
@@ -33,6 +35,7 @@ export default function SelectCardTypeScreen() {
 
   const handleNext = () => {
     router.push(`/${selectedType}`);
+    haptic('medium');
   };
 
   if (isLoading) {
@@ -144,7 +147,9 @@ export default function SelectCardTypeScreen() {
                 key={option.id}
                 label={option.label}
                 selected={option.id === selectedType}
-                onSelect={() => setSelectedType(option.id)}
+                onSelect={() => {
+                  setSelectedType(option.id)
+                }}
               />
             ))}
           </div>

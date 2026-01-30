@@ -4,6 +4,7 @@ import { EyeIcon, EyeOffIcon } from 'lucide-react'
 import Image from 'next/image'
 import React, { useRef, useState, useEffect } from 'react'
 import gsap from 'gsap'
+import { haptic } from '@/lib/useHaptics'
 
 export default function CardDetailFlip() {
     const cardRef = useRef<HTMLDivElement>(null)
@@ -151,11 +152,13 @@ export default function CardDetailFlip() {
     }
 
     const handleFlip = () => {
+        haptic('medium')
         flipCard(!isFlipped)
     }
 
     const handleEyeClick = (e: React.MouseEvent) => {
         e.stopPropagation()
+        haptic('light')
 
         if (balanceRef.current) {
             gsap.to(balanceRef.current, {

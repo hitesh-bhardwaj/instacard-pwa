@@ -1,6 +1,7 @@
 'use client';
 
 import { InstacardColors } from '@/constants/colors';
+import { haptic } from '@/lib/useHaptics';
 
 const KEY_ROWS = [
   ['1', '2', '3'],
@@ -14,6 +15,10 @@ interface OTPKeypadProps {
 }
 
 export function OTPKeypad({ onKeyPress }: OTPKeypadProps) {
+  const handleKeyPress = (key: string) => {
+    haptic('light');
+    onKeyPress(key);
+  };
   return (
     <div
       style={{
@@ -51,7 +56,7 @@ export function OTPKeypad({ onKeyPress }: OTPKeypadProps) {
               <button
                 key={key}
                 type="button"
-                onClick={() => onKeyPress(key)}
+                onClick={() => handleKeyPress(key)}
                 aria-label={isDelete ? 'Delete' : `Number ${key}`}
                 className="btn-press"
                 style={{

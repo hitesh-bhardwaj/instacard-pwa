@@ -144,15 +144,15 @@ export default function VerifyEmailScreen() {
             {showSuccessPopup && (
                 <div
                     ref={popupOverlayRef}
-                    className="fixed inset-0 bg-black/20 backdrop-blur-xs flex items-center justify-center z-50"
+                    className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50"
                     style={{ opacity: 0 }}
                 >
                     <div
                         ref={popupContentRef}
-                        className="bg-white/80 backdrop-blur-xl rounded-2xl p-6 mx-8 text-center border border-text-primary/20 min-w-[280px]"
+                        className="bg-white/80 backdrop-blur-xl  rounded-2xl p-6 mx-8 text-center border border-white/60 min-w-[280px]"
                         style={{ opacity: 0 }}
                     >
-                        <p className="text-text-primary text-base mb-6">
+                        <p className="text-text-primary text-xm mb-6">
                             Your Payment Limits have been successfully updated
                         </p>
                         <button
