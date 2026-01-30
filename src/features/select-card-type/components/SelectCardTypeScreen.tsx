@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { SheetContainer, RadioOption, Button } from '@/components/ui';
 import { InstacardColors } from '@/constants/colors';
-import { useAuth } from '@/lib/auth-context';
 import { notifyNavigation } from '@/lib/bridge';
 import { haptic } from '@/lib/useHaptics';
 
@@ -19,15 +18,8 @@ type CardType = (typeof CARD_TYPES)[number]['id'];
 
 export default function SelectCardTypeScreen() {
   const router = useRouter();
-  const { config, isLoading, isAuthenticated, error } = useAuth();
 
-
-  const initialSelectedType: CardType =
-    config?.cardType && CARD_TYPES.some((t) => t.id === config.cardType)
-      ? (config.cardType as CardType)
-      : 'debit';
-
-  const [selectedType, setSelectedType] = useState<CardType>(initialSelectedType);
+  const [selectedType, setSelectedType] = useState<CardType>('debit');
 
   useEffect(() => {
     notifyNavigation('select-card-type');
@@ -37,95 +29,6 @@ export default function SelectCardTypeScreen() {
     router.push(`/${selectedType}`);
     haptic('medium');
   };
-
-  if (isLoading) {
-    return (
-      <div
-        style={{
-          height: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: InstacardColors.primary,
-        }}
-      >
-        <div
-          style={{
-            width: 40,
-            height: 40,
-            border: `3px solid ${InstacardColors.primaryLight}`,
-            borderTopColor: InstacardColors.white,
-            borderRadius: '50%',
-            animation: 'spin 1s linear infinite',
-          }}
-        />
-        <style jsx>{`
-          @keyframes spin {
-            to {
-              transform: rotate(360deg);
-            }
-          }
-        `}</style>
-      </div>
-    );
-  }
-
-  if (error || !isAuthenticated) {
-    return (
-      <div
-        style={{
-          height: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: InstacardColors.primary,
-          padding: 24,
-          textAlign: 'center',
-        }}
-      >
-        <svg
-          width="64"
-          height="64"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle
-            cx="12"
-            cy="12"
-            r="10"
-            stroke={InstacardColors.error}
-            strokeWidth="2"
-          />
-          <path
-            d="M12 8V12M12 16H12.01"
-            stroke={InstacardColors.error}
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-        </svg>
-        <h2
-          style={{
-            color: InstacardColors.white,
-            marginTop: 16,
-            fontSize: 20,
-          }}
-        >
-          Authentication Error
-        </h2>
-        <p
-          style={{
-            color: 'rgba(255, 255, 255, 0.7)',
-            marginTop: 8,
-            fontSize: 14,
-          }}
-        >
-          {error || 'Unable to authenticate. Please try again.'}
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
@@ -169,4 +72,3 @@ export default function SelectCardTypeScreen() {
     </div>
   );
 }
-
