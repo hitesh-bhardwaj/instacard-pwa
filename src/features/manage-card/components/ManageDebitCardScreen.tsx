@@ -12,7 +12,7 @@ import { useManageCardStore } from '../store/useManageCardStore'
 import { useRouter } from 'next/navigation'
 import { haptic } from '@/lib/useHaptics'
 
-export default function ManageCardScreen() {
+export default function ManageDebitCardScreen() {
   const { isFaqOpen, faqData, openFaq, closeFaq } = useManageCardStore()
   const router = useRouter()
   const [showRemoveModal, setShowRemoveModal] = useState(false)
