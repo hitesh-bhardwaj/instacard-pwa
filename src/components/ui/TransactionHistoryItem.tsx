@@ -125,7 +125,7 @@ export default function TransactionHistoryItem() {
                   <span className='text-white font-semibold text-lg'>{transaction.initial}</span>
                 </div>
                 <div className='flex flex-col'>
-                  <p className='text-sm font-semibold text-text-primary'>{transaction.name}</p>
+                  <p className='text-sm font-medium text-text-primary'>{transaction.name}</p>
                   <p className='text-xs text-text-secondary'>{transaction.date}</p>
                 </div>
               </div>

@@ -38,6 +38,7 @@
   /* Spacing */
   --safe-area-top: env(safe-area-inset-top, 0px);
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
+  --font-helvetica-neue: var(--font-helvetica-neue);
 }
 
 @theme inline {
@@ -74,6 +75,9 @@
   --color-error: var(--color-error);
   --color-orange: var(--color-orange);
   --color-blue: var(--color-blue);
+
+  /* Typography */
+  --font-helvetica-neue: var(--font-helvetica-neue);
 }
 
 * {
@@ -87,12 +91,14 @@ body {
   margin: 0;
   padding: 0;
   overflow: hidden;
+  font-family: var(--font-helvetica-neue);
 }
 
 body {
   background: var(--color-primary);
   color: var(--color-foreground);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-family: var(--font-helvetica-neue);
+  /* font-family: var(--font-helvetica-neue), -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

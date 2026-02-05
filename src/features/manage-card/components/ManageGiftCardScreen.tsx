@@ -5,6 +5,12 @@ import Image from 'next/image'
 import { useManageCardStore } from '../store/useManageCardStore'
 import { Copy } from 'lucide-react'
 
+const giftCardDetails = [
+  { label: 'Name', value: 'Nirdesh Malik' },
+  { label: 'Email', value: 'nirdeshmalik@gmail.com' },
+  { label: 'Message', value: 'Gift card for you' },
+]
+
 export default function ManageGiftCardScreen() {
   return (
     <div className="h-screen flex flex-col">
@@ -21,18 +27,12 @@ export default function ManageGiftCardScreen() {
           </div>
 
           <div className='w-full rounded-2xl border border-border p-4 space-y-2'>
-            <div className='p-4 border border-border rounded-2xl'>
-              <p className='text-text-primary text-sm'>Name</p>
-              <p className='text-text-primary font-sm'>Nirdesh Malik</p>
-            </div>
-            <div className='p-4 border border-border rounded-2xl'>
-              <p className='text-text-primary text-sm'>Email</p>
-              <p className='text-text-primary font-sm'>nirdeshmalik@gmail.com</p>
-            </div>
-            <div className='p-4 border border-border rounded-2xl'>
-              <p className='text-text-primary text-sm'>Message</p>
-              <p className='text-text-primary font-sm'>Gift card for you</p>
-            </div>
+            {giftCardDetails.map((detail, index) => (
+              <div key={index} className='p-4 border border-border rounded-2xl'>
+                <p className='text-text-primary text-sm'>{detail.label}</p>
+                <p className='text-text-primary font-sm'>{detail.value}</p>
+              </div>
+            ))}
           </div>
           <div className='w-full flex items-center relative justify-center overflow-hidden rounded-2xl min-h-[180px]'>
             <div className='absolute inset-0'>
@@ -67,7 +67,7 @@ export default function ManageGiftCardScreen() {
             <p className='text-text-primary text-sm font-medium'>4668-4782-3787-78378</p>
             <Image src="/svg/eyeclose.svg" alt="Copy" width={35} height={35} className='w-5 h-5 text-text-primary cursor-pointer' />
           </div>
-            <p className='text-text-primary text-sm'>(Please ensure that you are giving the activation code to the person you are gifting this card to. If you share this code with someone you were not looking to gif this card, Instacard  & the Issuer would have no accountability to any exposure that you may encounter against the money you may have loaded)</p>
+            <p className='text-text-primary text-sm'>(Please ensure that you are giving the activation code to the person you are gifting this card to. If you share this code with someone you were not looking to gif this card, Instacard  & the Issuer would have no accountability to any exposure that you may encounter against the money you may have loaded)</p>
 
 
 
@@ -79,4 +79,3 @@ export default function ManageGiftCardScreen() {
     </div>
   )
 }
-

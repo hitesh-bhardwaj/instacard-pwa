@@ -1,6 +1,33 @@
 import type { Metadata, Viewport } from 'next';
+import localFont from 'next/font/local';
 import './globals.css';
 import { AuthProvider } from '@/lib/auth-context';
+
+const helveticaNeue = localFont({
+  src: [
+    {
+      path: '../fonts/HelveticaNeue-Light.otf',
+      weight: '300',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/HelveticaNeue-Roman.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/HelveticaNeue-Medium.otf',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: '../fonts/HelveticaNeue-Bold.otf',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-helvetica-neue',
+});
 
 export const metadata: Metadata = {
   title: 'Instacard - Add Card',
@@ -31,13 +58,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className={helveticaNeue.variable}>
       <head>
-        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <link rel="apple-touch-icon" href="/img/instacard.png" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes" />
       </head>
-      <body>
+      <body className={helveticaNeue.className}>
         <AuthProvider>
           <main>{children}</main>
         </AuthProvider>
