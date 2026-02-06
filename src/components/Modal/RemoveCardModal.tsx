@@ -2,8 +2,10 @@
 
 import { InstacardColors } from '@/constants/colors'
 import { haptic } from '@/lib/useHaptics'
+import { notifyUserCancelled } from '@/lib/bridge'
 import React, { useCallback, useEffect, useRef } from 'react'
 import gsap from 'gsap'
+import { useRouter } from 'next/navigation'
 
 interface RemoveCardModalProps {
     visible: boolean
@@ -14,6 +16,7 @@ interface RemoveCardModalProps {
 export default function RemoveCardModal({ visible, onClose, onConfirm }: RemoveCardModalProps) {
     const modalRef = useRef<HTMLDivElement>(null)
     const backdropRef = useRef<HTMLDivElement>(null)
+    const router = useRouter()
 
     const handleClose = useCallback(() => {
         if (modalRef.current && backdropRef.current) {
@@ -33,6 +36,12 @@ export default function RemoveCardModal({ visible, onClose, onConfirm }: RemoveC
             onClose()
         }
     }, [onClose])
+
+    const handleRemove = useCallback(() => {
+        haptic('warning')
+        onConfirm()
+        notifyUserCancelled()
+    }, [onConfirm, router])
 
     useEffect(() => {
         if (visible) {
@@ -81,10 +90,7 @@ export default function RemoveCardModal({ visible, onClose, onConfirm }: RemoveC
 
                     {/* Remove Button */}
                     <button
-                        onClick={() => {
-                            haptic('warning')
-                            onConfirm()
-                        }}
+                        onClick={handleRemove}
                         className="w-full px-4 py-3 rounded-full text-white text-sm  bg-red-500 hover:bg-red-600 transition-colors"
                     >
                         Remove Card Permanently

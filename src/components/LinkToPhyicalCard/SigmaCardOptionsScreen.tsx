@@ -40,11 +40,11 @@ export default function SigmaCardOptionsScreen() {
                                 className={`w-full p-4 border rounded-2xl flex items-center gap-3 transition-all ${card.disabled
                                     ? 'border-dashed border-text-primary/30 opacity-60 cursor-not-allowed'
                                     : selectedCard === card.id
-                                        ? 'border-primary border-2'
+                                        ? 'border-text-primary border-2'
                                         : 'border-text-primary/20'
                                     }`}
                             >
-                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedCard === card.id ? 'border-primary bg-primary' : 'border-text-primary/40'
+                                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedCard === card.id ? 'border-orange bg-orange' : 'border-text-primary/40'
                                     }`}>
                                     {selectedCard === card.id && (
                                         <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">

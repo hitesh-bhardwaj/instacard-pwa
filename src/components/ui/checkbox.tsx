@@ -26,26 +26,27 @@ export function Checkbox({ label, checked, onChange, accessibilityLabel }: Check
     >
       <span
         className={`w-[22px] h-[22px] rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-[2px] transition-all duration-200 ease-in-out ${
-          checked ? 'border-primary bg-primary' : 'border-border bg-transparent'
-        }`}
+          checked ? 'border-primary bg-primary scale-100' : 'border-border bg-transparent scale-100'
+        } active:scale-90`}
       >
-        {checked && (
-          <svg
-            width="12"
-            height="12"
-            viewBox="0 0 12 12"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M10 3L4.5 8.5L2 6"
-              stroke="white"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        )}
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className={`transition-all duration-150 ease-out ${
+            checked ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
+          }`}
+        >
+          <path
+            d="M10 3L4.5 8.5L2 6"
+            stroke="white"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </span>
       <span className="text-[13px] text-text-secondary leading-[1.4]">
         {label}
