@@ -1,9 +1,10 @@
 'use client'
 import Image from 'next/image'
-import React, { useState, useRef } from 'react'
+import React, { useState } from 'react'
 import { haptic } from '@/lib/useHaptics'
 import { Button } from './button'
 import { ChevronDown } from 'lucide-react'
+import DatePickerModal from './DatePickerModal'
 
 type StatementOption = {
   id: 'mini' | 'custom'
@@ -21,8 +22,7 @@ export default function EmailStatements() {
   const [fromDate, setFromDate] = useState<string>('')
   const [toDate, setToDate] = useState<string>('')
   const [showPopup, setShowPopup] = useState(false)
-  const fromInputRef = useRef<HTMLInputElement>(null)
-  const toInputRef = useRef<HTMLInputElement>(null)
+  const [datePickerOpen, setDatePickerOpen] = useState<'from' | 'to' | null>(null)
 
   const handleSelect = (option: 'mini' | 'custom') => {
     haptic('light')
@@ -35,10 +35,22 @@ export default function EmailStatements() {
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
   }
 
-  const handleDatePickerClick = (inputRef: React.RefObject<HTMLInputElement | null>) => {
-    if (selectedOption === 'custom' && inputRef.current) {
-      inputRef.current.showPicker()
+  const openDatePicker = (field: 'from' | 'to') => {
+    if (selectedOption === 'custom') {
+      haptic('light')
+      setDatePickerOpen(field)
     }
+  }
+
+  const handleDateSelect = (date: Date, field: 'from' | 'to') => {
+    const iso = date.toISOString().split('T')[0]
+    if (field === 'from') {
+      setFromDate(iso)
+      if (toDate && iso > toDate) setToDate(iso)
+    } else {
+      setToDate(iso)
+    }
+    setDatePickerOpen(null)
   }
 
   const handleSendEmail = () => {
@@ -87,41 +99,46 @@ export default function EmailStatements() {
           ))}
 
           <div className='flex gap-3 mt-2'>
-            <div 
-              className={`flex-1 relative flex items-center justify-between px-4 py-3 border border-border rounded-lg ${selectedOption === 'custom' ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'}`}
-              onClick={() => handleDatePickerClick(fromInputRef)}
+            <button
+              type='button'
+              className={`flex-1 flex items-center justify-between px-4 py-3 border border-border rounded-lg text-left ${selectedOption === 'custom' ? 'cursor-pointer active:bg-gray-50' : 'opacity-50 cursor-not-allowed'}`}
+              onClick={() => openDatePicker('from')}
+              disabled={selectedOption !== 'custom'}
             >
               <span className={`text-sm ${fromDate ? 'text-text-primary' : 'text-text-secondary'}`}>
                 {fromDate ? formatDateDisplay(fromDate) : 'From'}
               </span>
-              <ChevronDown size={16} className='text-text-secondary' />
-              <input
-                ref={fromInputRef}
-                type='date'
-                value={fromDate}
-                onChange={(e) => setFromDate(e.target.value)}
-                className='absolute inset-0 opacity-0 pointer-events-none'
-                disabled={selectedOption === 'mini'}
-              />
-            </div>
-            <div 
-              className={`flex-1 relative flex items-center justify-between px-4 py-3 border border-border rounded-lg ${selectedOption === 'custom' ? 'cursor-pointer' : 'opacity-50 cursor-not-allowed'}`}
-              onClick={() => handleDatePickerClick(toInputRef)}
+              <ChevronDown size={16} className='text-text-secondary shrink-0' />
+            </button>
+            <button
+              type='button'
+              className={`flex-1 flex items-center justify-between px-4 py-3 border border-border rounded-lg text-left ${selectedOption === 'custom' ? 'cursor-pointer active:bg-gray-50' : 'opacity-50 cursor-not-allowed'}`}
+              onClick={() => openDatePicker('to')}
+              disabled={selectedOption !== 'custom'}
             >
               <span className={`text-sm ${toDate ? 'text-text-primary' : 'text-text-secondary'}`}>
                 {toDate ? formatDateDisplay(toDate) : 'To'}
               </span>
-              <ChevronDown size={16} className='text-text-secondary' />
-              <input
-                ref={toInputRef}
-                type='date'
-                value={toDate}
-                onChange={(e) => setToDate(e.target.value)}
-                className='absolute inset-0 opacity-0 pointer-events-none'
-                disabled={selectedOption === 'mini'}
-              />
-            </div>
+              <ChevronDown size={16} className='text-text-secondary shrink-0' />
+            </button>
           </div>
+
+          <DatePickerModal
+            visible={datePickerOpen === 'from'}
+            onClose={() => setDatePickerOpen(null)}
+            onSelect={(date) => handleDateSelect(date, 'from')}
+            title='Select From Date'
+            selectedDate={fromDate ? new Date(fromDate + 'T12:00:00') : undefined}
+            maxDate={toDate ? new Date(toDate + 'T12:00:00') : undefined}
+          />
+          <DatePickerModal
+            visible={datePickerOpen === 'to'}
+            onClose={() => setDatePickerOpen(null)}
+            onSelect={(date) => handleDateSelect(date, 'to')}
+            title='Select To Date'
+            selectedDate={toDate ? new Date(toDate + 'T12:00:00') : undefined}
+            minDate={fromDate ? new Date(fromDate + 'T12:00:00') : undefined}
+          />
 
           <Button variant='primary' size='lg' fullWidth onClick={handleSendEmail}>
             Send to Registered Email
