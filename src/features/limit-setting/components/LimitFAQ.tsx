@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import FAQModal, { FAQData } from '@/components/Modal/FAQModal'
+import FaqIconButton from '@/components/ui/FaqIconButton'
 
 const limitFaqData: FAQData = {
     heading: 'Limit Settings Information',
@@ -24,14 +25,7 @@ export default function LimitFAQ() {
             <div className="flex w-full gap-2">
                 <div className="w-full border flex items-start flex-col justify-between border-text-primary/20 gap-4 rounded-2xl p-4">
                     <div className="flex h-fit items-center py-2 gap-4 w-full justify-between">
-                        <button
-                            onClick={openFaq}
-                            className="h-6 font-semibold flex items-center justify-center text-white text-sm w-6 bg-primary rounded-full cursor-pointer hover:opacity-80 transition-opacity"
-                            aria-label="Open FAQ"
-                            type="button"
-                        >
-                           !
-                        </button>
+                        <FaqIconButton onClick={openFaq} />
                         <p className="  w-[90%] text-xs">
                             All limits set are daily transactions limits, and must be in multiples of N 10000
                         </p>

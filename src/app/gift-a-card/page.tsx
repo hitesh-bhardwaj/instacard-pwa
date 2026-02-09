@@ -29,9 +29,9 @@ export default function page() {
                         <div>
 
 
-                            <p className='text-text-[#333333] text-sm py-4'>Name of the person gifting this card to</p>
-                            <p className='text-text-[#333333] text-sm border-t border-b border-border py-4'>Email of the person gifting this card to</p>
-                            <p className='text-text-[#333333] text-sm py-4'>Type a Message for the person you are gifting this card to..</p>
+                            <p className='text-text-primary text-xs py-4'>Name of the person gifting this card to</p>
+                            <p className='text-text-primary text-xs border-t border-b border-border py-4'>Email of the person gifting this card to</p>
+                            <p className='text-text-primary text-xs py-4'>Type a Message for the person you are gifting this card to..</p>
                         </div>
                     </div>
 

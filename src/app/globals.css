@@ -164,3 +164,29 @@ button,
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
 }
+
+.text14{
+  font-size: 14px;
+  font-weight: 400;
+}
+.text12{
+  font-size: 12px;
+  font-weight: 400;
+}
+.text16{
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Map common text utilities to perfect sizes */
+.text-xs {
+  font-size: 12px;
+}
+
+.text-sm {
+  font-size: 14px;
+}
+
+.text-base {
+  font-size: 16px;
+}

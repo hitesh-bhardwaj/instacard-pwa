@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import { FileQuestionMark, HelpCircle } from 'lucide-react'
 import FAQModal from '../Modal/FAQModal'
+import FaqIconButton from './FaqIconButton'
 
 type Transaction = {
     id: string
@@ -57,18 +58,19 @@ export default function CreditCardTransactions() {
     return (
         <>
             <div className=' border border-border relative  overflow-hidden  rounded-2xl'>
-                <div className='flex flex-col px-5 py-4 bg-[#F6F7FF] gap-2'>
+                <div className='flex flex-col px-5 py-4 bg-background2 gap-2'>
                     <p className='text-text-primary text-md font-medium'>Unbilled Transactions</p>
                     <div className='flex items-center gap-2 w-full justify-between'>
-                        <div className='flex items-center '>
-                            <span className='text-text-primary text-sm'>Total</span>
-                        </div>
-                        <p className='text-sm font-medium text-error'>- ₦ {totalAmount.toLocaleString()}</p>
-
+                    <div className='flex items-center '>
+                        <span className='text-text-primary text-sm'>Total</span>
                     </div>
-                    <button onClick={() => setFaqVisible(true)} className='p-1 w-4 h-4 flex aspect-square items-center justify-center absolute bg-primary rounded-full top-2 right-2'>
-                        <p className='text-white text-xs'>?</p>
-                    </button>
+                    <p className='text-sm font-medium text-error'>- ₦ {totalAmount.toLocaleString()}</p>
+                    </div>
+                    <FaqIconButton
+                        size="sm"
+                        onClick={() => setFaqVisible(true)}
+                        className="absolute top-2 right-2"
+                    />
                 </div>
 
                 {transactionData.map((transaction, index) => (

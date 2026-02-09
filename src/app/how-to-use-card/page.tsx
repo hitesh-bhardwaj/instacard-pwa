@@ -6,6 +6,7 @@ import { SheetContainer, Button } from '@/components/ui';
 import { notifyNavigation, notifyCardAdded } from '@/lib/bridge';
 import { ChevronDown } from 'lucide-react';
 import FAQModal from '@/components/Modal/FAQModal';
+import FaqIconButton from '@/components/ui/FaqIconButton';
 import type { FAQData } from '@/components/Modal/FAQModal';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -18,7 +19,7 @@ interface AccordionItemProps {
 
 function AccordionItem({ title, isExpanded, onToggle, children }: AccordionItemProps) {
     return (
-        <div className="bg-[#F6F7FF] rounded-xl border border-gray-200 overflow-hidden">
+        <div className="bg-background2 rounded-xl border border-gray-200 overflow-hidden">
             <button
                 onClick={onToggle}
                 className="w-full flex items-center justify-between p-4 text-left"
@@ -208,17 +209,12 @@ function HowToUseCardContent() {
                                             <Image src={action.icon} alt="icon" className='h-full w-full object-contain' width={24} height={24} />
                                         </div>
                                     </div>
-                                    <button
+                                    <FaqIconButton
                                         onClick={(e) => openFaq(e, action.faqData)}
-                                        className="h-6 font-semibold flex items-center justify-center text-white text-md w-6 bg-primary rounded-full cursor-pointer hover:opacity-80 transition-opacity"
-                                        aria-label="Open FAQ"
-                                        type="button"
-                                    >
-                                        ?
-                                    </button>
+                                    />
                                 </div>
 
-                                <p className="text-[12px] w-full leading-[1.2]">{action.text}</p>
+                                <p className="text-xs w-full leading-[1.2]">{action.text}</p>
                             </div>
                         ))}
                     </div>

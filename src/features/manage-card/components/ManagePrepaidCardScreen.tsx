@@ -4,6 +4,7 @@ import FAQModal from '@/components/Modal/FAQModal'
 import RemoveCardModal from '@/components/Modal/RemoveCardModal'
 import ManageBtn from '@/components/ManageBtns/ManageBtn'
 import { SheetContainer } from '@/components/ui'
+import FaqIconButton from '@/components/ui/FaqIconButton'
 import Image from 'next/image'
 import React, { useState } from 'react'
 
@@ -90,17 +91,12 @@ export default function ManagePrepaidCardScreen() {
                       <Image src={action.icon} alt="icon" className='h-full w-full object-contain' width={24} height={24} />
                     </div>
                   </div>
-                  <button
+                  <FaqIconButton
                     onClick={(e) => {
                       e.stopPropagation()
                       openFaq(action.faqData)
                     }}
-                    className="h-6 font-semibold flex items-center justify-center text-white text-md w-6 bg-primary rounded-full cursor-pointer hover:opacity-80 transition-opacity"
-                    aria-label="Open FAQ"
-                    type="button"
-                  >
-                    ?
-                  </button>
+                  />
                 </div>
 
                 <p className="text-[12px] w-full leading-[1.2]">{action.text}</p>

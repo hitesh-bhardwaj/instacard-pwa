@@ -2,8 +2,10 @@
 import { SheetContainer } from '@/components/ui'
 import Image from 'next/image'
 
-import { useManageCardStore } from '../store/useManageCardStore'
-import { Copy } from 'lucide-react'
+import { useState } from 'react'
+import CopyButton from '@/components/ui/CopyButton'
+import CardMockup from '@/components/ui/CardMockup'
+import { haptic } from '@/lib/useHaptics'
 
 const giftCardDetails = [
   { label: 'Name', value: 'Nirdesh Malik' },
@@ -12,19 +14,13 @@ const giftCardDetails = [
 ]
 
 export default function ManageGiftCardScreen() {
+  const [showActivationCode, setShowActivationCode] = useState(false)
+
   return (
     <div className="h-screen flex flex-col">
       <SheetContainer>
         <div className="flex-1 overflow-auto pb-10 p-4 space-y-4">
-          <div className="flex items-center pt-5 justify-center">
-            <Image
-              src="/img/gift.png"
-              alt="Debit Card Front"
-              width={340}
-              height={215}
-              className="w-[340px] h-[215px] object-contain"
-            />
-          </div>
+         <CardMockup imageSrc='/img/gift.png' />
 
           <div className='w-full rounded-2xl border border-border p-4 space-y-2'>
             {giftCardDetails.map((detail, index) => (
@@ -42,7 +38,7 @@ export default function ManageGiftCardScreen() {
             <div className='flex items-center flex-col z-10 justify-center gap-5 py-6'>
               <div className='flex items-center gap-2'>
                 <p className='text-orange text-xl font-bold'>DS73488QDJ738</p>
-                <Copy className='w-4 h-4 text-text-primary cursor-pointer' />
+                <CopyButton value="DS73488QDJ738" size="sm" />
               </div>
 
               <div className='flex items-center gap-4'>
@@ -64,8 +60,23 @@ export default function ManageGiftCardScreen() {
 
           <p className='mt-2 font-medium'>One time Activation Code</p>
           <div className='w-full flex items-center justify-between h-fit py-5 px-4 border border-border rounded-2xl'>
-            <p className='text-text-primary text-sm font-medium'>4668-4782-3787-78378</p>
-            <Image src="/svg/eyeclose.svg" alt="Copy" width={35} height={35} className='w-5 h-5 text-text-primary cursor-pointer' />
+            <p className='text-text-primary text-sm font-medium'>
+              {showActivationCode ? '4668 4782 3787 78378' : '***** **** **** ****'}
+            </p>
+            <div className='flex items-center gap-3'>
+              <CopyButton value="4668 4782 3787 78378" />
+              <Image 
+                src={showActivationCode ? '/svg/eyeopen.svg' : '/svg/eyeclose.svg'} 
+                alt={showActivationCode ? 'Hide' : 'Show'} 
+                width={35} 
+                height={35} 
+                className='w-5 h-5 text-text-primary cursor-pointer' 
+                onClick={() => {
+                  haptic('light')
+                  setShowActivationCode(!showActivationCode)
+                }}
+              />
+            </div>
           </div>
             <p className='text-text-primary text-sm'>(Please ensure that you are giving the activation code to the person you are gifting this card to. If you share this code with someone you were not looking to gif this card, Instacard  & the Issuer would have no accountability to any exposure that you may encounter against the money you may have loaded)</p>
 

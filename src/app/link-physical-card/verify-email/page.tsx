@@ -50,13 +50,13 @@ export default function VerifyEmailPage() {
                             <h2 className="text-xl font-semibold text-text-primary m-0">
                                 Verify your Registered Email
                             </h2>
-                            <p className="text-[13px] text-text-primary m-0">
+                            <p className="text-sm text-text-primary m-0">
                                 We have sent you a 6-digit code to your Registered Email
                             </p>
-                            <p className="text-md leading-none font-semibold text-text-primary m-0">
+                            <p className="text-sm leading-none font-semibold text-text-primary m-0">
                                 nird***malik@gmail.com
                             </p>
-                            <p className="text-[13px] text-text-primary m-0">
+                            <p className="text-sm text-text-primary m-0">
                                 Please check your messages and enter it here
                             </p>
 
