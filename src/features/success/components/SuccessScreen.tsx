@@ -4,13 +4,17 @@ import { useEffect } from 'react';
 import { SheetContainer, Button } from '@/components/ui';
 import { notifyNavigation, notifyCardAdded } from '@/lib/bridge';
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
+
+type CardType = 'debit' | 'credit' | 'prepaid' | 'gift';
 
 export default function SuccessScreen() {
   useEffect(() => {
     notifyNavigation('success');
   }, []);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const cardType = (searchParams.get('type') as CardType) || 'debit';
 
   
 
@@ -57,7 +61,7 @@ export default function SuccessScreen() {
           </div>
         </div>
         <div className="p-4 pb-[calc(env(safe-area-inset-bottom,24px)+24px)] pt-2">
-          <Button fullWidth onClick={() => router.push('/pin-setup')}>
+          <Button fullWidth onClick={() => router.push(`/pin-setup?type=${cardType}`)}>
           Activate Now
           </Button>
         </div>

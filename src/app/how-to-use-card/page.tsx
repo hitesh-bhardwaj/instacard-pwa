@@ -1,13 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Image from 'next/image';
 import { SheetContainer, Button } from '@/components/ui';
 import { notifyNavigation, notifyCardAdded } from '@/lib/bridge';
 import { ChevronDown } from 'lucide-react';
 import FAQModal from '@/components/Modal/FAQModal';
 import type { FAQData } from '@/components/Modal/FAQModal';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface AccordionItemProps {
     title: string;
@@ -43,16 +43,16 @@ function AccordionItem({ title, isExpanded, onToggle, children }: AccordionItemP
     );
 }
 
-const cardActions: Array<{
+const getCardActions = (cardType: string): Array<{
     icon: string;
     text: string;
     faqData: FAQData;
     route: string;
-}> = [
+}> => [
         {
             icon: '/svg/managecard.svg',
             text: 'Manage Card',
-            route: '/manage-card',
+            route: `/manage-card/${cardType}`,
             faqData: {
                 heading: 'Remove Card',
                 bulletPoints: [
@@ -66,10 +66,10 @@ const cardActions: Array<{
         },
         {
             icon: '/svg/phone.svg',
-            text: 'Link to a Physical Universal or Sigma Instacard',
+            text: 'Link to a Physical Card',
             route: '/link-physical-card',
             faqData: {
-                heading: 'Link to a Physical Universal or Sigma Instacard',
+                heading: 'Link to a Physical Card',
                 bulletPoints: [
                     'You can purchase a Universal Card or a Sigma card from your Bank or any Agent, Marketplace or order online.',
                     'Universal Card or Sigma Card offer unified card experience such that you can link any Virtual Instacard to them to start using the virtual Instacard on any POS/ATM through the linked Universal or Sigma Instacard.',
@@ -82,11 +82,16 @@ const cardActions: Array<{
 
     ];
 
+type CardType = 'debit' | 'credit' | 'prepaid' | 'gift';
+
 export default function HowToUseCardPage() {
     const [expandedSection, setExpandedSection] = useState<string | null>('virtual');
     const [isFaqOpen, setIsFaqOpen] = useState(false);
     const [faqData, setFaqData] = useState<FAQData | null>(null);
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const cardType = (searchParams.get('type') as CardType) || 'debit';
+    const cardActions = useMemo(() => getCardActions(cardType), [cardType]);
     useEffect(() => {
         notifyNavigation('how-to-use-card');
     }, []);

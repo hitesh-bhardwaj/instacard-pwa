@@ -30,7 +30,7 @@ export default function AddDebitScreen() {
   }, []);
 
   const handleNext = () => {
-    router.push('/otp');
+    router.push('/otp?type=debit');
   };
 
   return (

@@ -1,14 +1,18 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { SheetContainer, OTPInput, OTPKeypad, Button } from '@/components/ui';
 import { notifyNavigation } from '@/lib/bridge';
 
 const MAX_CODE_LENGTH = 6;
 
+type CardType = 'debit' | 'credit' | 'prepaid' | 'gift';
+
 export default function OTPScreen() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const cardType = (searchParams.get('type') as CardType) || 'debit';
   const [code, setCode] = useState('');
   const [isVerifying, setIsVerifying] = useState(false);
 
@@ -35,7 +39,7 @@ export default function OTPScreen() {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    router.push('/success');
+    router.push(`/success?type=${cardType}`);
   };
 
   const handleResend = () => {

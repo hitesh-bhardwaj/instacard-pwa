@@ -17,7 +17,7 @@ export type FAQData = {
 }
 
 export const DEFAULT_FAQ_DATA: FAQData = {
-    heading: 'Link to a Physical Universal or Sigma Instacard',
+    heading: 'Link to a Physical Card',
     bulletPoints: [
         'You can purchase a Universal Card or a Sigma card from your Bank or any Agent, Marketplace or order online.',
         'Universal Card or Sigma Card offer unified card experience such that you can link any Virtual Instacard to them to start using the virtual Instacard on any POS/ATM through the linked Universal or Sigma Instacard.',

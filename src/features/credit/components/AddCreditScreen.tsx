@@ -23,7 +23,7 @@ export default function AddCreditScreen() {
   }, []);
 
   const handleNext = () => {
-    router.push('/otp');
+    router.push('/otp?type=credit');
   };
 
   return (

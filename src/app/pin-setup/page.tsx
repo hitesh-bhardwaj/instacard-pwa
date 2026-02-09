@@ -1,14 +1,18 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { SheetContainer, OTPInput, OTPKeypad, Button } from '@/components/ui';
 import { notifyNavigation } from '@/lib/bridge';
 
 const PIN_LENGTH = 4;
 
+type CardType = 'debit' | 'credit' | 'prepaid' | 'gift';
+
 export default function PinSetupPage() {
     const router = useRouter();
+    const searchParams = useSearchParams();
+    const cardType = (searchParams.get('type') as CardType) || 'debit';
     const [pin, setPin] = useState('');
     const [confirmPin, setConfirmPin] = useState('');
     const [activeField, setActiveField] = useState<'pin' | 'confirm'>('pin');
@@ -71,7 +75,7 @@ export default function PinSetupPage() {
             // Simulate API call
             await new Promise((resolve) => setTimeout(resolve, 1500));
 
-            router.push('/how-to-use-card');
+            router.push(`/how-to-use-card?type=${cardType}`);
         } catch (err) {
             setError('Failed to set up PIN. Please try again.');
             setIsSubmitting(false);

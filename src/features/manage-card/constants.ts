@@ -1,10 +1,21 @@
 import type { FAQData } from '@/components/Modal/FAQModal'
 
-export const manageBtns = [
-  { icon: '/svg/limitations.svg', title: 'Limit Setting', href: '/limit-setting' },
-  { icon: '/svg/pin.svg', title: 'PIN Change', href: '/pin-change' },
-  { icon: '/svg/block.svg', title: 'Block/Unblock Card', href: '/card-status' },
-] as const
+export type CardType = 'debit' | 'credit' | 'prepaid' | 'gift'
+
+export const getManageBtns = (cardType: CardType) => {
+  const addMoneyOrRepayments =
+    cardType === 'credit'
+      ? { icon: '/svg/addmoney.svg', title: 'Make Repayments', href: '/make-repayments' }
+      : { icon: '/svg/addmoney.svg', title: 'Add Money', href: '/add-money' }
+
+  return [
+    { icon: '/svg/limitations.svg', title: 'Limit Setting', href: '/limit-setting' },
+    { icon: '/svg/pin.svg', title: 'PIN Change', href: '/pin-change' },
+    { icon: '/svg/block.svg', title: 'Block/Unblock Card', href: '/card-status' },
+    addMoneyOrRepayments,
+    { icon: '/svg/viewstatements.svg', title: 'View Statements', href: `/email-statements/${cardType}` },
+  ] as const
+}
 
 export const cardActions: Array<{
   icon: string
@@ -13,11 +24,11 @@ export const cardActions: Array<{
   faqData: FAQData
 }> = [
   {
-    icon: '/svg/phone.svg',
-    text: 'Link to a Physical Universal or Sigma Instacard',
+    icon: '/svg/phone.svg', 
+    text: 'Link to a Physical Card',
     route: '/link-physical-card',
     faqData: {
-      heading: 'Link to a Physical Universal or Sigma Instacard',
+      heading: 'Link to a Physical Card',
       bulletPoints: [
         'You can purchase a Universal Card or a Sigma card from your Bank or any Agent, Marketplace or order online.',
         'Universal Card or Sigma Card offer unified card experience such that you can link any Virtual Instacard to them to start using the virtual Instacard on any POS/ATM through the linked Universal or Sigma Instacard.',

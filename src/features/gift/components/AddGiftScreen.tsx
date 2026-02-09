@@ -23,7 +23,7 @@ export default function AddGiftScreen() {
   }, []);
 
   const handleNext = () => {
-    router.push('/otp');
+    router.push('/otp?type=gift');
   };
 
   return (

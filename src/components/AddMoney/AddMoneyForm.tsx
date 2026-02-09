@@ -49,6 +49,7 @@ export function AddMoneyForm({ amount, onAmountChange, onSelectRecommended, onOp
 
                 <InputField
                     value={amount}
+                   
                     onChange={(e) => onAmountChange(e.target.value)}
                     placeholder='Enter Amount'
                 />

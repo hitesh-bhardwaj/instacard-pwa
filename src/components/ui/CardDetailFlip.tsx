@@ -200,7 +200,7 @@ export default function CardDetailFlip() {
             <div
                 className="mt-2 w-full flex items-center justify-center pt-6  mx-auto relative rounded-2xl cursor-pointer"
                 style={{ perspective: '1000px' }}
-                onClick={handleFlip}
+                // onClick={handleFlip}
             >
                 <div
                     ref={cardRef}

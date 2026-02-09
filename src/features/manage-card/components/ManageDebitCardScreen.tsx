@@ -7,7 +7,7 @@ import { SheetContainer } from '@/components/ui'
 import Image from 'next/image'
 import React, { useState } from 'react'
 
-import { cardActions, manageBtns } from '../constants'
+import { cardActions, getManageBtns } from '../constants'
 import { useManageCardStore } from '../store/useManageCardStore'
 import { useRouter } from 'next/navigation'
 import { haptic } from '@/lib/useHaptics'
@@ -45,8 +45,8 @@ export default function ManageDebitCardScreen() {
             />
           </div>
 
-          <div className="flex gap-2">
-            {manageBtns.map((btn, index) => (
+          <div className="flex gap-4 overflow-x-auto">
+            {getManageBtns('debit').map((btn, index) => (
               <ManageBtn href={btn.href} key={index} icon={btn.icon} title={btn.title} />
             ))}
           </div>

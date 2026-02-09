@@ -7,10 +7,11 @@ import { SheetContainer } from '@/components/ui'
 import Image from 'next/image'
 import React, { useState } from 'react'
 
-import { cardActions, manageBtns } from '../constants'
+import { cardActions, getManageBtns } from '../constants'
 import { useManageCardStore } from '../store/useManageCardStore'
 import { useRouter } from 'next/navigation'
 import { haptic } from '@/lib/useHaptics'
+import Link from 'next/link'
 
 const creditCardDetails = [
   { label: 'Approved Credit Limit', value: '₦ 1,000,000' },
@@ -24,8 +25,7 @@ const creditCardDetails = [
 export default function ManageCreditCardScreen() {
   const { isFaqOpen, faqData, openFaq, closeFaq } = useManageCardStore()
   const router = useRouter()
-  const [showRemoveModal, setShowRemoveModal] = useState(false)
-
+  const [showRemoveModal, setShowRemoveModal] = useState(false) 
   const handleCardActionClick = (action: typeof cardActions[number]) => {
     if (action.text === 'Remove Card') {
       setShowRemoveModal(true)
@@ -60,9 +60,9 @@ export default function ManageCreditCardScreen() {
                 <p className='text-text-primary text-sm'>Minimum Payment Due</p>
                 <p className='text-text-primary text-xl font-medium'>₦ 62,500.00</p>
               </div>
-              <button className='bg-primary text-white px-6 py-3 rounded-full '>
+              <Link href='/make-repayments' className='bg-primary text-white px-6 py-3 rounded-full '>
                 Pay Now
-              </button>
+              </Link>
             </div>
 
             <div className='grid grid-cols-2 gap-2'>
@@ -74,9 +74,9 @@ export default function ManageCreditCardScreen() {
               ))}
             </div>
           </div>
-
-          <div className="flex gap-2">
-            {manageBtns.map((btn, index) => (
+                  
+          <div className="flex gap-4    overflow-x-auto   ">
+            {getManageBtns('credit').map((btn, index) => (
               <ManageBtn href={btn.href} key={index} icon={btn.icon} title={btn.title} />
             ))}
           </div>

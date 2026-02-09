@@ -22,7 +22,7 @@ export default function AddPrepaidScreen() {
   }, []);
 
   const handleNext = () => {
-    router.push('/otp');
+    router.push('/otp?type=prepaid');
   };
 
   return (
