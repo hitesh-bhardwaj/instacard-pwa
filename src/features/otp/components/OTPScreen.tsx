@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SheetContainer, OTPInput, OTPKeypad, Button } from '@/components/ui';
 import { notifyNavigation } from '@/lib/bridge';
@@ -9,7 +9,7 @@ const MAX_CODE_LENGTH = 6;
 
 type CardType = 'debit' | 'credit' | 'prepaid' | 'gift';
 
-export default function OTPScreen() {
+function OTPScreenContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const cardType = (searchParams.get('type') as CardType) || 'debit';
@@ -104,3 +104,10 @@ export default function OTPScreen() {
   );
 }
 
+export default function OTPScreen() {
+  return (
+    <Suspense fallback={<div className="h-screen flex items-center justify-center">Loading...</div>}>
+      <OTPScreenContent />
+    </Suspense>
+  );
+}

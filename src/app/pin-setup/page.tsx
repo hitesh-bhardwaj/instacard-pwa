@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SheetContainer, OTPInput, OTPKeypad, Button } from '@/components/ui';
 import { notifyNavigation } from '@/lib/bridge';
@@ -9,7 +9,7 @@ const PIN_LENGTH = 4;
 
 type CardType = 'debit' | 'credit' | 'prepaid' | 'gift';
 
-export default function PinSetupPage() {
+function PinSetupContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const cardType = (searchParams.get('type') as CardType) || 'debit';
@@ -135,5 +135,13 @@ export default function PinSetupPage() {
                 </div>
             </SheetContainer>
         </div>
+    );
+}
+
+export default function PinSetupPage() {
+    return (
+        <Suspense fallback={<div className="h-screen flex items-center justify-center">Loading...</div>}>
+            <PinSetupContent />
+        </Suspense>
     );
 }

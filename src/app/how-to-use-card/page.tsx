@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useState, useMemo, Suspense } from 'react';
 import Image from 'next/image';
 import { SheetContainer, Button } from '@/components/ui';
 import { notifyNavigation, notifyCardAdded } from '@/lib/bridge';
@@ -84,7 +84,7 @@ const getCardActions = (cardType: string): Array<{
 
 type CardType = 'debit' | 'credit' | 'prepaid' | 'gift';
 
-export default function HowToUseCardPage() {
+function HowToUseCardContent() {
     const [expandedSection, setExpandedSection] = useState<string | null>('virtual');
     const [isFaqOpen, setIsFaqOpen] = useState(false);
     const [faqData, setFaqData] = useState<FAQData | null>(null);
@@ -228,5 +228,13 @@ export default function HowToUseCardPage() {
 
             </SheetContainer>
         </div>
+    );
+}
+
+export default function HowToUseCardPage() {
+    return (
+        <Suspense fallback={<div className="h-screen flex items-center justify-center">Loading...</div>}>
+            <HowToUseCardContent />
+        </Suspense>
     );
 }
