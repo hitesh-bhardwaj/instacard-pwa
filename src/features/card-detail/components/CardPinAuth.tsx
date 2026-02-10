@@ -49,8 +49,8 @@ export default function CardPinAuth({
 
   return (
     <SheetContainer>
-      <div className="flex-1 flex flex-col">
-        <div className="flex-1 flex flex-col items-center justify-center gap-4 py-8">
+      <div className="flex-1 flex flex-col h-full overflow-hidden">
+        <div className="flex-1 flex flex-col items-center gap-4 py-8 overflow-y-auto">
           <p className="text-md text-center text-text-primary">
             {title}
           </p>
@@ -74,9 +74,11 @@ export default function CardPinAuth({
               Enter Your PIN
             </p>
             <OTPInput value={pin} maxLength={PIN_LENGTH} />
-            {error && (
-              <p className="text-xs text-red-500 text-center">{error}</p>
-            )}
+            <div className="h-4">
+              {error && (
+                <p className="text-xs text-red-500 text-center">{error}</p>
+              )}
+            </div>
           </div>
 
           <div className="w-full flex flex-col items-center gap-3 px-6">
@@ -96,7 +98,7 @@ export default function CardPinAuth({
           </div>
         </div>
 
-        <div className="w-full mt-auto pb-[calc(env(safe-area-inset-bottom,24px)+16px)]">
+        <div className="w-full shrink-0 py-4 pb-[calc(env(safe-area-inset-bottom,24px)+16px)]">
           <OTPKeypad onKeyPress={handleKeyPress} />
         </div>
       </div>
