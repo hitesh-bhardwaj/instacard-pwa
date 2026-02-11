@@ -1,5 +1,5 @@
-import { Link } from 'lucide-react'
 import Image from 'next/image'
+import Link from 'next/link'
 import React from 'react'
 
 type CardMockupProps = {
@@ -28,17 +28,16 @@ export default function CardMockup({
                     <div className='w-full  flex items-start justify-between pt-6 px-5  h-fit '>
 
                         {[
-                            { icon: '/svg/limitations.svg', title: 'Limit Setting' },
-                            { icon: '/svg/pin.svg', title: 'PIN Change' },
-                            { icon: '/svg/block-unblock.svg', title: 'Block/Unblock Card' },
+                            { icon: '/svg/limitations.svg', title: 'Limit Setting', href: '/limit-setting' },
+                            { icon: '/svg/pin.svg', title: 'PIN Change', href: '/pin-change' },
+                            { icon: '/svg/block-unblock.svg', title: 'Block/Unblock Card', href: '/card-status' },
                         ].map((item, index) => (
-                            <div key={index} className='aspect-square shrink-0 flex flex-col gap-2 items-center justify-center  '>
-
+                            <Link href={item.href} key={index} className='aspect-square shrink-0 flex flex-col gap-2 items-center justify-center  '>
                                 <div className='w-16 h-16 p-4.5 flex items-center rounded-full justify-center aspect-square bg-background2'>
                                     <Image src={item.icon} alt={item.title} className='h-full w-full object-contain' width={20} height={20} />
                                 </div>
                                 <p className='text-text-primary max-w-[70px] leading-[1.2] text-[12px]  w-full text-center '>{item.title}</p>
-                            </div>
+                            </Link>
                         ))}
 
                     </div>
