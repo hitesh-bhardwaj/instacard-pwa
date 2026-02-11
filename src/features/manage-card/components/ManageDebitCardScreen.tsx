@@ -12,6 +12,7 @@ import { cardActions, getManageBtns } from '../constants'
 import { useManageCardStore } from '../store/useManageCardStore'
 import { useRouter } from 'next/navigation'
 import { haptic } from '@/lib/useHaptics'
+import CardMockup from '@/components/ui/CardMockup'
 
 export default function ManageDebitCardScreen() {
   const { isFaqOpen, faqData, openFaq, closeFaq } = useManageCardStore()
@@ -36,15 +37,7 @@ export default function ManageDebitCardScreen() {
     <div className="h-screen flex flex-col">
       <SheetContainer>
         <div className="flex-1 overflow-auto pb-10 p-4 space-y-4">
-          <div className="flex items-center pt-5 justify-center">
-            <Image
-              src="/img/frontside.png"
-              alt="Debit Card Front"
-              width={340}
-              height={215}
-              className="w-[340px] h-[215px] object-contain"
-            />
-          </div>
+          <CardMockup imageSrc='/img/debitmockup.png' />
 
           <div className="flex gap-4 overflow-x-auto">
             {getManageBtns('debit').map((btn, index) => (

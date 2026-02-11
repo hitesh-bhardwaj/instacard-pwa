@@ -5,6 +5,7 @@ import RemoveCardModal from '@/components/Modal/RemoveCardModal'
 import ManageBtn from '@/components/ManageBtns/ManageBtn'
 import { SheetContainer } from '@/components/ui'
 import FaqIconButton from '@/components/ui/FaqIconButton'
+import EyeButton from '@/components/ui/EyeButton'
 import Image from 'next/image'
 import React, { useState } from 'react'
 
@@ -34,10 +35,6 @@ export default function ManagePrepaidCardScreen() {
     setShowRemoveModal(false)
   }
 
-  const toggleBalance = () => {
-    setShowBalance((prev) => !prev)
-  }
-
   return (
     <div className="h-screen flex flex-col">
       <SheetContainer>
@@ -65,9 +62,11 @@ export default function ManagePrepaidCardScreen() {
                   <span className='line-through mr-2'>N </span>
                   {showBalance ? '50,000.00' : '********'}
                 </p>
-                <button className='w-6 h-6 flex items-center justify-center' type='button' aria-label='Toggle balance visibility' onClick={toggleBalance}>
-                  <Image className='h-full w-full object-contain' src={showBalance ? '/svg/eyeopen.svg' : '/svg/eyeclose.svg'} alt={showBalance ? 'Show' : 'Hide'} width={16} height={16} />
-                </button>
+                <EyeButton
+                  isVisible={showBalance}
+                  onToggle={setShowBalance}
+                  size="md"
+                />
               </div>
             </div>
           </div>

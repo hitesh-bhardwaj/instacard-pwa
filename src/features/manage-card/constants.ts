@@ -11,7 +11,7 @@ export const getManageBtns = (cardType: CardType) => {
   return [
     { icon: '/svg/limitations.svg', title: 'Limit Setting', href: '/limit-setting' },
     { icon: '/svg/pin.svg', title: 'PIN Change', href: '/pin-change' },
-    { icon: '/svg/block.svg', title: 'Block/Unblock Card', href: '/card-status' },
+    { icon: '/svg/block-unblock.svg', title: 'Block/Unblock Card', href: '/card-status' },
     addMoneyOrRepayments,
     { icon: '/svg/viewstatements.svg', title: 'View Statements', href: `/email-statements/${cardType}` },
   ] as const
