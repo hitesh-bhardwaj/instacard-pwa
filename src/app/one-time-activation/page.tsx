@@ -1,9 +1,23 @@
-import { SheetContainer } from '@/components/ui'
+'use client'
+import { Button, SheetContainer } from '@/components/ui'
 import CardMockup from '@/components/ui/CardMockup'
 import { Copy } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import React from 'react'
+import { notifyUserCancelled, notifyCardAdded } from '@/lib/bridge'
 
 export default function page() {
+    const router = useRouter()
+
+    const handleExitPWA = () => {
+        // notifyCardAdded({
+        //     cardId: `card-${Date.now()}`,
+        //     cardType: 'gift',
+        //     lastFourDigits: '1234',
+        //   });
+        notifyUserCancelled()
+    }
+
     return (
         <div className='h-screen flex flex-col'>
             <SheetContainer>
@@ -15,6 +29,12 @@ export default function page() {
                         <Copy className='w-4 h-4 text-text-primary cursor-pointer' />
                     </div>
                     <p className='text-text-primary text-sm '>(Please ensure that you are giving the activation code to the person you are gifting this card to. If you share this code with someone you were not looking to gif this card, Instacard  & the Issuer would have no accountability to any exposure that you may encounter against the money you may have loaded)</p>
+                    <div className='mt-2 absolute bottom-5 left-1/2 -translate-x-1/2 px-4 w-full'>
+
+                        <Button onClick={handleExitPWA} fullWidth variant='primary' size='md'>
+                            Go to Home Screen
+                        </Button>
+                    </div>
                 </div>
             </SheetContainer>
         </div>

@@ -17,6 +17,8 @@ export interface AddMoneyFormProps {
 }
 
 export function AddMoneyForm({ amount, onAmountChange, onSelectRecommended, onOpenModal, showKycTier = true, btnTitle = 'Add Money' }: AddMoneyFormProps) {
+    const isButtonDisabled = !amount || amount.trim() === ''
+
     return (
         <div className='space-y-5 '>
             {showKycTier && (
@@ -76,11 +78,10 @@ export function AddMoneyForm({ amount, onAmountChange, onSelectRecommended, onOp
                     })}
                 </div>
 
-                <Button fullWidth className='bg-primary text-white' onClick={onOpenModal}>
+                <Button fullWidth className='bg-primary text-white' onClick={onOpenModal} disabled={isButtonDisabled}>
                     {btnTitle}
                 </Button>
             </div>
         </div>
     )
 }
-

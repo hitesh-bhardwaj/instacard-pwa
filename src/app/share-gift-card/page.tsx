@@ -1,9 +1,10 @@
 'use client'
-import { SheetContainer } from '@/components/ui'
+import { Button, SheetContainer } from '@/components/ui'
 import Image from 'next/image'
 
 import { Copy } from 'lucide-react'
 import CardMockup from '@/components/ui/CardMockup'
+import { useRouter } from 'next/navigation'
 
 const giftCardDetails = [
     { label: 'Name', value: 'Nirdesh Malik' },
@@ -12,6 +13,7 @@ const giftCardDetails = [
 ]
 
 export default function page() {
+    const router = useRouter()
     return (
         <div className="h-screen flex flex-col">
             <SheetContainer>
@@ -51,6 +53,12 @@ export default function page() {
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <div className='mt-2 absolute bottom-5 left-1/2 -translate-x-1/2 px-4 w-full'>
+
+                        <Button onClick={() => router.push('/one-time-activation')} fullWidth variant='primary' size='md'>
+                           Get Activation Code
+                        </Button>
                     </div>
                 </div>
             </SheetContainer>

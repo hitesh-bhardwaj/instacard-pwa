@@ -39,7 +39,11 @@ function OTPScreenContent() {
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
-    router.push(`/success?type=${cardType}`);
+    if (cardType === 'gift') {
+      router.push('/gift-a-card');
+    } else {
+      router.push(`/success?type=${cardType}`);
+    }
   };
 
   const handleResend = () => {

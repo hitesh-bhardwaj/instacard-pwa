@@ -5,6 +5,7 @@ import Image from 'next/image'
 
 import { Copy } from 'lucide-react'
 import CardMockup from '@/components/ui/CardMockup'
+import { useRouter } from 'next/navigation'
 
 const giftCardDetails = [
     { label: 'Name', value: 'Nirdesh Malik' },
@@ -14,7 +15,7 @@ const giftCardDetails = [
 
 export default function page() {
     const [showBalance, setShowBalance] = useState(false)
-
+    const router = useRouter()
     const toggleBalance = () => {
         setShowBalance(!showBalance)
     }
@@ -60,7 +61,7 @@ export default function page() {
                     </div>
                     <div className='mt-2 w-full'>
 
-                        <Button fullWidth variant='primary' size='md'>
+                        <Button onClick={() => router.push('/share-gift-card')} fullWidth variant='primary' size='md'>
                             Proceed to Gift this Card
                         </Button>
                     </div>
