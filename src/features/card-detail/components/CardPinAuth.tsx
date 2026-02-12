@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useCallback } from 'react'
-import { SheetContainer, OTPInput, OTPKeypad, Button } from '@/components/ui'
+import { SheetContainer, OTPInput, Button } from '@/components/ui'
 import Image from 'next/image'
 
 type CardPinAuthProps = {
@@ -23,18 +23,6 @@ export default function CardPinAuth({
 }: CardPinAuthProps) {
   const [pin, setPin] = useState('')
   const [error, setError] = useState('')
-
-  const handleKeyPress = useCallback((key: string) => {
-    setError('')
-    if (key === 'del') {
-      setPin((prev) => prev.slice(0, -1))
-      return
-    }
-    setPin((prev) => {
-      if (prev.length >= PIN_LENGTH) return prev
-      return `${prev}${key}`
-    })
-  }, [])
 
   const handleContinue = () => {
     if (pin === correctPin) {
@@ -73,7 +61,7 @@ export default function CardPinAuth({
             <p className="text-md text-center text-text-primary">
               Enter Your PIN
             </p>
-            <OTPInput value={pin} maxLength={PIN_LENGTH} />
+            <OTPInput value={pin} maxLength={PIN_LENGTH} onChange={setPin} />
             <div className="h-4">
               {error && (
                 <p className="text-xs text-red-500 text-center">{error}</p>
@@ -81,26 +69,24 @@ export default function CardPinAuth({
             </div>
           </div>
 
-          <div className="w-full flex flex-col items-center gap-3 px-6">
-            <Button
-              fullWidth
-              onClick={handleContinue}
-              disabled={!isComplete}
-            >
-              Continue
-            </Button>
-            <button
-              type="button"
-              className="text-xs text-primary bg-transparent border-none cursor-pointer"
-            >
-              Forgot PIN ?
-            </button>
-          </div>
+        </div>
+        <div className="w-full flex flex-col items-center mb-10 gap-3 px-6">
+          <Button
+            fullWidth
+            onClick={handleContinue}
+            disabled={!isComplete}
+          >
+            Continue
+          </Button>
+          <button
+            type="button"
+            className="text-xs text-primary bg-transparent border-none cursor-pointer"
+          >
+            Forgot PIN ?
+          </button>
         </div>
 
-        <div className="w-full shrink-0 py-4 pb-[calc(env(safe-area-inset-bottom,24px)+16px)]">
-          <OTPKeypad onKeyPress={handleKeyPress} />
-        </div>
+
       </div>
     </SheetContainer>
   )

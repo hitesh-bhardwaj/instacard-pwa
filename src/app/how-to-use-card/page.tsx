@@ -9,6 +9,7 @@ import FAQModal from '@/components/Modal/FAQModal';
 import FaqIconButton from '@/components/ui/FaqIconButton';
 import type { FAQData } from '@/components/Modal/FAQModal';
 import { useRouter, useSearchParams } from 'next/navigation';
+import CardMockup from '@/components/ui/CardMockup';
 
 interface AccordionItemProps {
     title: string;
@@ -16,6 +17,8 @@ interface AccordionItemProps {
     onToggle: () => void;
     children: React.ReactNode;
 }
+
+type CardType = 'debit' | 'credit' | 'prepaid' | 'gift';
 
 function AccordionItem({ title, isExpanded, onToggle, children }: AccordionItemProps) {
     return (
@@ -43,6 +46,143 @@ function AccordionItem({ title, isExpanded, onToggle, children }: AccordionItemP
         </div>
     );
 }
+
+const CARD_TYPE_CONFIG: Record<CardType, {
+    label: string;
+    mockupImage: string;
+    description: string;
+    accordion: Array<{
+        id: string;
+        title: string;
+        intro: string;
+        bullets: string[];
+    }>;
+}> = {
+    debit: {
+        label: 'Debit Card',
+        mockupImage: '/img/debitmockup.png',
+        description: 'You can simply use this Virtual Debit Card using any of the following method:',
+        accordion: [
+            {
+                id: 'virtual',
+                title: 'Use Virtual Debit Card Directly',
+                intro: 'Open your Digital Instacard Wallet and select this card to:',
+                bullets: [
+                    'Make Online Payment using security of a Dynamic CVV',
+                    'Make the selected card your Default Contactless card on your NFC enabled phone to Tap your Phone on any POS for initiating a contactless payment, similar to how you make contactless payment using a Physical Card.',
+                ],
+            },
+            {
+                id: 'link-physical',
+                title: 'Link to Physical Card',
+                intro: 'You can link this Virtual Instacard to a Physical Card:',
+                bullets: [
+                    'Request a Physical Card from any FCMB branch near you',
+                    'Link your Virtual Instacard to the Physical Card to share the same account and transaction history',
+                    'Use the Physical Card at ATMs and POS terminals for cash withdrawals and in-store purchases',
+                ],
+            },
+        ],
+    },
+    credit: {
+        label: 'Credit Card',
+        mockupImage: '/img/creditmockup.png',
+        description: 'You can simply use this Virtual Credit Card using any of the following method:',
+        accordion: [
+            {
+                id: 'virtual',
+                title: 'Use Virtual Credit Card Directly',
+                intro: 'Open your Digital Instacard Wallet and select this card to:',
+                bullets: [
+                    'Make Online Payments using security of a Dynamic CVV with your available credit limit',
+                    'Make the selected card your Default Contactless card on your NFC enabled phone to Tap your Phone on any POS for initiating a contactless payment.',
+                ],
+            },
+            {
+                id: 'link-physical',
+                title: 'Link to Physical Card',
+                intro: 'You can link this Virtual Instacard to a Physical Card:',
+                bullets: [
+                    'Request a Physical Card from any FCMB branch near you',
+                    'Link your Virtual Instacard to the Physical Card to share the same credit limit and transaction history',
+                    'Use the Physical Card at ATMs and POS terminals for purchases on credit',
+                ],
+            },
+            {
+                id: 'repayment',
+                title: 'Repayment',
+                intro: 'Manage your credit card repayments easily:',
+                bullets: [
+                    'View your outstanding balance and minimum due amount anytime',
+                    'Set up auto-debit from your linked bank account for timely repayments',
+                    'Make partial or full payments before the due date to avoid interest charges',
+                ],
+            },
+        ],
+    },
+    prepaid: {
+        label: 'Pre-Paid Card',
+        mockupImage: '/img/prepaid.png',
+        description: 'You can simply use this Virtual Pre-Paid Card using any of the following method:',
+        accordion: [
+            {
+                id: 'virtual',
+                title: 'Use Virtual Pre-Paid Card Directly',
+                intro: 'Open your Digital Instacard Wallet and select this card to:',
+                bullets: [
+                    'Make Online Payments using security of a Dynamic CVV with your loaded balance',
+                    'Make the selected card your Default Contactless card on your NFC enabled phone to Tap your Phone on any POS for initiating a contactless payment.',
+                ],
+            },
+            {
+                id: 'add-money',
+                title: 'Add Money to Card',
+                intro: 'Top up your Pre-Paid Card easily:',
+                bullets: [
+                    'Load money from your linked bank account instantly',
+                    'Set up recurring top-ups so you never run out of balance',
+                    'Track your loaded balance and spending in real-time',
+                ],
+            },
+            {
+                id: 'link-physical',
+                title: 'Link to Physical Card',
+                intro: 'You can link this Virtual Instacard to a Physical Card:',
+                bullets: [
+                    'Request a Physical Card from any FCMB branch near you',
+                    'Link your Virtual Instacard to the Physical Card to share the same loaded balance',
+                    'Use the Physical Card at ATMs and POS terminals for purchases',
+                ],
+            },
+        ],
+    },
+    gift: {
+        label: 'Gift Card',
+        mockupImage: '/img/gift.png',
+        description: 'You can simply use this Virtual Gift Card using any of the following method:',
+        accordion: [
+            {
+                id: 'virtual',
+                title: 'Use Virtual Gift Card Directly',
+                intro: 'Open your Digital Instacard Wallet and select this card to:',
+                bullets: [
+                    'Make Online Payments using security of a Dynamic CVV with your gift card balance',
+                    'Share the card details with the recipient so they can use it for online purchases',
+                ],
+            },
+            {
+                id: 'share',
+                title: 'Share Gift Card',
+                intro: 'Send your Gift Card to someone special:',
+                bullets: [
+                    'Share the Gift Card via email, SMS or any messaging app',
+                    'Add a personalized message for the recipient',
+                    'The recipient can add the Gift Card to their own Instacard Wallet',
+                ],
+            },
+        ],
+    },
+};
 
 const getCardActions = (cardType: string): Array<{
     icon: string;
@@ -83,8 +223,6 @@ const getCardActions = (cardType: string): Array<{
 
     ];
 
-type CardType = 'debit' | 'credit' | 'prepaid' | 'gift';
-
 function HowToUseCardContent() {
     const [expandedSection, setExpandedSection] = useState<string | null>('virtual');
     const [isFaqOpen, setIsFaqOpen] = useState(false);
@@ -92,6 +230,7 @@ function HowToUseCardContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const cardType = (searchParams.get('type') as CardType) || 'debit';
+    const config = CARD_TYPE_CONFIG[cardType];
     const cardActions = useMemo(() => getCardActions(cardType), [cardType]);
     useEffect(() => {
         notifyNavigation('how-to-use-card');
@@ -123,18 +262,7 @@ function HowToUseCardContent() {
                     </div>
 
                     {/* Card Preview */}
-                    <div className="mt-4">
-                        <div className="w-full aspect-[1.58] rounded-2xl overflow-hidden relative">
-                            <Image
-                                src="/img/frontside.png"
-                                alt="FCMB Magic Debit Card"
-                                width={1000}
-                                height={1000}
-                                className="w-full h-full object-contain"
-                            />
-                            <p className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-2xl w-full text-center select-none">0000 0000 0000 0000</p>
-                        </div>
-                    </div>
+                   <CardMockup isclickable={false} imageSrc={config.mockupImage} />
 
                     {/* How to use section */}
                     <div className="mt-6">
@@ -142,57 +270,32 @@ function HowToUseCardContent() {
                             How to use this card?
                         </h2>
                         <p className="text-xs text-text-primary text-center mt-2">
-                            You can simply use this Virtual Debit Card using any of the following method:
+                            {config.description}
                         </p>
                     </div>
 
                     {/* Accordion Sections */}
                     <div className="mt-4  space-y-3 pb-6">
-                        {/* Use Virtual Card Directly */}
-                        <AccordionItem
-                            title="Use Virtual bg-background2 Card Directly"
-                            isExpanded={expandedSection === 'virtual'}
-                            onToggle={() => toggleSection('virtual')}
-                        >
-                            <p className="text-xs text-text-primary mb-3">
-                                Open your Digital Instacard Wallet and select this card to:
-                            </p>
-                            <ul className="space-y-2 text-xs text-text-primary">
-                                <li className="flex items-start gap-2">
-                                    <span className="text-primary">•</span>
-                                    <span>Make Online Payment using security of a Dynamic CVV</span>
-                                </li>
-                                <li className="flex items-start gap-2">
-                                    <span className="text-primary">•</span>
-                                    <span>Make the selected card your Default Contactless card on your NFC enabled phone to Tap your Phone on any POS for initiating a contactless payment, similar to how you make contactless payment using a Physical Card.</span>
-                                </li>
-                            </ul>
-                        </AccordionItem>
-                        <AccordionItem
-                            title="Link to Physical Card"
-                            isExpanded={expandedSection === 'link-physical'}
-                            onToggle={() => toggleSection('link-physical')}
-                        >
-                            <p className="text-xs text-text-primary mb-3">
-                                You can link this Virtual Instacard to a Physical Card:
-                            </p>
-                            <ul className="space-y-2 text-xs text-text-primary">
-                                <li className="flex items-start gap-2">
-                                    <span className="text-primary  ">•</span>
-                                    <span>Request a Physical Card from any FCMB branch near you</span>
-                                </li>
-                                <li className="flex items-start gap-2">
-                                    <span className="text-primary ">•</span>
-                                    <span>Link your Virtual Instacard to the Physical Card to share the same account and transaction history</span>
-                                </li>
-                                <li className="flex items-start gap-2">
-                                    <span className="text-primary ">•</span>
-                                    <span>Use the Physical Card at ATMs and POS terminals for cash withdrawals and in-store purchases</span>
-                                </li>
-                            </ul>
-                        </AccordionItem>
-
-
+                        {config.accordion.map((section) => (
+                            <AccordionItem
+                                key={section.id}
+                                title={section.title}
+                                isExpanded={expandedSection === section.id}
+                                onToggle={() => toggleSection(section.id)}
+                            >
+                                <p className="text-xs text-text-primary mb-3">
+                                    {section.intro}
+                                </p>
+                                <ul className="space-y-2 text-xs text-text-primary">
+                                    {section.bullets.map((bullet, i) => (
+                                        <li key={i} className="flex items-start gap-2">
+                                            <span className="text-primary">•</span>
+                                            <span>{bullet}</span>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </AccordionItem>
+                        ))}
                     </div>
 
 

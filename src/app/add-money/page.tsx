@@ -11,6 +11,7 @@ import Image from 'next/image'
 import React, { useCallback, useState } from 'react'
 import { PlusIcon, ChevronDownIcon, CheckIcon } from 'lucide-react'
 import Balance from '@/components/ui/Balance'
+import { useRouter } from 'next/navigation'
 
 type ModalView = 'cards' | 'addCard'
 
@@ -28,6 +29,7 @@ const bankAccounts: BankAccount[] = [
 ]
 
 export default function AddMoneyPage() {
+    const router = useRouter()
     const [showBalance, setShowBalance] = useState(false)
     const [amount, setAmount] = useState('')
     const [modalOpen, setModalOpen] = useState(false)
@@ -71,6 +73,11 @@ export default function AddMoneyPage() {
         setSelectedBank(bank)
         setDropdownOpen(false)
     }, [])
+
+    const handleAddMoney = useCallback(() => {
+        closeModal()
+        router.push('/add-money/verify-email')
+    }, [closeModal, router])
 
     const renderCardsContent = () => {
         if (modalView === 'cards') {
@@ -153,7 +160,7 @@ export default function AddMoneyPage() {
             <SheetContainer>
                 <div className="flex-1 overflow-auto pb-10 p-4 space-y-5">
                     <CardMockup />
-                   <Balance />
+                    <Balance />
 
                     <AddMoneyForm
                         amount={amount}
@@ -190,7 +197,7 @@ export default function AddMoneyPage() {
                 </div>
                 <div className='mt-5'>
 
-                    <Button fullWidth className='bg-primary text-white' onClick={closeModal}>Add <span className='line-through mx-1'>N</span> {amount}</Button>
+                    <Button fullWidth className='bg-primary text-white' onClick={handleAddMoney}>Add <span className='line-through mx-1'>N</span> {amount}</Button>
                 </div>
             </BottomSheetModal>
 

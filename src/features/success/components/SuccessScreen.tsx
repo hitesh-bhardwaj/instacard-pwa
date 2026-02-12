@@ -2,13 +2,31 @@
 
 import { useEffect } from 'react';
 import { SheetContainer, Button } from '@/components/ui';
-import { notifyNavigation, notifyCardAdded } from '@/lib/bridge';
+import { notifyNavigation } from '@/lib/bridge';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 
 type CardType = 'debit' | 'credit' | 'prepaid' | 'gift';
 
-export default function SuccessScreen() {
+export type SuccessScreenProps = {
+  /** Custom title (e.g. "Success!") */
+  title?: string;
+  /** Custom description */
+  description?: string;
+  /** Button label */
+  buttonText?: string;
+  /** Custom button action; when set, card preview and default "Activate Now" are hidden */
+  onButtonClick?: () => void;
+};
+
+export default function SuccessScreen({
+  title,
+  description,
+  buttonText,
+  onButtonClick,
+}: SuccessScreenProps = {}) {
+  const isCustom = Boolean(onButtonClick);
+
   useEffect(() => {
     notifyNavigation('success');
   }, []);
@@ -16,7 +34,12 @@ export default function SuccessScreen() {
   const searchParams = useSearchParams();
   const cardType = (searchParams.get('type') as CardType) || 'debit';
 
-  
+  const displayTitle = title ?? 'Payment was Successful!';
+  const displayDescription =
+    description ??
+    'We have successfully collected card issuance Fee of N XXXX for the Virtual Instacard you had requested to be issued.';
+  const displayButtonText = buttonText ?? 'Activate Now';
+  const handleButtonClick = onButtonClick ?? (() => router.push(`/pin-setup?type=${cardType}`));
 
   return (
     <div className="h-screen flex flex-col">
@@ -35,34 +58,35 @@ export default function SuccessScreen() {
             />
             <div className="w-full bg-white/60 backdrop-blur-xl rounded-2xl border-text-secondary/20 space-y-4 py-6 z-5 relative border p-4  text-center mt-4">
               <p className="text-lg font-semibold text-text-primary">
-                Payment was Successful!
+                {displayTitle}
               </p>
               <p className="text-sm text-text-secondary mt-2">
-                We have successfully collected card issuance Fee of N XXXX for the Virtual
-                Instacard you had requested to be issued.
+                {displayDescription}
               </p>
             </div>
           </div>
 
-          {/* Card preview */}
-          <div>
-            <p className="text-[15px] pl-4 text-text-primary w-full text-left leading-normal m-0">
-              Your Instacard is Ready for Activation.
-            </p>
-            <div className="mt-2 w-full  aspect-[1.58] rounded-2xl p-2flex flex-col justify-between ">
-              <Image
-                src={'/img/debitCard.png'}
-                alt="Debit Card"
-                width={1000}
-                height={1000}
-                className="h-full w-full object-contain"
-              />
+          {/* Card preview - only for default card issuance flow */}
+          {!isCustom && (
+            <div>
+              <p className="text-[15px] pl-4 text-text-primary w-full text-left leading-normal m-0">
+                Your Instacard is Ready for Activation.
+              </p>
+              <div className="mt-2 w-full  aspect-[1.58] rounded-2xl p-2flex flex-col justify-between ">
+                <Image
+                  src={'/img/debitCard.png'}
+                  alt="Debit Card"
+                  width={1000}
+                  height={1000}
+                  className="h-full w-full object-contain"
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
         <div className="p-4 pb-[calc(env(safe-area-inset-bottom,24px)+24px)] pt-2">
-          <Button fullWidth onClick={() => router.push(`/pin-setup?type=${cardType}`)}>
-          Activate Now
+          <Button fullWidth onClick={handleButtonClick}>
+            {displayButtonText}
           </Button>
         </div>
 

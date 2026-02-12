@@ -13,6 +13,7 @@ import { cardActions, getManageBtns } from '../constants'
 import { useManageCardStore } from '../store/useManageCardStore'
 import { useRouter } from 'next/navigation'
 import { haptic } from '@/lib/useHaptics'
+import CardMockup from '@/components/ui/CardMockup'
 
 export default function ManagePrepaidCardScreen() {
   const { isFaqOpen, faqData, openFaq, closeFaq } = useManageCardStore()
@@ -39,18 +40,8 @@ export default function ManagePrepaidCardScreen() {
     <div className="h-screen flex flex-col">
       <SheetContainer>
         <div className="flex-1 overflow-auto pb-10 p-4 space-y-4">
-          <div className="flex items-center pt-5 justify-center relative">
-            <Image
-              src="/img/prepaid.png"
-              alt="Debit Card Front"
-              width={340}
-              height={215}
-              className="w-[340px] h-[215px] object-contain"
-            />
-       
-          </div>
-
-          <div className='w-full flex rounded-xl gap-2 '>
+         <CardMockup imageSrc='/img/prepaid.png' />
+          <div className='w-full flex rounded-xl mt-4 gap-2 '>
             <div className='flex-1 p-4 py-6  border border-text-primary/20 rounded-2xl  flex flex-col gap-4'>
               <p className='text-text-primary text-sm'>Wallet Account</p>
               <p className='text-text-primary font-medium'>12344567890</p>
