@@ -1,20 +1,40 @@
 import type { FAQData } from '@/components/Modal/FAQModal'
-
-export type CardType = 'debit' | 'credit' | 'prepaid' | 'gift'
+import type { CardType } from '@/lib/types'
+import { routes } from '@/lib/routes'
 
 export const getManageBtns = (cardType: CardType) => {
-  const addMoneyOrRepayments =
-    cardType === 'credit'
-      ? { icon: '/svg/addmoney.svg', title: 'Make Repayments', href: '/make-repayments' }
-      : { icon: '/svg/addmoney.svg', title: 'Add Money', href: '/add-money' }
-
-  return [
-    { icon: '/svg/limitations.svg', title: 'Limit Setting', href: '/limit-setting' },
-    { icon: '/svg/pin.svg', title: 'PIN Change', href: '/pin-change' },
-    { icon: '/svg/block-unblock.svg', title: 'Block/Unblock Card', href: '/card-status' },
-    addMoneyOrRepayments,
-    { icon: '/svg/viewstatements.svg', title: 'View Statements', href: `/email-statements/${cardType}` },
+  const baseBtns = [
+    { icon: '/svg/limitations.svg', title: 'Limit Setting', href: routes.limitSetting },
+    { icon: '/svg/pin.svg', title: 'PIN Change', href: routes.pinChange },
+    { icon: '/svg/block-unblock.svg', title: 'Block/Unblock Card', href: routes.cardStatus },
   ] as const
+
+  if (cardType === 'debit') {
+    return baseBtns
+  }
+
+  if (cardType === 'prepaid') {
+    return [
+      ...baseBtns,
+      { icon: '/svg/addmoney.svg', title: 'Add Money', href: routes.addMoney },
+      { icon: '/svg/viewstatements.svg', title: 'View Statements', href: routes.emailStatements(cardType) },
+    ] as const
+  }
+
+  if (cardType === 'credit') {
+    return [
+      { icon: '/svg/viewstatements.svg', title: 'View Statements', href: routes.emailStatements(cardType) },
+      { icon: '/svg/addmoney.svg', title: 'Make Repayments', href: routes.makeRepayments },
+    ] as const
+  }
+  if (cardType === 'gift') {
+    return [
+      ...baseBtns,
+      { icon: '/svg/viewstatements.svg', title: 'View Statements', href: routes.emailStatements(cardType) },
+    ] as const
+  }
+
+  return baseBtns
 }
 
 export const cardActions: Array<{
@@ -26,7 +46,7 @@ export const cardActions: Array<{
   {
     icon: '/svg/phone.svg', 
     text: 'Link to a Physical Card',
-    route: '/link-physical-card',
+    route: routes.linkPhysicalCard,
     faqData: {
       heading: 'Link to a Physical Card',
       bulletPoints: [
@@ -41,7 +61,7 @@ export const cardActions: Array<{
   {
     icon: '/svg/del.svg',
     text: 'Remove Card',
-    route: '/manage-card',
+    route: '#',
     faqData: {
       heading: 'Remove Card',
       bulletPoints: [
@@ -54,4 +74,3 @@ export const cardActions: Array<{
     },
   },
 ]
-

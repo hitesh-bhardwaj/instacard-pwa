@@ -29,7 +29,6 @@ export default function ManageDebitCardScreen() {
   }
 
   const handleRemoveCard = () => {
-    // TODO: Implement card removal API call
     console.log('Card removed')
     setShowRemoveModal(false)
   }

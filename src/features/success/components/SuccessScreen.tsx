@@ -5,8 +5,8 @@ import { SheetContainer, Button } from '@/components/ui';
 import { notifyNavigation } from '@/lib/bridge';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
-
-type CardType = 'debit' | 'credit' | 'prepaid' | 'gift';
+import { routes } from '@/lib/routes';
+import type { CardType } from '@/lib/types';
 
 export type SuccessScreenProps = {
   /** Custom title (e.g. "Success!") */
@@ -39,7 +39,7 @@ export default function SuccessScreen({
     description ??
     'We have successfully collected card issuance Fee of N XXXX for the Virtual Instacard you had requested to be issued.';
   const displayButtonText = buttonText ?? 'Activate Now';
-  const handleButtonClick = onButtonClick ?? (() => router.push(`/pin-setup?type=${cardType}`));
+  const handleButtonClick = onButtonClick ?? (() => router.push(routes.pinSetup(cardType)));
 
   return (
     <div className="h-screen flex flex-col">

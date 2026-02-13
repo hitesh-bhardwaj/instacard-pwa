@@ -110,15 +110,15 @@ function PinSetupContent() {
             <SheetContainer>
                 <div className="flex-1 flex flex-col overflow-hidden">
                     <div className="flex-1 p-6 py-10 px-5 text-center flex flex-col items-center justify-start gap-2 overflow-auto">
-                        <h2 className="text-xl font-semibold text-text-primary m-0">
-                            PIN Setup
+                        <h2 className="text-xl font-medium text-text-primary m-0">
+                          Create New PIN
                         </h2>
                         <p className="text-[13px] text-text-primary m-0">
                             Please setup your PIN for this Instacard
                         </p>
 
                         <div className="mt-4 w-full">
-                            <p className="text-sm text-text-primary mb-2">Enter 4-digit PIN</p>
+                            <p className="text-sm text-text-primary mb-2">Enter New PIN</p>
                             <div
                                 className={`cursor-pointer flex items-center justify-center gap-3`}
                             >
@@ -136,7 +136,7 @@ function PinSetupContent() {
                         </div>
 
                         <div className="mt-3 w-full">
-                            <p className="text-sm text-text-primary mb-2">Re-Enter PIN</p>
+                            <p className="text-sm text-text-primary mb-2">Confirm New PIN</p>
                             <div
                                 className={`cursor-pointer flex items-center justify-center gap-3`}
                             >
@@ -175,7 +175,7 @@ function PinSetupContent() {
     );
 }
 
-export default function PinSetupPage() {
+export default function page() {
     return (
         <Suspense fallback={<div className="h-screen flex items-center justify-center">Loading...</div>}>
             <PinSetupContent />

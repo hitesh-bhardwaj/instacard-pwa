@@ -1,33 +1,19 @@
 'use client'
 
 import CardMockup from '@/components/ui/CardMockup'
-import { SheetContainer, OTPInput, OTPKeypad, Button } from '@/components/ui'
-import React, { useState, useCallback } from 'react'
+import { SheetContainer, OTPInput, Button } from '@/components/ui'
+import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { routes } from '@/lib/routes'
+import { PIN_LENGTH } from '@/lib/types'
 
-const PIN_LENGTH = 4
-
-export default function page() {
+export default function PinChangePage() {
     const [pin, setPin] = useState('')
-    const [error, setError] = useState('')
     const router = useRouter()
 
-    const handleKeyPress = useCallback((key: string) => {
-        setError('')
-        if (key === 'del') {
-            setPin((prev) => prev.slice(0, -1))
-            return
-        }
-        setPin((prev) => {
-            if (prev.length >= PIN_LENGTH) return prev
-            return `${prev}${key}`
-        })
-    }, [])
-
+    // Mockup: just navigate forward when PIN is complete
     const handleContinue = () => {
-        // TODO: Verify PIN against backend
-        console.log('Verifying PIN:', pin)
-        router.push('/pin-change/pin-setup')
+        router.push(routes.pinChangeSetup)
     }
 
     const isComplete = pin.length === PIN_LENGTH
@@ -49,11 +35,6 @@ export default function page() {
                                 maxLength={PIN_LENGTH}
                                 onChange={setPin}
                             />
-                            <div className="h-4">
-                                {error && (
-                                    <p className="text-xs text-red-500 text-center">{error}</p>
-                                )}
-                            </div>
                         </div>
 
                     </div>

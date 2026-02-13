@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, SheetContainer } from '../ui'
 import Image from 'next/image'
 import Link from 'next/link'
+import { routes } from '@/lib/routes'
 
 export default function LinkCardScreen() {
     return (
@@ -28,7 +29,7 @@ export default function LinkCardScreen() {
 
                 </div>
                 <div className=" w-full p-4 pb-[calc(env(safe-area-inset-bottom,24px)+24px)] pt-2">
-                    <Link href='/link-physical-card/sigma-cards-options' className='bg-primary p-4 text-center text-white flex items-center justify-center  rounded-full w-full'>
+                    <Link href={routes.sigmaCardsOptions} className='bg-primary p-4 text-center text-white flex items-center justify-center  rounded-full w-full'>
                         Apply Now
                     </Link>
                 </div>

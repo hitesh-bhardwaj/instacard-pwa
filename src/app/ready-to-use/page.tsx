@@ -6,6 +6,7 @@ import Image from 'next/image'
 import { Copy } from 'lucide-react'
 import CardMockup from '@/components/ui/CardMockup'
 import { useRouter } from 'next/navigation'
+import { routes } from '@/lib/routes'
 
 const giftCardDetails = [
     { label: 'Name', value: 'Nirdesh Malik' },
@@ -61,7 +62,7 @@ export default function page() {
                     </div>
                     <div className='mt-2 w-full'>
 
-                        <Button onClick={() => router.push('/share-gift-card')} fullWidth variant='primary' size='md'>
+                        <Button onClick={() => router.push(routes.shareGiftCard)} fullWidth variant='primary' size='md'>
                             Proceed to Gift this Card
                         </Button>
                     </div>

@@ -5,10 +5,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { SheetContainer, OTPInput, Button } from '@/components/ui';
 import { notifyNavigation } from '@/lib/bridge';
 import EyeButton from '@/components/ui/EyeButton';
-
-const PIN_LENGTH = 4;
-
-type CardType = 'debit' | 'credit' | 'prepaid' | 'gift';
+import { routes } from '@/lib/routes';
+import { PIN_LENGTH } from '@/lib/types';
+import type { CardType } from '@/lib/types';
 
 function PinSetupContent() {
     const router = useRouter();
@@ -26,19 +25,16 @@ function PinSetupContent() {
     }, []);
 
     const handleContinue = async () => {
-        // Validate PIN is entered
         if (pin.length !== PIN_LENGTH) {
             setError('Please enter a 4-digit PIN');
             return;
         }
 
-        // Validate confirm PIN is entered
         if (confirmPin.length !== PIN_LENGTH) {
             setError('Please re-enter your PIN');
             return;
         }
 
-        // Validate PINs match
         if (pin !== confirmPin) {
             setError('PINs do not match. Please try again.');
             return;
@@ -47,36 +43,9 @@ function PinSetupContent() {
         setIsSubmitting(true);
         setError(null);
 
-        try {
-            // Simulate API call
-            await new Promise((resolve) => setTimeout(resolve, 1500));
-
-            router.push(`/how-to-use-card?type=${cardType}`);
-        } catch (err) {
-            setError('Failed to set up PIN. Please try again.');
-            setIsSubmitting(false);
-        }
-    };
-
-    const renderPinDisplay = (value: string, isVisible: boolean) => {
-        return (
-            <div className="flex justify-center gap-3">
-                {Array.from({ length: PIN_LENGTH }).map((_, index) => (
-                    <div
-                        key={index}
-                        className="w-12 h-12 border-2 border-gray-300 rounded-xl flex items-center justify-center bg-white"
-                    >
-                        {index < value.length ? (
-                            isVisible ? (
-                                <span className="text-xl font-semibold text-text-primary">{value[index]}</span>
-                            ) : (
-                                <div className="w-3 h-3 bg-text-primary rounded-full" />
-                            )
-                        ) : null}
-                    </div>
-                ))}
-            </div>
-        );
+        // Mockup: simulate delay then navigate
+        await new Promise((resolve) => setTimeout(resolve, 1500));
+        router.push(routes.howToUseCard(cardType));
     };
 
     return (
@@ -104,7 +73,7 @@ function PinSetupContent() {
                                 <EyeButton
                                     isVisible={isPinVisible}
                                     onToggle={setIsPinVisible}
-                                    size="sm"
+                                    size="md"
                                 />
                             </div>
                         </div>
@@ -122,7 +91,7 @@ function PinSetupContent() {
                                 <EyeButton
                                     isVisible={isConfirmPinVisible}
                                     onToggle={setIsConfirmPinVisible}
-                                    size="sm"
+                                    size="md"
                                 />
                             </div>
                         </div>

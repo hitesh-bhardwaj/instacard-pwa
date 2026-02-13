@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { SheetContainer, RadioOption, Checkbox, Button } from '@/components/ui';
 import { InstacardColors } from '@/constants/colors';
 import { notifyNavigation } from '@/lib/bridge';
+import { routes } from '@/lib/routes';
 
 const ACCOUNT_OPTIONS = [
   { label: '0123456789 / NGN / Savings', icon: '/svg/fcmb.svg' },
@@ -30,7 +31,7 @@ export default function AddDebitScreen() {
   }, []);
 
   const handleNext = () => {
-    router.push('/otp?type=debit');
+    router.push(routes.otp('debit'));
   };
 
   return (

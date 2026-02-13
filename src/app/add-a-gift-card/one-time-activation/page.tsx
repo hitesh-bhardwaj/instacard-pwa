@@ -4,6 +4,7 @@ import { SheetContainer, Button } from '@/components/ui'
 import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import OtpInput from '@/components/ui/OtpInput'
+import { routes } from '@/lib/routes'
 
 export default function OneTimeActivationPage() {
   const [otp, setOtp] = useState<string>('');
@@ -42,7 +43,7 @@ export default function OneTimeActivationPage() {
           <div className='flex justify-center pb-6'>
             <Button
               fullWidth
-              onClick={() => router.push('/pin-setup?type=gift')}
+              onClick={() => router.push(routes.pinSetup('gift'))}
               disabled={!isComplete}
             >
               Submit

@@ -1,0 +1,57 @@
+import type { CardType } from './types'
+
+export const routes = {
+  home: '/',
+
+  // Add card flows
+  addCard: (type: CardType) => `/${type}`,
+  otp: (type: CardType) => `/otp?type=${type}`,
+  success: (type: CardType) => `/success?type=${type}`,
+
+  // Card detail & management
+  cardDetail: (type: CardType) => `/card-detail/${type}`,
+  manageCard: (type: CardType) => `/manage-card/${type}`,
+  cardStatus: '/card-status',
+
+  // PIN flows
+  pinSetup: (type: CardType) => `/pin-setup?type=${type}`,
+  pinChange: '/pin-change',
+  pinChangeSetup: '/pin-change/pin-setup',
+  chooseOptions: '/forget-pin/choose-options',
+  forgetPinPhoneVerification: '/forget-pin/phone-verification',
+  forgetPinEmailVerification: '/forget-pin/email-verification',
+  emailVerifyGift: '/add-a-gift-card/email-verify-gift',
+
+  // Post-setup
+  howToUseCard: (type: CardType) => `/how-to-use-card?type=${type}`,
+
+  // Add money
+  addMoney: '/add-money',
+  addMoneyVerifyEmail: '/add-money/verify-email',
+  addMoneySuccess: '/add-money/success',
+
+  // Gift card
+  addGiftCard: '/add-a-gift-card',
+  giftCardActivation: '/add-a-gift-card/one-time-activation',
+  giftACard: '/gift-a-card',
+  readyToUse: '/ready-to-use',
+  shareGiftCard: '/share-gift-card',
+  oneTimeActivation: '/one-time-activation',
+
+  // Statements
+  emailStatements: (type: CardType) => `/email-statements/${type}`,
+  makeRepayments: '/make-repayments',
+
+  // Limit setting
+  limitSetting: '/limit-setting',
+  limitSettingVerifyEmail: '/limit-setting/verify-email',
+
+  // Physical card linking
+  linkPhysicalCard: '/link-physical-card',
+  sigmaCardsOptions: '/link-physical-card/sigma-cards-options',
+  faceVerification: '/link-physical-card/face-verification',
+  bvnVerification: '/link-physical-card/bvn-verification',
+  linkVerifyEmail: '/link-physical-card/verify-email',
+  linkVerifyOtp: '/link-physical-card/verify-otp',
+  linkedSuccess: '/link-physical-card/linked-success',
+} as const

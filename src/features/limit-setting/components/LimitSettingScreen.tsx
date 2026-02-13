@@ -8,6 +8,7 @@ import { useLimitSettingStore } from '../store/useLimitSettingStore'
 import LimitFAQ from './LimitFAQ'
 import LimitSetComponent from './LimitSetComponent'
 import { useRouter } from 'next/navigation'
+import { routes } from '@/lib/routes'
 
 
 const domesticLimitItems = [
@@ -113,7 +114,7 @@ export default function LimitSettingScreen() {
           }}
         >
           <Button fullWidth onClick={() => {
-            router.push('/limit-setting/verify-email')
+            router.push(routes.limitSettingVerifyEmail)
           }}>
           Save Limit
           </Button>

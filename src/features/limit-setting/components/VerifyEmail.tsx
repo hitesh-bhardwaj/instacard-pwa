@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { SheetContainer, OTPInput, OTPKeypad, Button } from '@/components/ui';
 import { notifyNavigation } from '@/lib/bridge';
+import { routes } from '@/lib/routes';
 import gsap from 'gsap';
 
 const MAX_CODE_LENGTH = 6;
@@ -78,7 +79,7 @@ export default function VerifyEmailScreen() {
             delay: 0.1,
             onComplete: () => {
                 setShowSuccessPopup(false);
-                router.push('/limit-setting');
+                router.push(routes.limitSetting);
             },
         });
     };

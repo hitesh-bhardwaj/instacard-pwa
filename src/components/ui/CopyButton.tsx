@@ -15,9 +15,28 @@ export default function CopyButton({ value, size = 'md', className = '' }: CopyB
   const [copied, setCopied] = useState(false)
   const iconRef = useRef<HTMLDivElement>(null)
 
-  const handleClick = async () => {
+  const handleClick = async (e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    
     try {
-      await navigator.clipboard.writeText(value)
+      // Try modern clipboard API first
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(value)
+      } else {
+        // Fallback for older browsers/mobile
+        const textArea = document.createElement('textarea')
+        textArea.value = value
+        textArea.style.position = 'fixed'
+        textArea.style.left = '-999999px'
+        textArea.style.top = '-999999px'
+        document.body.appendChild(textArea)
+        textArea.focus()
+        textArea.select()
+        document.execCommand('copy')
+        textArea.remove()
+      }
+      
       haptic('medium')
 
       if (iconRef.current) {
@@ -73,7 +92,9 @@ export default function CopyButton({ value, size = 'md', className = '' }: CopyB
     <button
       type="button"
       onClick={handleClick}
-      className={`cursor-pointer flex items-center justify-center ${className}`}
+      // onTouchEnd={handleClick}
+      
+      className={`cursor-pointer flex items-center justify-center touch-manipulation ${className}`}
       aria-label="Copy to clipboard"
     >
       <div ref={iconRef} className={sizeClasses}>
@@ -86,4 +107,3 @@ export default function CopyButton({ value, size = 'md', className = '' }: CopyB
     </button>
   )
 }
-

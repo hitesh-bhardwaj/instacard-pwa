@@ -3,6 +3,7 @@
 import { useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { SheetContainer, OTPInput, OTPKeypad, Button } from '@/components/ui'
+import { routes } from '@/lib/routes'
 
 const MAX_CODE_LENGTH = 6
 
@@ -31,7 +32,7 @@ export default function VerifyEmailPage() {
         await new Promise((resolve) => setTimeout(resolve, 1500))
 
         setIsVerifying(false)
-        router.push('/link-physical-card/linked-success')
+        router.push(routes.linkedSuccess)
     }
 
     const handleResend = () => {

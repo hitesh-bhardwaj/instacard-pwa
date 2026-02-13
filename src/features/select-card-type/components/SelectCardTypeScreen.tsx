@@ -6,15 +6,16 @@ import { SheetContainer, RadioOption, Button } from '@/components/ui';
 import { InstacardColors } from '@/constants/colors';
 import { notifyNavigation } from '@/lib/bridge';
 import { haptic } from '@/lib/useHaptics';
+import { routes } from '@/lib/routes';
+import { CARD_TYPES as CARD_TYPE_VALUES } from '@/lib/types';
+import type { CardType } from '@/lib/types';
 
-const CARD_TYPES = [
-  { id: 'debit', label: 'Debit Card', icon: '/svg/debitcard.svg' },
-  { id: 'credit', label: 'Credit Card', icon: '/svg/creditcard.svg' },
-  { id: 'prepaid', label: 'Pre-Paid Card', icon: '/svg/prepaidcard.svg' },
-  { id: 'gift', label: 'Gift A Card', icon: '/svg/giftcard.svg' },
-] as const;
-
-type CardType = (typeof CARD_TYPES)[number]['id'];
+const CARD_TYPE_OPTIONS = [
+  { id: 'debit' as const, label: 'Debit Card', icon: '/svg/debitcard.svg' },
+  { id: 'credit' as const, label: 'Credit Card', icon: '/svg/creditcard.svg' },
+  { id: 'prepaid' as const, label: 'Pre-Paid Card', icon: '/svg/prepaidcard.svg' },
+  { id: 'gift' as const, label: 'Gift A Card', icon: '/svg/giftcard.svg' },
+] satisfies readonly { id: CardType; label: string; icon: string }[];
 
 export default function SelectCardTypeScreen() {
   const router = useRouter();
@@ -26,7 +27,7 @@ export default function SelectCardTypeScreen() {
   }, []);
 
   const handleNext = () => {
-    router.push(`/${selectedType}`);
+    router.push(routes.addCard(selectedType));
     haptic('medium');
   };
 
@@ -44,7 +45,7 @@ export default function SelectCardTypeScreen() {
           </p>
 
           <div role="radiogroup" className="flex flex-col gap-[3vw]">
-            {CARD_TYPES.map((option) => (
+            {CARD_TYPE_OPTIONS.map((option) => (
               <RadioOption
                 icon={option.icon}
                 key={option.id}

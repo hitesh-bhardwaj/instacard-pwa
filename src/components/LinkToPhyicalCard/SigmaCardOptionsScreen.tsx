@@ -6,6 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import React, { useState } from 'react'
 import AddSigmaCardModal from '@/components/LinkToPhyicalCard/AddSigmaCardModal'
+import { routes } from '@/lib/routes'
 
 const CARD_OPTIONS = [
     { id: '1', number: '*** *** *** 7872', type: 'Sigma Card' },
@@ -80,7 +81,7 @@ export default function SigmaCardOptionsScreen() {
                 </div>
                 <div className=" w-full p-4 space-y-2 pb-[calc(env(safe-area-inset-bottom,24px)+24px)] ">
                     <Link
-                        href='/link-physical-card/face-verification'
+                        href={routes.faceVerification}
                         className={`bg-primary p-4 text-center text-white flex items-center justify-center rounded-full w-full ${!selectedCard || !consentChecked ? 'opacity-50 pointer-events-none' : ''
                             }`}
                     >

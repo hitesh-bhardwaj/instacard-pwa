@@ -4,7 +4,7 @@ import React, { useRef, useEffect, useState, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { routes } from '@/lib/routes'
 
-export default function FaceVerificationScreen() {
+export default function page() {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [cameraError, setCameraError] = useState<string | null>(null)
   const [isVerifying, setIsVerifying] = useState(false)
@@ -65,7 +65,7 @@ export default function FaceVerificationScreen() {
   const handleCapture = () => {
     setIsVerifying(true)
     setTimeout(() => {
-      router.push(routes.bvnVerification)
+      router.push(routes.chooseOptions)
     }, 2000)
   }
 

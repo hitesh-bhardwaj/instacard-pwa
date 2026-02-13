@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { SheetContainer, Checkbox, Button } from '@/components/ui';
 import { notifyNavigation } from '@/lib/bridge';
+import { routes } from '@/lib/routes';
 
 const TERMS = [
   'Issuance Fee - N 1000',
@@ -22,7 +23,7 @@ export default function AddPrepaidScreen() {
   }, []);
 
   const handleNext = () => {
-    router.push('/otp?type=prepaid');
+    router.push(routes.otp('prepaid'));
   };
 
   return (

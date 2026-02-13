@@ -3,6 +3,7 @@ import { SheetContainer, Button } from '@/components/ui'
 import { RadioOption2 } from '@/components/ui/RadioButton2'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { routes } from '@/lib/routes'
 import React, { useState } from 'react'
 
 const VERIFICATION_OPTIONS = [
@@ -18,9 +19,9 @@ export default function page() {
 
   const handleNext = () => {
     if(selectedOption === 'phone') {
-      router.push(`/link-physical-card/verify-otp`)
+      router.push(routes.linkVerifyOtp)
     } else {
-      router.push(`/link-physical-card/verify-email`)
+      router.push(routes.linkVerifyEmail)
     }
   }
 

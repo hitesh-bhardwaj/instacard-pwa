@@ -5,6 +5,7 @@ import Image from 'next/image'
 import { Copy } from 'lucide-react'
 import CardMockup from '@/components/ui/CardMockup'
 import { useRouter } from 'next/navigation'
+import { routes } from '@/lib/routes'
 
 const giftCardDetails = [
     { label: 'Name', value: 'Nirdesh Malik' },
@@ -56,7 +57,7 @@ export default function page() {
                     </div>
                     <div className='mt-2 absolute bottom-5 left-1/2 -translate-x-1/2 px-4 w-full'>
 
-                        <Button onClick={() => router.push('/one-time-activation')} fullWidth variant='primary' size='md'>
+                        <Button onClick={() => router.push(routes.oneTimeActivation)} fullWidth variant='primary' size='md'>
                            Get Activation Code
                         </Button>
                     </div>

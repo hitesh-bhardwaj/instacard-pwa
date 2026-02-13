@@ -4,10 +4,10 @@ import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { SheetContainer, OTPInput, OTPKeypad, Button } from '@/components/ui';
 import { notifyNavigation } from '@/lib/bridge';
+import { routes } from '@/lib/routes';
+import type { CardType } from '@/lib/types';
 
 const MAX_CODE_LENGTH = 6;
-
-type CardType = 'debit' | 'credit' | 'prepaid' | 'gift';
 
 function OTPScreenContent() {
   const router = useRouter();
@@ -40,9 +40,9 @@ function OTPScreenContent() {
     await new Promise((resolve) => setTimeout(resolve, 1500));
 
     if (cardType === 'gift') {
-      router.push('/gift-a-card');
+      router.push(routes.giftACard);
     } else {
-      router.push(`/success?type=${cardType}`);
+      router.push(routes.success(cardType));
     }
   };
 

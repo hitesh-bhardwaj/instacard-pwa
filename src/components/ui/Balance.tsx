@@ -1,11 +1,9 @@
 'use client'
-import Image from 'next/image'
-import { useCallback, useState } from 'react'
+import { useState } from 'react'
+import EyeButton from '@/components/ui/EyeButton'
 
 export default function Balance() {
     const [showBalance, setShowBalance] = useState(false)
-
-    const toggleBalance = useCallback(() => setShowBalance((p) => !p), [])
 
     return (
         <div className='w-full  flex rounded-xl gap-2 '>
@@ -18,11 +16,9 @@ export default function Balance() {
                 <div className='flex items-center justify-start gap-2'>
                     <p className='text-text-primary flex items-center gap-2 font-medium'>
                         <span className='line-through mr-2'>N</span>
-                        {showBalance ? '2,500' : '********'}
+                        <span className='inline-block min-w-[52px]'>{showBalance ? '2,500' : '********'}</span>
                     </p>
-                    <button className='w-6 h-6 flex items-center justify-center' type='button' aria-label='Toggle balance visibility' onClick={toggleBalance}>
-                        <Image className='h-full w-full object-contain' src={showBalance ? '/svg/eyeopen.svg' : '/svg/eyeclose.svg'} alt={showBalance ? 'Show' : 'Hide'} width={16} height={16} />
-                    </button>
+                    <EyeButton isVisible={showBalance} onToggle={setShowBalance} size="md" />
                 </div>
 
             </div>

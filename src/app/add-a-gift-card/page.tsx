@@ -5,6 +5,8 @@ import React, { useState, useRef, useEffect } from 'react'
 import { Check } from 'lucide-react'
 import gsap from 'gsap'
 import { useRouter } from 'next/navigation'
+import { routes } from '@/lib/routes'
+
 export default function AddGiftCardPage() {
   const [activationCode, setActivationCode] = useState('');
   const [isVerified, setIsVerified] = useState(false);
@@ -114,7 +116,7 @@ export default function AddGiftCardPage() {
           <div className='pb-6'>
             <Button
               fullWidth
-              onClick={() => router.push('/add-a-gift-card/one-time-activation')}
+              onClick={() => router.push(routes.emailVerifyGift)}
               className='w-full'
               disabled={!isVerified}
             >

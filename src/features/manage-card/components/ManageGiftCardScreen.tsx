@@ -6,31 +6,78 @@ import { useState } from 'react'
 import CopyButton from '@/components/ui/CopyButton'
 import CardMockup from '@/components/ui/CardMockup'
 import { haptic } from '@/lib/useHaptics'
-
-const giftCardDetails = [
-  { label: 'Name', value: 'Nirdesh Malik' },
-  { label: 'Email', value: 'nirdeshmalik@gmail.com' },
-  { label: 'Message', value: 'Gift card for you' },
-]
+import ManageBtn from '@/components/ManageBtns/ManageBtn'
+import { cardActions, getManageBtns } from '../constants'
+import Balance from '@/components/ui/Balance'
+import FaqIconButton from '@/components/ui/FaqIconButton'
+import RemoveCardModal from '@/components/Modal/RemoveCardModal'
+import FAQModal from '@/components/Modal/FAQModal'
+import { useManageCardStore } from '../store/useManageCardStore'
+import { useRouter } from 'next/navigation'
+import EyeButton from '@/components/ui/EyeButton'
 
 export default function ManageGiftCardScreen() {
   const [showActivationCode, setShowActivationCode] = useState(false)
+  const { isFaqOpen, faqData, openFaq, closeFaq } = useManageCardStore()
+  const router = useRouter()
+  const [showRemoveModal, setShowRemoveModal] = useState(false)
+
+  const handleCardActionClick = (action: typeof cardActions[number]) => {
+    if (action.text === 'Remove Card') {
+      setShowRemoveModal(true)
+    } else {
+      router.push(action.route)
+      haptic('heavy')
+    }
+  }
+
+  const handleRemoveCard = () => {
+    console.log('Card removed')
+    setShowRemoveModal(false)
+  }
 
   return (
     <div className="h-screen flex flex-col">
       <SheetContainer>
         <div className="flex-1 overflow-auto pb-10 p-4 space-y-4">
-         <CardMockup imageSrc='/img/gift.png' />
+          <CardMockup imageSrc='/img/gift.png' />
+          <Balance />
 
-          <div className='w-full rounded-2xl border border-border p-4 space-y-2'>
-            {giftCardDetails.map((detail, index) => (
-              <div key={index} className='p-4 border border-border rounded-2xl'>
-                <p className='text-text-primary text-sm'>{detail.label}</p>
-                <p className='text-text-primary font-sm'>{detail.value}</p>
+          <div className="flex gap-4 items-start justify-between overflow-x-auto">
+            {getManageBtns('gift').map((btn, index) => (
+              <ManageBtn href={btn.href} key={index} icon={btn.icon} title={btn.title} />
+            ))}
+          </div>
+
+          <div className="flex w-full gap-2">
+            {cardActions.map((action, index) => (
+              <div
+                key={index}
+                onClick={() => handleCardActionClick(action)}
+                className="w-full border flex items-start flex-col justify-between border-text-primary/20 gap-4 rounded-xl p-4 cursor-pointer"
+              >
+                <div className="flex h-[30%] items-center gap-2 w-full justify-between">
+                  <div>
+                    <div className="w-6 h-auto flex items-center justify-center aspect-square">
+                      <Image src={action.icon} alt="icon" className='h-full w-full object-contain' width={24} height={24} />
+                    </div>
+                  </div>
+                  <FaqIconButton
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      openFaq(action.faqData)
+                    }}
+                  />
+                </div>
+
+                <p className="text-[12px] w-full leading-[1.2]">{action.text}</p>
               </div>
             ))}
           </div>
-          <div className='w-full flex items-center relative justify-center overflow-hidden rounded-2xl min-h-[180px]'>
+
+          <span className='w-full h-px block my-10 bg-border'></span>
+
+          <div className='w-full flex  items-center relative justify-center overflow-hidden rounded-2xl min-h-[180px]'>
             <div className='absolute inset-0'>
               <Image src="/img/giftcardbg.png" alt="Gift Card background" width={340} height={215} className="w-full h-full object-cover rounded-2xl" />
             </div>
@@ -65,26 +112,23 @@ export default function ManageGiftCardScreen() {
             </p>
             <div className='flex items-center gap-3'>
               <CopyButton value="4668 4782 3787 78378" />
-              <Image 
-                src={showActivationCode ? '/svg/eyeopen.svg' : '/svg/eyeclose.svg'} 
-                alt={showActivationCode ? 'Hide' : 'Show'} 
-                width={35} 
-                height={35} 
-                className='w-5 h-5 text-text-primary cursor-pointer' 
-                onClick={() => {
-                  haptic('light')
-                  setShowActivationCode(!showActivationCode)
-                }}
-              />
+              <EyeButton isVisible={showActivationCode} onToggle={setShowActivationCode} />
             </div>
           </div>
-            <p className='text-text-primary text-sm'>(Please ensure that you are giving the activation code to the person you are gifting this card to. If you share this code with someone you were not looking to gif this card, Instacard  & the Issuer would have no accountability to any exposure that you may encounter against the money you may have loaded)</p>
+          <p className='text-text-primary text-sm'>(Please ensure that you are giving the activation code to the person you are gifting this card to. If you share this code with someone you were not looking to gif this card, Instacard  & the Issuer would have no accountability to any exposure that you may encounter against the money you may have loaded)</p>
 
 
 
 
         </div>
       </SheetContainer>
+
+      <FAQModal visible={isFaqOpen} onClose={closeFaq} data={faqData || undefined} />
+      <RemoveCardModal
+        visible={showRemoveModal}
+        onClose={() => setShowRemoveModal(false)}
+        onConfirm={handleRemoveCard}
+      />
 
 
     </div>

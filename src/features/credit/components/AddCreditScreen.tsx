@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { SheetContainer, Checkbox, Button } from '@/components/ui';
 import { notifyNavigation } from '@/lib/bridge';
+import { routes } from '@/lib/routes';
 import Link from 'next/link';
 
 const TERMS = [
@@ -23,7 +24,7 @@ export default function AddCreditScreen() {
   }, []);
 
   const handleNext = () => {
-    router.push('/otp?type=credit');
+    router.push(routes.otp('credit'));
   };
 
   return (

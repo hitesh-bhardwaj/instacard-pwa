@@ -12,6 +12,7 @@ import React, { useCallback, useState } from 'react'
 import { PlusIcon, ChevronDownIcon, CheckIcon } from 'lucide-react'
 import Balance from '@/components/ui/Balance'
 import { useRouter } from 'next/navigation'
+import { routes } from '@/lib/routes'
 
 type ModalView = 'cards' | 'addCard'
 
@@ -76,7 +77,7 @@ export default function AddMoneyPage() {
 
     const handleAddMoney = useCallback(() => {
         closeModal()
-        router.push('/add-money/verify-email')
+        router.push(routes.addMoneyVerifyEmail)
     }, [closeModal, router])
 
     const renderCardsContent = () => {

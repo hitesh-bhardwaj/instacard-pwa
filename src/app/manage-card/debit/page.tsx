@@ -1,20 +1,19 @@
 'use client'
+
 import ManageDebitCardScreen from '@/features/manage-card/components/ManageDebitCardScreen'
 import CardPinAuth from '@/features/card-detail/components/CardPinAuth'
 import React, { useState } from 'react'
+import { CARD_CONFIG } from '@/lib/card-config'
 
-const CORRECT_PIN = '0000'
-
-export default function page() {
+export default function ManageDebitPage() {
   const [isVerified, setIsVerified] = useState(false)
 
   if (!isVerified) {
     return (
       <CardPinAuth
         title="Enter PIN to Manage this Debit Card"
-        cardImageSrc="/img/debitmockup.png"
+        cardImageSrc={CARD_CONFIG.debit.mockupImage}
         maskedNumber="0000 0000 0000 0000"
-        correctPin={CORRECT_PIN}
         onVerified={() => setIsVerified(true)}
       />
     )
@@ -22,8 +21,3 @@ export default function page() {
 
   return <ManageDebitCardScreen />
 }
-
-
-
-
-

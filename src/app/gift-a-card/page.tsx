@@ -5,6 +5,7 @@ import { SheetContainer } from '@/components/ui'
 import { AddMoneyForm } from '@/components/AddMoney/AddMoneyForm'
 import FAQModal from '@/components/Modal/FAQModal'
 import { useRouter } from 'next/navigation'
+import { routes } from '@/lib/routes'
 import { GiftCardHeader } from '@/features/gift/components/GiftCardHeader'
 import { GiftRecipientDetails } from '@/features/gift/components/GiftRecipientDetails'
 import { GiftTermsSection } from '@/features/gift/components/GiftTermsSection'
@@ -75,7 +76,7 @@ export default function page() {
                 amount={amount}
                 visible={modalOpen}
                 onClose={() => setModalOpen(false)}
-                onConfirm={() => router.push('/ready-to-use')}
+                onConfirm={() => router.push(routes.readyToUse)}
             />
         </div>
     )

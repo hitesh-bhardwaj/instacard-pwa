@@ -1,31 +1,33 @@
 'use client'
 
-import React, { useState, useCallback } from 'react'
+import React, { useState } from 'react'
 import { SheetContainer, OTPInput, Button } from '@/components/ui'
 import Image from 'next/image'
+import { useCardStore } from '@/store/useCardStore'
+import { PIN_LENGTH } from '@/lib/types'
+import { routes } from '@/lib/routes'
+import { useRouter } from 'next/navigation'
 
 type CardPinAuthProps = {
   title?: string
   cardImageSrc: string
   maskedNumber?: string
-  correctPin: string
   onVerified: () => void
 }
-
-const PIN_LENGTH = 4
 
 export default function CardPinAuth({
   title = 'Enter PIN for Selected Instacard',
   cardImageSrc,
   maskedNumber = '0000 0000 0000 0000',
-  correctPin,
   onVerified,
 }: CardPinAuthProps) {
   const [pin, setPin] = useState('')
   const [error, setError] = useState('')
+  const verifyPin = useCardStore((s) => s.verifyPin)
+  const router = useRouter()
 
   const handleContinue = () => {
-    if (pin === correctPin) {
+    if (verifyPin(pin)) {
       onVerified()
     } else {
       setError('Incorrect PIN. Please try again.')
@@ -80,6 +82,7 @@ export default function CardPinAuth({
           </Button>
           <button
             type="button"
+            onClick={() => router.push('/forget-pin')}
             className="text-xs text-primary bg-transparent border-none cursor-pointer"
           >
             Forgot PIN ?

@@ -8,6 +8,7 @@ import gsap from 'gsap'
 import Draggable from 'gsap/dist/Draggable'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { routes } from '@/lib/routes'
 
 // Register GSAP plugin
 if (typeof window !== 'undefined') {
@@ -62,7 +63,7 @@ export default function AddSigmaCardModal({ visible, onClose, onSubmit }: AddSig
         if (cardNumber.replace(/\s/g, '').length === 16) {
             haptic('success')
             onSubmit?.(cardNumber)
-           router.push('/link-physical-card/face-verification')
+           router.push(routes.faceVerification)
         }
     }
 

@@ -10,6 +10,8 @@ import FaqIconButton from '@/components/ui/FaqIconButton';
 import type { FAQData } from '@/components/Modal/FAQModal';
 import { useRouter, useSearchParams } from 'next/navigation';
 import CardMockup from '@/components/ui/CardMockup';
+import { routes } from '@/lib/routes';
+import type { CardType } from '@/lib/types';
 
 interface AccordionItemProps {
     title: string;
@@ -17,8 +19,6 @@ interface AccordionItemProps {
     onToggle: () => void;
     children: React.ReactNode;
 }
-
-type CardType = 'debit' | 'credit' | 'prepaid' | 'gift';
 
 function AccordionItem({ title, isExpanded, onToggle, children }: AccordionItemProps) {
     return (
@@ -184,7 +184,7 @@ const CARD_TYPE_CONFIG: Record<CardType, {
     },
 };
 
-const getCardActions = (cardType: string): Array<{
+const getCardActions = (cardType: CardType): Array<{
     icon: string;
     text: string;
     faqData: FAQData;
@@ -193,7 +193,7 @@ const getCardActions = (cardType: string): Array<{
         {
             icon: '/svg/managecard.svg',
             text: 'Manage Card',
-            route: `/manage-card/${cardType}`,
+            route: routes.manageCard(cardType),
             faqData: {
                 heading: 'Remove Card',
                 bulletPoints: [
@@ -208,7 +208,7 @@ const getCardActions = (cardType: string): Array<{
         {
             icon: '/svg/phone.svg',
             text: 'Link to a Physical Card',
-            route: '/link-physical-card',
+            route: routes.linkPhysicalCard,
             faqData: {
                 heading: 'Link to a Physical Card',
                 bulletPoints: [

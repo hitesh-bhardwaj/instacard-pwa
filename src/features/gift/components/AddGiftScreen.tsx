@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { SheetContainer, Checkbox, Button } from '@/components/ui';
 import { notifyNavigation } from '@/lib/bridge';
+import { routes } from '@/lib/routes';
 
 const TERMS = [
   'Issuance Fee - N 500',
@@ -23,7 +24,7 @@ export default function AddGiftScreen() {
   }, []);
 
   const handleNext = () => {
-    router.push('/otp?type=gift');
+    router.push(routes.otp('gift'));
   };
 
   return (

@@ -11,6 +11,7 @@ import { cardActions, getManageBtns } from '../constants'
 import { useManageCardStore } from '../store/useManageCardStore'
 import { useRouter } from 'next/navigation'
 import { haptic } from '@/lib/useHaptics'
+import { routes } from '@/lib/routes'
 import Link from 'next/link'
 import CardMockup from '@/components/ui/CardMockup'
 
@@ -53,7 +54,7 @@ export default function ManageCreditCardScreen() {
                 <p className='text-text-primary text-sm'>Minimum Payment Due</p>
                 <p className='text-text-primary text-xl font-medium'>₦ 62,500.00</p>
               </div>
-              <Link href='/make-repayments' className='bg-primary text-white px-6 py-2.5 rounded-full '>
+              <Link href={routes.makeRepayments} className='bg-primary text-white px-6 py-2.5 rounded-full '>
                 Pay Now
               </Link>
             </div>
@@ -70,9 +71,9 @@ export default function ManageCreditCardScreen() {
 
           <div className="flex gap-4 w-full  ">
             {[
-              { icon: '/svg/viewstatements.svg', title: 'View Statements', href: '/email-statements/credit' },
+              { icon: '/svg/viewstatements.svg', title: 'View Statements', href: routes.emailStatements('credit') },
             
-              { icon: '/svg/repayment.svg', title: 'Make Repayments', href: '/make-repayments' },
+              { icon: '/svg/repayment.svg', title: 'Make Repayments', href: routes.makeRepayments },
             ].map((btn, index) => (
               <ManageBtn fullWidth href={btn.href} key={index} icon={btn.icon} title={btn.title} />
             ))}
