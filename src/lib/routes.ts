@@ -54,6 +54,7 @@ export const routes = {
 
   // Physical card linking
   linkPhysicalCard: '/link-physical-card',
+  linkVirtualCard: '/link-virtual-card',
   sigmaCardsOptions: '/link-physical-card/sigma-cards-options',
   faceVerification: '/link-physical-card/face-verification',
   bvnVerification: '/link-physical-card/bvn-verification',

@@ -3,7 +3,9 @@ import { ChevronLeft, LogOut, X } from 'lucide-react'
 import React, { useState, useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import { useIsWebView } from '@/hooks/use-is-webview'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
+import { usePWAHeader } from '@/lib/pwa-header-context'
+import Link from 'next/link'
 
 interface PWAHeaderProps {
     title?: string
@@ -15,7 +17,7 @@ interface ConfirmDialogProps {
     visible: boolean
     message: string
     onCancel: () => void
-    
+
     onConfirm: () => void
 }
 
@@ -98,30 +100,36 @@ function ConfirmDialog({ visible, message, onCancel, onConfirm }: ConfirmDialogP
                     {message}
                 </p>
                 <div className="flex flex-row gap-3 w-full">
-                    <button
+                    <Link
+                        href="/"
                         className="flex-1 rounded-2xl py-4 px-3 flex items-center justify-center gap-2 bg-primary"
                         onClick={handleInstacard}
                         aria-label="Go to Instacard"
                     >
                         <span className="text-base font-semibold text-white">Instacard</span>
-                    </button>
-                    <button
+                    </Link>
+                    <Link
+                        href="/"
                         className="flex-1 rounded-2xl py-4 px-3 flex items-center justify-center gap-2 bg-primary"
                         onClick={handleHome}
                         aria-label="Go to Home"
                     >
                         <span className="text-base font-semibold text-white">Home</span>
-                    </button>
+                    </Link>
                 </div>
             </div>
         </div>
     )
 }
 
-export default function PWAHeader({ title = 'Manage Cards', exitIcon = false, onExitPress }: PWAHeaderProps) {
+export default function PWAHeader({ title: titleProp, exitIcon: exitIconProp, onExitPress }: PWAHeaderProps) {
     const [showDialog, setShowDialog] = useState(false)
     const isWebView = useIsWebView()
     const router = useRouter()
+    const pathname = usePathname()
+    const { title: contextTitle, exitIcon: contextExitIcon } = usePWAHeader()
+    const title = titleProp ?? contextTitle
+    const exitIcon = pathname === '/' ? false : (exitIconProp ?? contextExitIcon)
 
     const handleLogoutClick = () => {
         setShowDialog(true)
@@ -146,7 +154,7 @@ export default function PWAHeader({ title = 'Manage Cards', exitIcon = false, on
 
     return (
         <>
-            <div className='h-fit py-6 text-white relative flex items-center gap-2 justify-between px-4 w-full bg-primary'>
+            <div className='h-fit py-6 text-white relative z-800 flex items-center gap-2 justify-between px-4 w-full bg-primary'>
 
                 <button onClick={handleGoBack} className='h-fit w-fit rounded-full' aria-label="Go back">
                     <ChevronLeft
@@ -156,13 +164,15 @@ export default function PWAHeader({ title = 'Manage Cards', exitIcon = false, on
                     />
                 </button>
 
-                <p className='text-sm absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2'>{title}</p>
+                <p className='text-md absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 text-[#ffffff] capitalize'>{pathname === '/' ? 'Instacard' : (pathname.split('/').pop() || '').replace(/-/g, ' ')}</p>
 
-                {exitIcon && (
-                    <button onClick={handleLogoutClick} aria-label="Go home" className='h-6 w-6'>
-                        <LogOut width={24} height={24} color='white' />
-                    </button>
-                )}
+                <button 
+                    onClick={handleLogoutClick} 
+                    aria-label="Go home" 
+                    className={`h-6 duration-300 transition-all w-6 ${exitIcon ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}
+                >
+                    <LogOut width={24} height={24} color='white' />
+                </button>
 
             </div>
 

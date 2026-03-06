@@ -4,5 +4,8 @@
     "incorrectPin": "NIP incorrect. Veuillez réessayer.",
     "continue": "Continuer",
     "forgotPin": "NIP oublié ?"
+  },
+  "profile": {
+    "languages": "Langues"
   }
 }

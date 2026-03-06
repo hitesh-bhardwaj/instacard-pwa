@@ -6,9 +6,8 @@ import { SheetContainer, RadioOption, Button } from '@/components/ui';
 import { notifyNavigation } from '@/lib/bridge';
 import { haptic } from '@/lib/useHaptics';
 import { routes } from '@/lib/routes';
-import { CARD_TYPES as CARD_TYPE_VALUES } from '@/lib/types';
+import { usePWAHeader } from '@/lib/pwa-header-context';
 import type { CardType } from '@/lib/types';
-import PWAHeader from '@/components/PWAHeader';
 
 const CARD_TYPE_OPTIONS = [
   { id: 'debit' as const, label: 'Debit Card', icon: '/svg/debitcard.svg' },
@@ -17,8 +16,11 @@ const CARD_TYPE_OPTIONS = [
   { id: 'gift' as const, label: 'Gift A Card', icon: '/svg/giftcard.svg' },
 ] satisfies readonly { id: CardType; label: string; icon: string }[];
 
+const DEFAULT_HEADER_TITLE = 'Manage Cards';
+
 export default function SelectCardTypeScreen() {
   const router = useRouter();
+  const { setTitle } = usePWAHeader();
 
   const [selectedType, setSelectedType] = useState<CardType>('debit');
 
@@ -26,15 +28,18 @@ export default function SelectCardTypeScreen() {
     notifyNavigation('select-card-type');
   }, []);
 
+  useEffect(() => {
+    setTitle('Add Instacard');
+    return () => setTitle(DEFAULT_HEADER_TITLE);
+  }, [setTitle]);
+
   const handleNext = () => {
     router.push(routes.addCard(selectedType));
     haptic('medium');
   };
 
   return (
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-
-      <PWAHeader title="Add Instacard" /> 
+    <div className="min-h-full flex flex-col">
       <SheetContainer>
         <div className="flex-1 overflow-auto p-6 py-10">
           <p

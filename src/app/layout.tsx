@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { AuthProvider } from '@/lib/auth-context';
+import { PWAHeaderProvider } from '@/lib/pwa-header-context';
+import PWAHeader from '@/components/PWAHeader';
 
 const helveticaNeue = localFont({
   src: [
@@ -66,7 +68,14 @@ export default function RootLayout({
       </head>
       <body className={`${helveticaNeue.className} min-h-dvh`} >
         <AuthProvider>
-          <main className=''>{children}</main>
+          <PWAHeaderProvider>
+            <main className="flex flex-col min-h-dvh">
+              <PWAHeader  />
+              <div className="flex-1 min-h-0 rounded-t-3xl flex flex-col overflow-auto">
+                {children}
+              </div>
+            </main>
+          </PWAHeaderProvider>
         </AuthProvider>
       </body>
     </html>

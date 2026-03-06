@@ -1,11 +1,14 @@
 'use client'
 
 import { X } from 'lucide-react'
-import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react'
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import gsap from 'gsap'
 import Draggable from 'gsap/dist/Draggable'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import type { CardData, CardImageId } from './cardData'
+import type { CardType } from '@/lib/types'
+import { routes } from '@/lib/routes'
 import FAQModal from '../modals/FAQModal'
 import { ICONS } from '@/constants/icons'
 
@@ -115,6 +118,7 @@ interface ActionDrawerProps {
     onActionPress?: (actionId: string, card: CardData) => void
     cardMode?: 'virtual' | 'universal'
     setCurrentCardIndex?: (index: number) => void
+    isDarkMode?: boolean
 }
 
 export default function ActionDrawer({
@@ -126,6 +130,7 @@ export default function ActionDrawer({
     onActionPress,
     cardMode = 'virtual',
     setCurrentCardIndex,
+    isDarkMode,
 }: ActionDrawerProps) {
     const modalRef = useRef<HTMLDivElement>(null)
     const backdropRef = useRef<HTMLDivElement>(null)
@@ -135,10 +140,26 @@ export default function ActionDrawer({
     const [faqModalVisible, setFaqModalVisible] = useState(false)
     const [currentFaqData, setCurrentFaqData] = useState<ActionItem['faqData'] | undefined>(undefined)
 
+    const router = useRouter()
+
     const selectedCard = useMemo(() => {
         if (!cards.length) return undefined
         return cards.find((card) => card.id === selectedCardId) ?? cards[0]
     }, [cards, selectedCardId])
+
+    const selectedCardType = (selectedCard?.cardType ?? 'debit') as CardType
+
+    const actionRoutes = useMemo(
+        () => ({
+            manage: routes.manageCard(selectedCardType),
+            'card-details': routes.cardDetail(selectedCardType),
+            'make-online-payments': routes.makeOnlinePayments,
+            'link-physical':
+                cardMode === 'virtual' ? routes.linkPhysicalCard : routes.linkVirtualCard,
+            'add-gift': routes.addGiftCard,
+        }),
+        [cardMode, selectedCardType]
+    )
 
     const handleClose = useCallback(() => {
         if (modalRef.current && backdropRef.current) {
@@ -220,9 +241,14 @@ export default function ActionDrawer({
         (actionId: string) => {
             if (!selectedCard) return
             onActionPress?.(actionId, selectedCard)
-            console.log('[ActionDrawer] action pressed:', actionId, selectedCard.id)
+
+            const path = actionRoutes[actionId as keyof typeof actionRoutes]
+            if (path) {
+                handleClose()
+                router.push(path)
+            }
         },
-        [onActionPress, selectedCard]
+        [onActionPress, selectedCard, actionRoutes, handleClose, router]
     )
 
     const handleFaqPress = useCallback((action: ActionItem) => {
@@ -324,7 +350,7 @@ export default function ActionDrawer({
                                                 }}
                                                 className="w-5 h-5 rounded-full bg-primary flex items-center justify-center text-white text-xs font-medium"
                                             >
-                                               <p className="text-center mt-0.5">?</p>
+                                                <span className="text-center mt-0.5 text-[#ffffff] leading-none">?</span>
                                             </button>
                                         </div>
                                         <span className="text-xs leading-[1.1] text-text-primary">

@@ -1,5 +1,4 @@
 'use client'
-import PWAHeader from '@/components/PWAHeader'
 import { mockCards, CardData } from '@/components/StackingCard/cardData'
 import { CardStack, CardStackRef } from '@/components/StackingCard/CardStack'
 import { CardFilterType, FilterBar } from '@/components/StackingCard/FilterBar'
@@ -7,7 +6,10 @@ import GreetingBar from '@/components/StackingCard/greeting-bar'
 import { SwipeIndicator } from '@/components/StackingCard/SwipeIndicator'
 import FloatingBottomBar from '@/components/StackingCard/FloatingBottomBar'
 import ActionDrawer from '@/components/StackingCard/ActionDrawer'
+import { ProfileDrawer } from '@/components/ProfileDrawer'
+import { ProfileContent } from '@/components/ProfileDrawer/ProfileContent'
 import { useCallback, useMemo, useRef, useState } from 'react'
+import { useAuth } from '@/lib/auth-context'
 
 
 
@@ -17,6 +19,7 @@ export default function CardsScreen() {
   const [currentCardIndex, setCurrentCardIndex] = useState(0)
   const [cardMode, setCardMode] = useState<'virtual' | 'universal'>('virtual')
   const [drawerVisible, setDrawerVisible] = useState(false)
+  const [profileDrawerVisible, setProfileDrawerVisible] = useState(false)
   const [selectedCardId, setSelectedCardId] = useState<string | null>(null)
   const cardStackRef = useRef<CardStackRef>(null)
 
@@ -87,17 +90,18 @@ export default function CardsScreen() {
     console.log('Action pressed:', actionId, 'for card:', card.name)
   }, [])
 
+  const { isDarkMode } = useAuth();
+
   return (
-    <div className="min-h-screen bg-background flex flex-col relative">
-      <PWAHeader />
+    <div className="min-h-full bg-background flex flex-col relative">
       <div className='relative z-100 '>
 
         <GreetingBar
           userName="Nirdesh Malik"
           onSearchPress={() => { }}
           onHelpPress={() => { }}
-          onAvatarPress={() => { }}
-          isDarkMode={false}
+          onAvatarPress={() => setProfileDrawerVisible(true)}
+          isDarkMode={isDarkMode}
         />
         <FilterBar
           isDarkMode={false}
@@ -160,8 +164,21 @@ export default function CardsScreen() {
         onActionPress={handleActionPress}
         cardMode={cardMode}
         setCurrentCardIndex={setCurrentCardIndex}
+        isDarkMode={isDarkMode}
       />
 
+      {/* Profile drawer opened from avatar tap */}
+      <ProfileDrawer
+        visible={profileDrawerVisible}
+        onClose={() => setProfileDrawerVisible(false)}
+      >
+        {(closeDrawer) => (
+          <ProfileContent
+            userName="Nirdesh Malik"
+            onClose={closeDrawer}
+          />
+        )}
+      </ProfileDrawer>
     </div>
   )
 }
