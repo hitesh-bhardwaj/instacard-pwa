@@ -9,11 +9,14 @@ import React, { useState } from 'react'
 
 import { getManageBtns } from '../constants'
 import { useManageCardStore } from '../store/useManageCardStore'
+import { useSearchParams } from 'next/navigation'
 import CardMockup from '@/components/ui/CardMockup'
 import CardActionTiles from './CardActionTiles'
 import { useManageCardActions } from '../hooks/useManageCardActions'
 
 export default function ManagePrepaidCardScreen() {
+  const searchParams = useSearchParams()
+  const cardMode = (searchParams.get('mode') as 'virtual' | 'universal') || 'virtual'
   const { isFaqOpen, faqData, closeFaq } = useManageCardStore()
   const [showBalance, setShowBalance] = useState(false)
   const { showRemoveModal, setShowRemoveModal, handleCardActionClick, handleRemoveCard } = useManageCardActions()
@@ -50,7 +53,7 @@ export default function ManagePrepaidCardScreen() {
             ))}
           </div>
 
-          <CardActionTiles onActionClick={handleCardActionClick} />
+          <CardActionTiles cardMode={cardMode} onActionClick={handleCardActionClick} />
         </div>
       </SheetContainer>
 

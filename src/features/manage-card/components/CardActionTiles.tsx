@@ -3,21 +3,24 @@
 import React from 'react'
 import Image from 'next/image'
 import FaqIconButton from '@/components/ui/FaqIconButton'
-import { cardActions } from '../constants'
+import { getCardActions, type CardAction } from '../constants'
 import { useManageCardStore } from '../store/useManageCardStore'
 import { useAuth } from '@/lib/auth-context'
+import { useMemo } from 'react'
 
 type CardActionTilesProps = {
-  onActionClick: (action: (typeof cardActions)[number]) => void
+  cardMode?: 'virtual' | 'universal'
+  onActionClick: (action: CardAction) => void
 }
 
-export default function CardActionTiles({ onActionClick }: CardActionTilesProps) {
+export default function CardActionTiles({ cardMode = 'virtual', onActionClick }: CardActionTilesProps) {
   const { openFaq } = useManageCardStore()
   const { isDarkMode } = useAuth()
   const iconClassName = `h-full w-full object-contain ${isDarkMode ? 'invert' : ''}`
+  const actions = useMemo(() => getCardActions(cardMode), [cardMode])
   return (
     <div className="flex w-full gap-2">
-      {cardActions.map((action, index) => (
+      {actions.map((action, index) => (
         <div
           key={index}
           onClick={() => onActionClick(action)}

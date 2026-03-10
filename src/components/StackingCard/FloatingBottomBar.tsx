@@ -1,16 +1,17 @@
 'use client';
 
-import Image from 'next/image';
 import { useRef } from 'react';
 import gsap from 'gsap';
-import { LucideGift, PlusIcon } from 'lucide-react';
+import { Home, ScanLine, User } from 'lucide-react';
 import Link from 'next/link';
 
 interface FloatingBottomBarProps {
+  mode: 'virtual' | 'universal';
   onHomePress?: () => void;
   onScanPress?: () => void;
   onAddPress?: () => void;
   onAddGiftPress?: () => void;
+  onProfilePress?: () => void;
 }
 
 function hapticLight() {
@@ -26,92 +27,65 @@ function hapticMedium() {
 }
 
 export function FloatingBottomBar({
+  mode,
   onHomePress,
   onScanPress,
   onAddPress,
   onAddGiftPress,
+  onProfilePress,
 }: FloatingBottomBarProps) {
-  const plusRef = useRef<HTMLDivElement>(null);
-  const rotationRef = useRef(0);
-
-  const rotatePlus = () => {
-    rotationRef.current += 90;
-    if (!plusRef.current) return;
-    gsap.to(plusRef.current, {
-      rotate: rotationRef.current,
-      duration: 1,
-      ease: 'power2.out',
-    });
-  };
-
   return (
-    <>
-      <div
-        className="absolute left-1/2 w-fit bottom-16  -translate-x-1/2 z-30 h-fit py-4 bg-primary rounded-full flex items-center justify-center gap-5 px-6 "
-    
-        role="navigation"
-        aria-label="Bottom actions"
-      >
-        {/* Optional Home action kept for parity */}
-        {/* <button
-          type="button"
-          className="flex items-center gap-1 px-2"
+    <div
+      className="shrink-0 w-full z-30 bg-primary pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom,0px))] relative"
+      role="navigation"
+      aria-label="Bottom actions"
+    >
+      <div className="flex items-end justify-between px-8">
+        {/* Home */}
+        <Link
+          href="/"
+          className="flex flex-col items-center gap-1 px-3"
           onClick={() => {
             hapticLight();
             onHomePress?.();
           }}
           aria-label="Home"
         >
-          <Image src="/svg/home.svg" alt="Home" width={24} height={24} />
-          <span className="text-white text-base">Home</span>
-        </button> */}
-
-        <Link
-          href="/add-instacard"
-         
-          className="flex items-center gap-2  pr-0 w-full"
-          onClick={() => {
-            hapticLight();
-            rotatePlus();
-            window.setTimeout(() => onAddPress?.(), 500);
-          }}
-          aria-label="Add Instacard"
-        >
-          <div className="w-full flex items-center gap-2 justify-center">
-            <div ref={plusRef} className='w-fit'>
-
-              <PlusIcon className='w-5 h-5 text-white mb-1' />
-            </div>
-            <p className="text-white w-full text-sm font-medium">Add Instacard</p>
-          </div>
+          <Home className="w-5 h-5 text-white" />
+          <span className="text-white text-xs">Home</span>
         </Link>
 
-        {/* <div className="flex items-center justify-center">
-          <button
-            type="button"
-            className="h-[55px] w-[55px] rounded-full bg-primary border-2 border-white flex items-center justify-center"
-            onClick={() => {
-              hapticMedium();
-              onScanPress?.();
-            }}
-            aria-label="Scan"
-          >
-            <Image src="/svg/scan.svg" alt="Scan" width={30} height={30} />
-          </button>
-        </div> */}
-      </div>
+        {/* ScanPay */}
+        <button
+          type="button"
+          className="flex flex-col items-center absolute left-1/2 -translate-x-1/2 bottom-0 gap-1 px-3"
+          onClick={() => {
+            hapticMedium();
+            onScanPress?.();
+          }}
+          aria-label="ScanPay"
+        >
+          <div className="h-20 w-20 rounded-full bg-white border-4 border-primary flex items-center justify-center shadow-lg">
+            <ScanLine className="w-7 h-7 text-primary" />
+          </div>
+          <span className="text-white text-xs mt-1">ScanPay</span>
+        </button>
 
-      <Link
-        href="/add-a-gift-card"
-        className="absolute left-0 right-0 z-30 bottom-6 flex items-center justify-center gap-1 text-text-secondary"
-      
-        onClick={onAddGiftPress}
-        aria-label="Add Gift Card"
-      >
-        <LucideGift className='w-5 h-5 text-text-secondary mb-1' />
-        <span className="text-sm">Add Gift Card</span>
-      </Link>
-    </>
+        {/* Profile */}
+        <button
+          type="button"
+          className="flex flex-col items-center gap-1 px-3"
+          onClick={() => {
+            hapticLight();
+            onProfilePress?.();
+          }}
+          aria-label="Profile"
+        >
+          <User className="w-5 h-5 text-white" />
+          <span className="text-white text-xs">Profile</span>
+        </button>
+      </div>
+    </div>
   );
 }
 

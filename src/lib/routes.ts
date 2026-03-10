@@ -2,6 +2,7 @@ import type { CardType } from './types'
 
 export const routes = {
   home: '/',
+  instacard: '/instacard',
 
   // Add card flows
   addCard: (type: CardType) => `/${type}`,
@@ -10,7 +11,8 @@ export const routes = {
 
   // Card detail & management
   cardDetail: (type: CardType) => `/card-detail/${type}`,
-  manageCard: (type: CardType) => `/manage-card/${type}`,
+  manageCard: (type: CardType, cardMode?: 'virtual' | 'universal') =>
+    `/manage-card/${type}${cardMode ? `?mode=${cardMode}` : ''}`,
   cardStatus: '/card-status',
 
   // PIN flows

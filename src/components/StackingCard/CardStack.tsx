@@ -451,7 +451,7 @@ export const CardStack = forwardRef<CardStackRef, CardStackProps>(
           ref={(el) => {
             cardRefs.current[index] = el;
           }}
-          className="absolute w-full max-w-[90%] mx-auto top-[19vh] left-1/2 will-change-transform"
+          className="absolute w-full max-w-[90%] mx-auto top-[13vh] left-1/2 will-change-transform"
         >
           <CardItem card={card} onPress={onCardPress} />
         </div>

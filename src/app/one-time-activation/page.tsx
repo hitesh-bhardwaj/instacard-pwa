@@ -5,6 +5,7 @@ import CopyButton from '@/components/ui/CopyButton'
 import { useRouter } from 'next/navigation'
 import React from 'react'
 import { notifyUserCancelled, notifyCardAdded } from '@/lib/bridge'
+import { routes } from '@/lib/routes'
 
 export default function page() {
     const router = useRouter()
@@ -15,6 +16,7 @@ export default function page() {
         //     cardType: 'gift',
         //     lastFourDigits: '1234',
         //   });
+        router.push(routes.instacard)
         notifyUserCancelled()
     }
 

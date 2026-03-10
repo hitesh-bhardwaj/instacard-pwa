@@ -66,12 +66,19 @@ export function ProfileContent({
     .toUpperCase()
     .slice(0, 2)
 
+
+  const handleGoBack = () => {
+    onClose()
+    router.push('/')
+
+  }
+
   return (
     <div className="flex-1 flex flex-col bg-card-background overflow-hidden">
       <header className="flex items-center justify-center px-6 pt-6 pb-5 shrink-0 border-b border-border">
         <button
           type="button"
-          onClick={onClose}
+          onClick={handleGoBack}
           className="group flex items-center gap-3 px-6 py-3 rounded-xl bg-primary text-[#fff] font-semibold  transition-all duration-200"
         >
           <ArrowLeft className={`w-5 h-5 group-hover:-translate-x-1 transition-transform ${isRTL ? 'rotate-180' : ''}`} />
@@ -96,12 +103,12 @@ export function ProfileContent({
           <MenuRow
             icon={<User className="w-5 h-5 text-primary" />}
             label={t('profile.profileSettings')}
-            onPress={() => {}}
+            onPress={() => { }}
             isRTL={isRTL}
           />
           <LanguageDropdown
             selectedLang={selectedLang}
-            onSelect={() => {}}
+            onSelect={() => { }}
             isRTL={isRTL}
             isDarkMode={isDarkMode}
           />
@@ -126,14 +133,12 @@ export function ProfileContent({
                   e.stopPropagation()
                   toggleDarkMode()
                 }}
-                className={`relative w-11 h-6 rounded-full transition-colors ${
-                  isDarkMode ? 'bg-primary' : 'bg-border'
-                }`}
+                className={`relative w-11 h-6 rounded-full transition-colors ${isDarkMode ? 'bg-primary' : 'bg-border'
+                  }`}
               >
                 <span
-                  className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${
-                    isDarkMode ? 'left-1 translate-x-5' : 'left-1'
-                  }`}
+                  className={`absolute top-1 w-4 h-4 rounded-full bg-white shadow transition-transform ${isDarkMode ? 'left-1 translate-x-5' : 'left-1'
+                    }`}
                 />
               </button>
             }
@@ -147,14 +152,14 @@ export function ProfileContent({
             }}
             isRTL={isRTL}
           /> */}
-          <MenuRow
+          {/* <MenuRow
             icon={<LogOut className="w-5 h-5 text-error" />}
             label={t('profile.signOut')}
             showChevron={false}
             onPress={onClose}
             danger
             isRTL={isRTL}
-          />
+          /> */}
         </nav>
 
         <p className="text-center text-xs text-text-secondary mt-8">
@@ -191,16 +196,14 @@ function MenuRow({
       className="flex items-center gap-3 w-full py-4 px-4 text-left transition-colors"
     >
       <span
-        className={`flex items-center justify-center w-9 h-9 rounded-[10px] ${
-          danger ? 'bg-error/10' : 'bg-light-gray'
-        }`}
+        className={`flex items-center justify-center w-9 h-9 rounded-[10px] ${danger ? 'bg-error/10' : 'bg-light-gray'
+          }`}
       >
         {icon}
       </span>
       <span
-        className={`flex-1 text-[15px] font-medium ${
-          danger ? 'text-error' : 'text-text-primary'
-        }`}
+        className={`flex-1 text-[15px] font-medium ${danger ? 'text-error' : 'text-text-primary'
+          }`}
       >
         {label}
       </span>

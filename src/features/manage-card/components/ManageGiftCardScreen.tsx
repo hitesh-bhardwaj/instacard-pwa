@@ -12,12 +12,15 @@ import Balance from '@/components/ui/Balance'
 import RemoveCardModal from '@/components/modals/RemoveCardModal'
 import FAQModal from '@/components/modals/FAQModal'
 import { useManageCardStore } from '../store/useManageCardStore'
+import { useSearchParams } from 'next/navigation'
 import EyeButton from '@/components/ui/EyeButton'
 import CardActionTiles from './CardActionTiles'
 import { useManageCardActions } from '../hooks/useManageCardActions'
 import { useAuth } from '@/lib/auth-context'
 
 export default function ManageGiftCardScreen() {
+  const searchParams = useSearchParams()
+  const cardMode = (searchParams.get('mode') as 'virtual' | 'universal') || 'virtual'
   const [showActivationCode, setShowActivationCode] = useState(false)
   const { isFaqOpen, faqData, closeFaq } = useManageCardStore()
   const { showRemoveModal, setShowRemoveModal, handleCardActionClick, handleRemoveCard } = useManageCardActions()
@@ -37,7 +40,7 @@ export default function ManageGiftCardScreen() {
             ))}
           </div>
 
-          <CardActionTiles onActionClick={handleCardActionClick} />
+          <CardActionTiles cardMode={cardMode} onActionClick={handleCardActionClick} />
 
           <span className='w-full h-px block my-10 bg-border'></span>
 

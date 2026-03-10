@@ -11,6 +11,7 @@ import type { CardType } from '@/lib/types'
 import { routes } from '@/lib/routes'
 import FAQModal from '../modals/FAQModal'
 import { AddCardIcon, LinkToUniversalIcon, ManageCard, PhoneIcon } from '@/constants/icons'
+import { useCardWalletStore } from '@/store/useCardWalletStore'
 
 // Register GSAP plugin
 if (typeof window !== 'undefined') {
@@ -151,7 +152,7 @@ export default function ActionDrawer({
 
     const actionRoutes = useMemo(
         () => ({
-            manage: routes.manageCard(selectedCardType),
+            manage: routes.manageCard(selectedCardType, cardMode),
             'card-details': routes.cardDetail(selectedCardType),
             'make-online-payments': routes.makeOnlinePayments,
             'link-physical':
@@ -250,6 +251,10 @@ export default function ActionDrawer({
         (actionId: string) => {
             if (!selectedCard) return
             onActionPress?.(actionId, selectedCard)
+
+            if (actionId === 'manage') {
+                useCardWalletStore.getState().setManagingCardId(selectedCard.id)
+            }
 
             const path = actionRoutes[actionId as keyof typeof actionRoutes]
             if (path) {

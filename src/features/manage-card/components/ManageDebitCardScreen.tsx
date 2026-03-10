@@ -5,6 +5,7 @@ import RemoveCardModal from '@/components/modals/RemoveCardModal'
 import ManageBtn from './ManageBtn'
 import { SheetContainer } from '@/components/ui'
 import React from 'react'
+import { useSearchParams } from 'next/navigation'
 
 import { getManageBtns } from '../constants'
 import { useManageCardStore } from '../store/useManageCardStore'
@@ -13,6 +14,8 @@ import CardActionTiles from './CardActionTiles'
 import { useManageCardActions } from '../hooks/useManageCardActions'
 
 export default function ManageDebitCardScreen() {
+  const searchParams = useSearchParams()
+  const cardMode = (searchParams.get('mode') as 'virtual' | 'universal') || 'virtual'
   const { isFaqOpen, faqData, closeFaq } = useManageCardStore()
   const { showRemoveModal, setShowRemoveModal, handleCardActionClick, handleRemoveCard } = useManageCardActions()
 
@@ -28,7 +31,7 @@ export default function ManageDebitCardScreen() {
             ))}
           </div>
 
-          <CardActionTiles onActionClick={handleCardActionClick} />
+          <CardActionTiles cardMode={cardMode} onActionClick={handleCardActionClick} />
         </div>
       </SheetContainer>
 

@@ -1,22 +1,33 @@
 'use client';
 
 import { useAuth } from '@/lib/auth-context';
+import { useCardWalletStore } from '@/store/useCardWalletStore';
+import { haptic } from '@/lib/useHaptics';
+import { Gift, PlusIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 
 interface GreetingBarProps {
   userName: string;
   onSearchPress?: () => void;
+  onAddPress?: () => void;
   onAvatarPress?: () => void;
   isDarkMode?: boolean;
+  mode: 'virtual' | 'universal';
+  onAddGiftPress?: () => void;
 }
 
 export function GreetingBar({
   userName,
   onSearchPress,
+  onAddPress,
   isDarkMode,
   onAvatarPress,
+  mode,
+  onAddGiftPress,
 }: GreetingBarProps) {
+
+
 
 
   return (
@@ -28,7 +39,7 @@ export function GreetingBar({
         Hello, {userName}
       </p>
 
-      <div className="flex items-center gap-2">
+      {/* <div className="flex items-center gap-2">
         <button
           type="button"
           onClick={onSearchPress}
@@ -81,7 +92,22 @@ export function GreetingBar({
             className="object-contain h-full w-full"
           />
         </button>
-      </div>
+      </div> */}
+
+      <Link
+        href="/add-a-gift-card"
+
+        onClick={onAddGiftPress}
+        className="flex items-center bg-primary rounded-full justify-center gap-2 w-fit px-4 py-2"
+        aria-label="Add Instacard"
+      >
+        <div className="flex items-center gap-2 justify-center">
+          <div className='w-fit'>
+            <Gift className='w-5 h-5 text-white mb-1' />
+          </div>
+          <p className="text-white text-sm font-medium">Claim A Gift Card</p>
+        </div>
+      </Link>
     </div>
   );
 }

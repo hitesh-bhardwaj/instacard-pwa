@@ -33,6 +33,9 @@ export function CardItem({ card, onPress }: CardItemProps) {
         sizes="(max-width: 400px) 100vw, 340px"
         draggable={false}
       />
+      <span className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-lg tracking-[0.15em] font-medium drop-shadow-md pointer-events-none w-full select-none">
+        {card.cardNumber}
+      </span>
     </button>
   );
 }

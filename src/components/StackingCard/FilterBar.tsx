@@ -1,7 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { BarChart2, Check, X } from 'lucide-react';
+import { BarChart2, Check, Plus, X } from 'lucide-react';
+import Link from 'next/link';
+import { useCardWalletStore } from '@/store/useCardWalletStore';
 
 export type CardFilterType = 'all' | 'debit' | 'credit' | 'prepaid' | 'gift';
 
@@ -108,39 +110,56 @@ export function FilterBar({
 
   return (
     <>
-      <div className="flex items-center relative z-10 justify-between px-3 pr-4 py-2 gap-2">
-        <AnimatedToggle value={mode} onChange={onModeChange} />
+      <div className="px-3 pr-4 py-2 space-y-3">
 
-        <div className="flex items-center gap-2 relative">
-          <span className="text-sm text-text-primary mr-1">Filters</span>
+        <div className="flex items-center relative z-10 justify-between gap-2">
+          <AnimatedToggle value={mode} onChange={onModeChange} />
 
-          <button
-            type="button"
-            aria-label={filterLabel}
-            onClick={(e) => {
-              e.stopPropagation();
-              setFilterDropdownOpen((prev) => !prev);
-              setSortDropdownOpen(false);
-            }}
-            className="inline-flex items-center justify-center rounded-full border border-border bg-white px-3 py-2 text-sm hover:bg-black/5 active:scale-95 transition"
+          <div className="flex items-center gap-2 relative">
+            <span className="text-sm text-text-primary mr-1">Filters</span>
+
+            <button
+              type="button"
+              aria-label={filterLabel}
+              onClick={(e) => {
+                e.stopPropagation();
+                setFilterDropdownOpen((prev) => !prev);
+                setSortDropdownOpen(false);
+              }}
+              className="inline-flex items-center justify-center rounded-full border border-border bg-white px-3 py-2 text-sm hover:bg-black/5 active:scale-95 transition"
+            >
+              <FilterIcon className="w-4 h-4 text-text-primary" />
+            </button>
+
+            <button
+              type="button"
+              aria-label={currentSort.label}
+              onClick={(e) => {
+                e.stopPropagation();
+                setSortDropdownOpen((prev) => !prev);
+                setFilterDropdownOpen(false);
+              }}
+              className="inline-flex items-center justify-center rounded-full border px-3 py-2 text-sm transition active:scale-95 border-primary bg-primary/5 text-primary hover:bg-black/5/60"
+            >
+              <currentSort.Icon className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+        <div className="flex items-center justify-center">
+
+          <Link
+            href="/add-instacard"
+            onClick={() => useCardWalletStore.getState().setPendingCardForm(mode)}
+
+            className="flex items-center bg-primary text-white rounded-full justify-center gap-2 w-full px-4 py-3"
+            aria-label="Add Instacard"
           >
-            <FilterIcon className="w-4 h-4 text-text-primary" />
-          </button>
-
-          <button
-            type="button"
-            aria-label={currentSort.label}
-            onClick={(e) => {
-              e.stopPropagation();
-              setSortDropdownOpen((prev) => !prev);
-              setFilterDropdownOpen(false);
-            }}
-            className="inline-flex items-center justify-center rounded-full border px-3 py-2 text-sm transition active:scale-95 border-primary bg-primary/5 text-primary hover:bg-black/5/60"
-          >
-            <currentSort.Icon className="w-4 h-4" />
-          </button>
+            <Plus className='w-5 h-5 text-white' />
+            <span className="text-white text-sm font-medium">Add {mode === 'virtual' ? 'Virtual Card' : 'Universal Card'}</span>
+          </Link>
         </div>
       </div>
+
       <FilterDropdown
         open={filterDropdownOpen}
         onOpenChange={setFilterDropdownOpen}
@@ -244,7 +263,7 @@ function FilterDropdown({
   return (
     <div className="fixed inset-0 h-dvh bg-black/10 z-40" onClick={() => onOpenChange(false)}>
       <div
-        className="absolute right-4 top-[18%] backdrop-blur-md  min-w-[260px] rounded-2xl bg-white/80  border border-border overflow-hidden"
+        className="absolute right-4 top-[25%] backdrop-blur-md  min-w-[260px] rounded-2xl bg-white/80  border border-border overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between  px-4 pt-3 pb-2 border-b border-border/40">
@@ -314,7 +333,7 @@ function SortDropdown({
       onClick={() => onOpenChange(false)}
     >
       <div
-        className="absolute right-4 top-[18%] backdrop-blur-md min-w-[220px] rounded-2xl bg-white/80 border border-border overflow-hidden"
+        className="absolute right-4 top-[25%] backdrop-blur-md min-w-[220px] rounded-2xl bg-white/80 border border-border overflow-hidden"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between px-4 pt-3 pb-2 border-b border-border/40">
@@ -339,9 +358,8 @@ function SortDropdown({
                 key={id}
                 type="button"
                 onClick={() => onSelect?.(id)}
-                className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm text-left transition-colors ${
-                  isActive ? 'bg-primary/5 text-primary' : 'hover:bg-black/5'
-                }`}
+                className={`flex w-full items-center gap-3 rounded-xl px-3 py-2 text-sm text-left transition-colors ${isActive ? 'bg-primary/5 text-primary' : 'hover:bg-black/5'
+                  }`}
               >
                 <Icon className="w-4 h-4" />
                 <span>{label}</span>

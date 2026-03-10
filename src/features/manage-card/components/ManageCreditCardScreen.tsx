@@ -9,6 +9,7 @@ import React from 'react'
 import { useManageCardStore } from '../store/useManageCardStore'
 import { routes } from '@/lib/routes'
 import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import CardMockup from '@/components/ui/CardMockup'
 import CardActionTiles from './CardActionTiles'
 import { useManageCardActions } from '../hooks/useManageCardActions'
@@ -24,6 +25,8 @@ const creditCardDetails = [
 ]
 
 export default function ManageCreditCardScreen() {
+  const searchParams = useSearchParams()
+  const cardMode = (searchParams.get('mode') as 'virtual' | 'universal') || 'virtual'
   const { isFaqOpen, faqData, closeFaq } = useManageCardStore()
   const { showRemoveModal, setShowRemoveModal, handleCardActionClick, handleRemoveCard } = useManageCardActions()
 
@@ -63,7 +66,7 @@ export default function ManageCreditCardScreen() {
             ))}
           </div>
 
-          <CardActionTiles onActionClick={handleCardActionClick} />
+          <CardActionTiles cardMode={cardMode} onActionClick={handleCardActionClick} />
         </div>
       </SheetContainer>
 

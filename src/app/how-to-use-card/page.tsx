@@ -208,7 +208,7 @@ const getCardActions = (cardType: CardType): Array<{
         },
         {
             icon: <PhoneIcon />,
-            text: 'Link to a Physical Card',
+            text: 'Link to a Universal Card',
             route: routes.linkPhysicalCard,
             faqData: {
                 heading: 'Link to a Universal Card',
