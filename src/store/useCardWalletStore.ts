@@ -62,9 +62,12 @@ export const useCardWalletStore = create<CardWalletStore>()(
 
       addCard: (cardType) => {
         const { cards, pendingCardForm, pendingPin } = get()
+        const isGift = cardType === 'gift'
+        const cardForm: CardForm = isGift ? 'virtual' : pendingCardForm
+        const imageId: CardImageId = cardForm === 'universal' ? 5 : CARD_TYPE_TO_IMAGE[cardType]
         const newCard: CardData = {
           id: generateId(),
-          imageId: CARD_TYPE_TO_IMAGE[cardType],
+          imageId,
           name: pickName(cardType, cards),
           cardHolder: 'Nirdesh Malik',
           cardNumber: generateCardNumber(),
@@ -72,7 +75,7 @@ export const useCardWalletStore = create<CardWalletStore>()(
           expiry: '12/28',
           balance: 0,
           cardType,
-          cardForm: pendingCardForm,
+          cardForm,
           recentlyUsed: false,
           mostUsed: false,
           issuedDate: new Date().toISOString().split('T')[0],

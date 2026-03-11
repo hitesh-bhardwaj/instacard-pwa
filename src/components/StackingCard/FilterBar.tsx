@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { BarChart2, Check, Plus, X } from 'lucide-react';
 import Link from 'next/link';
 import { useCardWalletStore } from '@/store/useCardWalletStore';
+import { routes } from '@/lib/routes';
 
 export type CardFilterType = 'all' | 'debit' | 'credit' | 'prepaid' | 'gift';
 
@@ -148,7 +149,7 @@ export function FilterBar({
         <div className="flex items-center justify-center">
 
           <Link
-            href="/add-instacard"
+            href={mode === 'virtual' ? '/add-instacard' : '/add-universal-card'}
             onClick={() => useCardWalletStore.getState().setPendingCardForm(mode)}
 
             className="flex items-center bg-primary text-white rounded-full justify-center gap-2 w-full px-4 py-3"

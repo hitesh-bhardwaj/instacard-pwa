@@ -7,6 +7,7 @@
     import creditCard from "../../../public/img/cards/credit.png";
     import prepaidCard from "../../../public/img/cards/prepaid.png";
     import giftCard from "../../../public/img/cards/gift.png";
+    import universalCard from "../../../public/img/cards/universal.png";
     import { StaticImageData } from "next/image";
 
     // Card image mapping
@@ -15,15 +16,17 @@
       2: creditCard,
       3: prepaidCard,
       4: giftCard,
+      5: universalCard,
     };
 
-    export type CardImageId = 1 | 2 | 3 | 4;
+    export type CardImageId = 1 | 2 | 3 | 4 | 5;
 
     export const CARD_IMAGE_PATHS: Record<CardImageId, string> = {
       1: '/img/cards/debit.png',
       2: '/img/cards/credit.png',
       3: '/img/cards/prepaid.png',
       4: '/img/cards/gift.png',
+      5: '/img/cards/universal.png',
     };
 
     /** All supported card types */

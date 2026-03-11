@@ -7,14 +7,18 @@ import { SwipeIndicator } from '@/components/StackingCard/SwipeIndicator'
 import FloatingBottomBar from '@/components/StackingCard/FloatingBottomBar'
 import ActionDrawer from '@/components/StackingCard/ActionDrawer'
 import { useCallback, useMemo, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { useAuth } from '@/lib/auth-context'
 import { useCardWalletStore } from '@/store/useCardWalletStore'
 import { useProfileDrawerStore } from '@/store/useProfileDrawerStore'
+import { routes } from '@/lib/routes'
 
 
 
 export default function CardsScreen() {
+  const router = useRouter()
   const allCards = useCardWalletStore((s) => s.cards)
+  const setPendingCardForm = useCardWalletStore((s) => s.setPendingCardForm)
   const openProfileDrawer = useProfileDrawerStore((s) => s.open)
   const [cardFilters, setCardFilters] = useState<CardFilterType[]>(['all'])
   const [sortBy, setSortBy] = useState<SortByValue>('recent')
@@ -105,6 +109,13 @@ export default function CardsScreen() {
     console.log('Action pressed:', actionId, 'for card:', card.name)
   }, [])
 
+  const handleAddPress = useCallback(() => {
+    if (cardMode === 'universal') {
+      setPendingCardForm('universal')
+      router.push(routes.addUniversalFaceVerification)
+    }
+  }, [cardMode, router, setPendingCardForm])
+
   const { isDarkMode } = useAuth();
 
   return (
@@ -114,7 +125,7 @@ export default function CardsScreen() {
         <GreetingBar
           userName="Nirdesh Malik"
           onSearchPress={() => { }}
-          onAddPress={() => { }}
+          onAddPress={handleAddPress}
           mode={cardMode}
           onAvatarPress={openProfileDrawer}
           isDarkMode={isDarkMode}
@@ -169,7 +180,7 @@ export default function CardsScreen() {
       <FloatingBottomBar
         mode={cardMode}
         onScanPress={() => { }}
-        onAddPress={() => { }}
+        onAddPress={handleAddPress}
         onAddGiftPress={() => { }}
       />
 

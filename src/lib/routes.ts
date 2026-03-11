@@ -54,6 +54,14 @@ export const routes = {
   makeOnlinePayments: '/make-online-payments',
   transactionReceipt: (txnId: string) => `/make-online-payments/transaction/${txnId}`,
 
+  // Add universal card flow
+  addUniversalCard: '/add-universal-card',
+  addUniversalFaceVerification: '/add-universal-card/face-verification',
+  addUniversalVerifyMobile: '/add-universal-card/verify-mobile',
+  addUniversalVerifyEmail: '/add-universal-card/verify-email',
+  addUniversalPinSetup: '/add-universal-card/pin-setup',
+  addUniversalSuccess: '/add-universal-card/success',
+
   // Physical card linking
   linkPhysicalCard: '/link-physical-card',
   linkVirtualCard: '/link-virtual-card',
