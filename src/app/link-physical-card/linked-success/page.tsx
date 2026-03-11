@@ -2,15 +2,29 @@
 import { Button, SheetContainer } from '@/components/ui'
 import { notifyCardAdded, notifyNavigation } from '@/lib/bridge';
 import Image from 'next/image'
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
+import { useCardWalletStore } from '@/store/useCardWalletStore'
 
 export default function LinkedSuccessPage() {
+  const linkVirtualCard = useCardWalletStore((s) => s.linkVirtualCard)
+  const managingCardId = useCardWalletStore((s) => s.managingCardId)
+  const pendingLinkUniversalCardId = useCardWalletStore((s) => s.pendingLinkUniversalCardId)
+  const setPendingLinkUniversalCardId = useCardWalletStore((s) => s.setPendingLinkUniversalCardId)
+  const linkedRef = useRef(false)
+
   useEffect(() => {
     notifyNavigation('linked-success');
   }, []);
 
+  useEffect(() => {
+    if (!linkedRef.current && pendingLinkUniversalCardId && managingCardId) {
+      linkedRef.current = true
+      linkVirtualCard(pendingLinkUniversalCardId, managingCardId)
+      setPendingLinkUniversalCardId(null)
+    }
+  }, [pendingLinkUniversalCardId, managingCardId, linkVirtualCard, setPendingLinkUniversalCardId])
+
   const handleDone = () => {
-    // Notify SDK that card was added successfully
     notifyCardAdded({
       cardId: `card-${Date.now()}`,
       cardType: 'debit',

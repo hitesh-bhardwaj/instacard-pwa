@@ -98,9 +98,9 @@ export default function OTPScreen() {
   const cardType = (searchParams.get('type') as CardType) || 'debit';
   const handleContinue = async () => {
     if (cardType === 'gift') {
-      router.push(routes.giftACard);
+      router.replace(routes.giftACard);
     } else {
-      router.push(routes.linkedSuccess);
+      router.replace(routes.linkedSuccess);
     }
   };
   return (

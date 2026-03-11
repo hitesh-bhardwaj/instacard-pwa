@@ -7,6 +7,8 @@ import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { routes } from '@/lib/routes';
 import type { CardType } from '@/lib/types';
+import { useCardWalletStore } from '@/store/useCardWalletStore';
+import { useManagingCard } from '@/hooks/useManagingCard';
 
 export type SuccessScreenProps = {
   /** Custom title (e.g. "Success!") */
@@ -28,6 +30,7 @@ export default function SuccessScreen({
   onButtonClick,
   showCardPreview = true,
 }: SuccessScreenProps = {}) {
+
   const isCustom = Boolean(onButtonClick);
 
   useEffect(() => {
@@ -36,7 +39,7 @@ export default function SuccessScreen({
   const router = useRouter();
   const searchParams = useSearchParams();
   const cardType = (searchParams.get('type') as CardType) || 'debit';
-
+  const {imageSrc, maskedNumber} = useManagingCard();
   const displayTitle = title ?? 'Payment was Successful!';
   const displayDescription =
     description ??
@@ -77,12 +80,15 @@ export default function SuccessScreen({
               </p>
               <div className="mt-2 w-full  aspect-[1.58] rounded-2xl p-2flex flex-col justify-between ">
                 <Image
-                  src={'/img/debitCard.png'}
+                  src={imageSrc || ''}
                   alt="Debit Card"
                   width={1000}
                   height={1000}
-                  className="h-full w-full object-contain"
+                  className="h-full w-full object-contain rounded-2xl"
                 />
+                <p className="text-sm text-text-secondary mt-2">
+                  {maskedNumber}
+                </p>
               </div>
             </div>
           )}

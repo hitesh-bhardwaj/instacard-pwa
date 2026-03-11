@@ -39,13 +39,16 @@ type CardWalletStore = {
   pendingCardForm: CardForm
   pendingPin: string | null
   managingCardId: string | null
+  pendingLinkUniversalCardId: string | null
   setPendingCardForm: (form: CardForm) => void
   setPendingPin: (pin: string) => void
   setManagingCardId: (id: string | null) => void
+  setPendingLinkUniversalCardId: (id: string | null) => void
   addCard: (cardType: CardType) => CardData
   removeCard: (cardId: string) => void
   verifyCardPin: (cardId: string, pin: string) => boolean
   changeCardPin: (cardId: string, newPin: string) => void
+  linkVirtualCard: (universalCardId: string, virtualCardId: string) => void
 }
 
 export const useCardWalletStore = create<CardWalletStore>()(
@@ -55,10 +58,12 @@ export const useCardWalletStore = create<CardWalletStore>()(
       pendingCardForm: 'virtual',
       pendingPin: null,
       managingCardId: null,
+      pendingLinkUniversalCardId: null,
 
       setPendingCardForm: (form) => set({ pendingCardForm: form }),
       setPendingPin: (pin) => set({ pendingPin: pin }),
       setManagingCardId: (id) => set({ managingCardId: id }),
+      setPendingLinkUniversalCardId: (id) => set({ pendingLinkUniversalCardId: id }),
 
       addCard: (cardType) => {
         const { cards, pendingCardForm, pendingPin } = get()
@@ -100,6 +105,24 @@ export const useCardWalletStore = create<CardWalletStore>()(
           cards: get().cards.map(c =>
             c.id === cardId ? { ...c, pin: newPin } : c
           ),
+        })
+      },
+
+      linkVirtualCard: (universalCardId, virtualCardId) => {
+        const { cards } = get()
+        const universal = cards.find(c => c.id === universalCardId)
+        const virtual = cards.find(c => c.id === virtualCardId)
+        console.log(`[Card Linked] Universal: ${universal?.name} (${universalCardId}) <-> Virtual: ${virtual?.name} (${virtualCardId})`)
+        set({
+          cards: cards.map(c => {
+            if (c.id === universalCardId) {
+              return { ...c, linkedVirtualCardId: virtualCardId }
+            }
+            if (c.cardForm === 'universal' && c.linkedVirtualCardId === virtualCardId) {
+              return { ...c, linkedVirtualCardId: null }
+            }
+            return c
+          }),
         })
       },
     }),

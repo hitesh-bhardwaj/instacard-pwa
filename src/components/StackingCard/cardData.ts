@@ -50,6 +50,7 @@
       mostUsed: boolean;
       issuedDate: string;
       previousUsedCount: number;
+      linkedVirtualCardId?: string | null;
     }
 
     // Plain array of card objects

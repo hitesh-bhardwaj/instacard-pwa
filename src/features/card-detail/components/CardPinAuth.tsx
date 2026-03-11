@@ -114,7 +114,7 @@ export default function CardPinAuth({
             </Button>
             <button
               type="button"
-              onClick={() => router.push('/forget-pin')}
+              onClick={() => router.replace('/forget-pin')}
               className="text-xs text-text-primary bg-transparent border-none cursor-pointer"
             >
               {t('cardPinAuth.forgotPin')}

@@ -17,7 +17,7 @@ export default function PinSetupPage() {
     setPendingPin(pin)
     const newCard = addCard(cardType)
     console.log('Card added:', newCard)
-    router.push(routes.howToUseCard(cardType))
+    router.replace(routes.howToUseCard(cardType))
   }
 
   return (

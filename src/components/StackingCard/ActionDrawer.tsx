@@ -134,6 +134,7 @@ export default function ActionDrawer({
 
     const [faqModalVisible, setFaqModalVisible] = useState(false)
     const [currentFaqData, setCurrentFaqData] = useState<ActionItem['faqData'] | undefined>(undefined)
+    const allCards = useCardWalletStore((s) => s.cards)
 
     const router = useRouter()
 
@@ -326,11 +327,25 @@ export default function ActionDrawer({
                         {/* Actions Grid */}
                         <div className="grid grid-cols-2 px-4  gap-2.5">
                             {filteredActions.map((action, index) => {
+                                const isLinkedToVirtual =
+                                    cardMode === 'universal' &&
+                                    action.id === 'link-physical' &&
+                                    !!selectedCard?.linkedVirtualCardId
+
+                                const isLinkedToUniversal =
+                                    cardMode === 'virtual' &&
+                                    action.id === 'link-physical' &&
+                                    allCards.some(c => c.cardForm === 'universal' && c.linkedVirtualCardId === selectedCard?.id)
+
                                 const displayTitle =
                                     action.id === 'link-physical'
                                         ? cardMode === 'virtual'
-                                            ? 'Link to Universal Card'
-                                            : 'Link to Virtual Card'
+                                            ? isLinkedToUniversal
+                                                ? 'Link to Universal Card'
+                                                : 'Link to Universal Card'
+                                            : isLinkedToVirtual
+                                                ? 'Link to Virtual Card'
+                                                : 'Link to Virtual Card'
                                         : action.title
                                 const isLastOdd =
                                     index === filteredActions.length - 1 && filteredActions.length % 2 !== 0
@@ -339,8 +354,7 @@ export default function ActionDrawer({
                                     <div
                                         key={action.id}
                                         onClick={() => handleActionOpen(action.id)}
-                                        className={`bg-white border border-border rounded-2xl p-3 min-h-[80px] flex flex-col justify-between items-start text-left ${isLastOdd ? 'col-span-2' : ''
-                                            }`}
+                                        className={`bg-white border border-border rounded-2xl p-3 min-h-[80px] flex flex-col justify-between items-start text-left ${isLastOdd ? 'col-span-2' : ''} cursor-pointer`}
                                     >
                                         <div className="flex w-full justify-between items-center mb-3">
                                             <div className="w-6 h-6 flex items-center justify-center aspect-square">

@@ -4,18 +4,24 @@ import { SheetContainer } from '@/components/ui'
 import { PlusIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useMemo } from 'react'
 import AddSigmaCardModal from '@/features/link-physical-card/components/AddSigmaCardModal'
 import { routes } from '@/lib/routes'
+import { useCardWalletStore } from '@/store/useCardWalletStore'
 
-const CARD_OPTIONS = [
-    { id: '1', number: '*** *** *** 7872', type: 'Universal Card' },
-    { id: '2', number: '*** *** *** 837', type: 'Universal Card' },
-    { id: '3', number: '*** *** *** 9040', type: 'Universal Card', disabled: false },
-    { id: '4', number: '*** *** *** 1234', type: 'Universal Card' },
-]
+function maskCardNumber(cardNumber: string): string {
+    const digits = cardNumber.replace(/\s/g, '')
+    const lastFour = digits.slice(-4)
+    return `**** **** **** ${lastFour}`
+}
 
 export default function SigmaCardOptionsScreen() {
+    const allCards = useCardWalletStore((s) => s.cards)
+    const setPendingLinkUniversalCardId = useCardWalletStore((s) => s.setPendingLinkUniversalCardId)
+    const universalCards = useMemo(
+        () => allCards.filter((c) => c.cardForm === 'universal' && !c.linkedVirtualCardId),
+        [allCards]
+    )
     const [selectedCard, setSelectedCard] = useState<string | null>(null)
     const [consentChecked, setConsentChecked] = useState(false)
     const [showAddCardModal, setShowAddCardModal] = useState(false)
@@ -30,6 +36,8 @@ export default function SigmaCardOptionsScreen() {
                 setShake(true)
                 setTimeout(() => setShake(false), 500)
             }
+        } else {
+            setPendingLinkUniversalCardId(selectedCard)
         }
     }
 
@@ -47,14 +55,14 @@ export default function SigmaCardOptionsScreen() {
                     <p className='text-sm text-left w-full'>Select the one you want to link to this Instacard</p>
 
                     <div className='flex flex-col items-start justify-start w-full mt-4 space-y-3'>
-                        {CARD_OPTIONS.map((card) => (
+                        {universalCards.length === 0 && (
+                            <p className="text-sm text-text-secondary text-center w-full py-4">No universal cards available</p>
+                        )}
+                        {universalCards.map((card) => (
                             <button
                                 key={card.id}
-                                onClick={() => !card.disabled && setSelectedCard(card.id)}
-                                disabled={card.disabled}
-                                className={`w-full p-4 border rounded-2xl flex items-center gap-3 transition-all ${card.disabled
-                                    ? 'border-dashed border-text-primary/30 opacity-60 cursor-not-allowed'
-                                    : selectedCard === card.id
+                                onClick={() => setSelectedCard(card.id)}
+                                className={`w-full p-4 border rounded-2xl flex items-center gap-3 transition-all ${selectedCard === card.id
                                         ? 'border-text-primary border-2'
                                         : 'border-text-primary/20'
                                     }`}
@@ -67,8 +75,8 @@ export default function SigmaCardOptionsScreen() {
                                         </svg>
                                     )}
                                 </div>
-                                <span className={`text-sm ${card.disabled ? 'text-text-primary/50' : 'text-text-primary'}`}>
-                                    {card.number} ({card.type})
+                                <span className="text-sm text-text-primary">
+                                    {maskCardNumber(card.cardNumber)} ( Universal Card ) 
                                 </span>
                             </button>
                         ))}

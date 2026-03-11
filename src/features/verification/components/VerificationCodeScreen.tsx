@@ -56,7 +56,7 @@ export default function VerificationCodeScreen({
     if (onSuccess) {
       onSuccess()
     } else {
-      router.push(successRoute)
+      router.replace(successRoute)
     }
   }
 

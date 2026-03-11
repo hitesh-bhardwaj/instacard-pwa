@@ -1,27 +1,25 @@
 'use client'
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Button, SheetContainer } from '@/components/ui'
 import { ICONS } from '@/constants/icons'
 import Image from 'next/image'
 import Link from 'next/link'
 import { routes } from '@/lib/routes'
 import { useRouter } from 'next/navigation'
+import { useCardWalletStore } from '@/store/useCardWalletStore'
 import SigmaCardOptionsScreen from './SigmaCardOptionsScreen'
-interface CardData {
-    id: string
-    number: string
-    type: string
-}
 
 export default function LinkCardScreen() {
     const router = useRouter()
-    const carddata: CardData[] = [
-        { id: '1', number: '1000000000000000', type: 'Universal' },
-        { id: '2', number: '2000000000000000', type: 'Sigma' },
-    ];
+    const allCards = useCardWalletStore((s) => s.cards)
+    const universalCards = useMemo(
+        () => allCards.filter((c) => c.cardForm === 'universal' && !c.linkedVirtualCardId),
+        [allCards]
+    )
+
     return (
 
-        (carddata.length <= 0) ? (
+        (universalCards.length <= 0) ? (
 
 
             <div className='h-screen flex flex-col'>
