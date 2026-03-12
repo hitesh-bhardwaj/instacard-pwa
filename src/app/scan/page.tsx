@@ -26,7 +26,7 @@ export default function ScanPage() {
   const hasScanned = useRef(false)
   const scanRafRef = useRef<number>(0)
 
-  const [permission, setPermission] = useState<'prompt' | 'granted' | 'denied' | 'loading'>('prompt')
+  const [permission, setPermission] = useState<'prompt' | 'granted' | 'denied' | 'loading'>('loading')
   const [flashOn, setFlashOn] = useState(false)
   const [flashSupported, setFlashSupported] = useState(false)
   const [result, setResult] = useState<string | null>(null)
@@ -40,45 +40,16 @@ export default function ScanPage() {
   }, [])
 
   const startCamera = useCallback(async () => {
-    setPermission('loading')
-    
-    // Check if getUserMedia is supported
-    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-      console.error('getUserMedia is not supported')
-      setPermission('denied')
-      return
-    }
-
     try {
-      // First, explicitly request permission
-      const permissionStatus = await navigator.permissions?.query({ name: 'camera' as PermissionName }).catch(() => null)
-      
-      if (permissionStatus?.state === 'denied') {
-        setPermission('denied')
-        return
-      }
-
       const stream = await navigator.mediaDevices.getUserMedia({
-        video: { 
-          facingMode: { ideal: 'environment' }, 
-          width: { ideal: 1280 }, 
-          height: { ideal: 720 } 
-        },
+        video: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 } },
         audio: false,
       })
-      
       streamRef.current = stream
 
       if (videoRef.current) {
         videoRef.current.srcObject = stream
-        // Wait for video to be ready before playing
-        videoRef.current.onloadedmetadata = async () => {
-          try {
-            await videoRef.current?.play()
-          } catch (playError) {
-            console.error('Video play failed:', playError)
-          }
-        }
+        await videoRef.current.play()
       }
 
       const track = stream.getVideoTracks()[0]
@@ -86,8 +57,7 @@ export default function ScanPage() {
       if (caps && 'torch' in caps) setFlashSupported(true)
 
       setPermission('granted')
-    } catch (err) {
-      console.error('Camera access error:', err)
+    } catch {
       setPermission('denied')
     }
   }, [])
@@ -150,14 +120,11 @@ export default function ScanPage() {
     router.back()
   }, [stopCamera, router])
 
-  const handleRequestPermission = useCallback(() => {
-    startCamera()
-  }, [startCamera])
-
-  // --- Cleanup on unmount ---
+  // --- Camera init & cleanup ---
   useEffect(() => {
+    startCamera()
     return () => stopCamera()
-  }, [stopCamera])
+  }, [startCamera, stopCamera])
 
   // --- QR code detection loop ---
   useEffect(() => {
@@ -251,35 +218,11 @@ export default function ScanPage() {
     return () => ctx.revert()
   }, [permission])
 
-  // --- Permission: prompt (initial state) ---
-  if (permission === 'prompt') {
-    return (
-      <div className="flex-1 flex flex-col items-center justify-center bg-black rounded-t-3xl px-8 gap-6">
-        <div className="w-20 h-20 rounded-full bg-white/10 flex items-center justify-center mb-4">
-          <Image src="/svg/camera.svg" alt="Camera" width={40} height={40} />
-        </div>
-        <h2 className="text-white text-2xl font-semibold text-center">Camera Permission</h2>
-        <p className="text-white/70 text-base text-center leading-relaxed">
-          We need access to your camera to scan QR codes for payments.
-        </p>
-        <button 
-          onClick={handleRequestPermission} 
-          className="bg-primary py-4 px-10 rounded-2xl mt-4"
-        >
-          <span className="text-white font-semibold">Allow Camera Access</span>
-        </button>
-        <button onClick={handleClose} className="p-3">
-          <span className="text-white/60 text-sm">Go Back</span>
-        </button>
-      </div>
-    )
-  }
-
   // --- Permission: loading ---
   if (permission === 'loading') {
     return (
       <div className="flex-1 flex items-center justify-center bg-black rounded-t-3xl">
-        <p className="text-white/70 text-base">Opening camera…</p>
+        <p className="text-white/70 text-base">Loading camera…</p>
       </div>
     )
   }
@@ -290,10 +233,10 @@ export default function ScanPage() {
       <div className="flex-1 flex flex-col items-center justify-center bg-black rounded-t-3xl px-8 gap-6">
         <h2 className="text-white text-2xl font-semibold text-center">Camera Access Required</h2>
         <p className="text-white/70 text-base text-center leading-relaxed">
-          Please allow camera access in your browser settings to scan QR codes for payments.
+          Please allow camera access to scan QR codes for payments.
         </p>
-        <button onClick={handleRequestPermission} className="bg-primary py-4 px-10 rounded-2xl">
-          <span className="text-white font-semibold">Try Again</span>
+        <button onClick={startCamera} className="bg-primary py-4 px-10 rounded-2xl">
+          <span className="text-white font-semibold">Grant Permission</span>
         </button>
         <button onClick={handleClose} className="p-3">
           <span className="text-white/60 text-sm">Go Back</span>
